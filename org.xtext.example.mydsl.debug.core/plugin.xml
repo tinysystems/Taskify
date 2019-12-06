@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+	<!-- 
+		below for a configurable mechanism for launching applications. 
+		Each launch configuration type has a name, supports one or more modes (run and/or debug), 
+		and specifies a delegate responsible for the implementation of launching an application.	
+	-->
+   <extension point="org.eclipse.debug.core.launchConfigurationTypes">
+         <launchConfigurationType
+         	sourceLocatorId="pda.sourceLocator"
+         	delegate="org.xtext.example.mydsl.debug.core.pda.launcher.InkPDALaunchDelegate"
+         	modes="run, debug"
+         	sourcePathComputerId="pda.sourcePathComputer"
+            name="Got App"
+            id="pda.launchType"
+         />
+	</extension>
+   
+   	<!-- a source locator to be used with a launch configuration. -->
+	<extension point="org.eclipse.debug.core.sourceLocators">
+		<sourceLocator id="pda.sourceLocator"
+			class="org.xtext.example.mydsl.debug.core.pda.sourcelookup.PDASourceLookupDirector"
+			name="%sourceLocator.name"
+		/>
+	</extension>
+	
+	<!-- 
+		to register a computer that can describe a default source lookup path for a launch configuration. 
+		Source path computers are associated with launch configuration types via the launchConfigurationTypes extension point.
+	-->
+	<extension point="org.eclipse.debug.core.sourcePathComputers">
+		<sourcePathComputer id="pda.sourcePathComputer"
+			class="org.xtext.example.mydsl.debug.core.pda.sourcelookup.PDASourcePathComputerDelegate"
+		/>
+	</extension>
+   
+   	<!--  for defining new types of breakpoints. -->
+   	<!-- markerType="org.xtext.example.mydsl.debug.core.pda.lineBreakpoint" -->
+	<extension point="org.eclipse.debug.core.breakpoints">
+     	 <breakpoint id="pda.lineBreakpoint"
+            class="org.xtext.example.mydsl.debug.core.pda.breakpoints.PDALineBreakpoint"
+            name="%line.breakpoints.name"
+            markerType="org.xtext.example.mydsl.debug.core.markerType.lineBreakpoint"
+   		/>
+	</extension>
+   
+	<!-- The id is the same as the referenced "markerType" in the org.eclipse.debug.core.breakpoints extension point -->
+    <extension point="org.eclipse.core.resources.markers"
+		id="pda.markerType.lineBreakpoint"
+		name="%line.breakpoint.marker.name">
+		<super type="org.eclipse.debug.core.breakpointMarker"/> 
+		<persistent value="true"/>
+	</extension>
+   
+   <!-- 
+	   to present alternative logical structures of values. 
+	   Often, complex data structures are more convenient to navigate in terms of their logical structure, 
+	   rather than in terms of their implementation
+	   for array tree 
+  -->
+   <extension point="org.eclipse.debug.core.logicalStructureTypes">
+	  	<logicalStructureType id="pda.arrayStructure"
+	    	class="org.xtext.example.mydsl.debug.core.pda.model.DSLArrayStructureDelegate"
+	    	description="Array"
+		    modelIdentifier="pda.debugModel"
+		/>
+  </extension>
+
+</plugin>

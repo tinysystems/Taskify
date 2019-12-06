@@ -1,0 +1,176 @@
+grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.common.Terminals
+
+generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+InkApp:
+	globals += GlobalVariable*
+	tasks+=Task*
+	entry = EntryTask
+;
+
+Operator:
+	'-' | '+' | '/' | '*' | '>=' | '<=' | '==' | '!=' | '<' | '>' | '=' | 'AND' | 'OR'
+;
+
+BuiltinFunctions:
+	'print'
+;
+
+Break:
+	{Break}
+	break='break'
+;
+
+terminal DOUBLE returns ecore::EDouble:
+	INT '.' INT
+;
+	
+terminal BOOLEAN returns ecore::EBoolean:
+	'true' | 'false'
+;
+
+VariableType:
+	{VariableType} 'string' | 
+	{VariableType} 'integer' | 
+	{VariableType} 'boolean'
+;
+
+GlobalVariable:
+	{GlobalVariable}
+	'GLOBAL' variable = VariableDecleration
+;
+
+Main:
+	{Main}
+	variableDeclerations += VariableDecleration*
+	body += Expression*
+;
+
+FunctionBody:
+	{FunctionBody}
+	variableDeclerations += VariableDecleration* 
+	body += Expression*
+;
+
+EntryTask:
+	'entry' task = Task
+;
+
+Task:
+	'task' name = ID '{'
+		body += VariableDecleration*
+		body += Expression*
+		('next' task = [Task] | 'end')
+	'}'
+;
+
+IfExpression:
+	'if' '(' ifcondition = OperationExpression ')' '{'
+		ifbody += Expression*
+		(ifbody += Break)?
+	'}' 
+	('else' 'if' '(' elsecondition += OperationExpression ')' '{'
+		elseifbody += Expression*
+		(elseifbody += Break)?
+	'}')*
+	('else' '{'
+		elsebody += Expression*
+		(elseifbody += Break)?
+	'}')?
+;
+
+ForExpression:
+	'for' '(' initial = OperationExpression ';' test = OperationExpression ';' update = OperationExpression ')' '{'
+		body += Expression*
+		(body += Break)?
+	'}' 
+;
+
+WhileExpression:
+	'while' '(' test = OperationExpression ')' '{'
+		body += Expression*
+		(body += Break)?
+	'}' 
+;
+
+Expression:
+	OperationExpression |
+	IfExpression |
+	ForExpression |
+	WhileExpression |
+	BuiltinFunctionCall
+;
+
+//Expression:
+//	{Expression} 
+//	exp += OperationExpression*
+//	exp += IfExpression*
+//	exp += ForExpression*
+//	exp += WhileExpression*
+//;
+
+//BlockBody:
+//	{BlockBody} 
+//	expression += Expression*
+//;
+
+OperationExpression:
+	Operation
+;
+
+Operation returns OperationExpression:
+	Atomic ({Operation.left = current} (operator += Operator right += AtomicOrFunctionCall)*)
+;
+
+ArrayDimension:
+	{ArrayDimension}
+	'[' (index = [VariableSymbol] | size = INT) ']'
+;
+
+VariableDecleration:
+	type = VariableType (name = ID | name = ID (dimension += ArrayDimension)+)
+;
+
+FunctionParameter:
+	type = VariableType name = ID
+;
+
+VariableSymbol:
+	VariableDecleration | FunctionParameter;
+
+Atomic:
+	{IntegerReference} value = INT |
+	{DoubleReference} value = DOUBLE |
+	{StringReference} value = STRING |
+	{BooleanReference} value = BOOLEAN |
+	{ArrayReference} variableReference = [VariableSymbol] (dimension += ArrayDimension)+ |
+ 	{VariableReference} variableReference = [VariableSymbol]
+;
+
+VariableReturn:
+	'return' return = Atomic
+;
+
+AtomicOrFunctionCall:
+	Atomic | AbstractFunctionCall
+;
+
+FunctionDefinition:
+	'function' return=VariableType name=ID '(' (parameters += FunctionParameter (',' parameters += FunctionParameter)* )?   ')' '{'
+		body+=Expression*
+	'}'
+;
+
+FunctionCall:
+	{FunctionCall}
+	function=[FunctionDefinition] '(' (parameters += Atomic (',' parameters += Atomic)*)? ')'
+;
+
+BuiltinFunctionCall:
+	{BuiltinFunctionCall}
+	function=BuiltinFunctions '(' (parameters += Atomic (',' parameters += Atomic)*)? ')';
+
+AbstractFunctionCall:
+	FunctionCall | BuiltinFunctionCall;

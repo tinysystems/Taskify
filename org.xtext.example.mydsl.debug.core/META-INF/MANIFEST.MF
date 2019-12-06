@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Core
+Bundle-SymbolicName: org.xtext.example.mydsl.debug.core;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.xtext.example.mydsl.debug.core
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.eclipse.debug.core,
+ org.eclipse.osgi
+Import-Package: org.eclipse.core.runtime,
+ org.eclipse.core.runtime.jobs,
+ org.osgi.framework;version="1.9.0"
+Export-Package: org.xtext.example.mydsl.debug.core.pda,
+ org.xtext.example.mydsl.debug.core.pda.breakpoints,
+ org.xtext.example.mydsl.debug.core.pda.launcher,
+ org.xtext.example.mydsl.debug.core.pda.model,
+ org.xtext.example.mydsl.debug.core.pda.sourcelookup

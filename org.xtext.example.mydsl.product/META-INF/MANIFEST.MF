@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Product
+Bundle-SymbolicName: org.xtext.example.mydsl.product;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.xtext.example.mydsl.product
+Bundle-RequiredExecutionEnvironment: JavaSE-11

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+	<!--for contributing a group of tabs to the launch configuration dialog for a type of launch configuration. -->
+	<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+		<launchConfigurationTabGroup
+			type="pda.launchType"
+            class="org.xtext.example.mydsl.debug.ui.pda.launcher.PDATabGroup"
+            id="pda.tabGroup"/>
+	</extension>
+	
+	<!-- to associate an image with a launch configuration type. -->
+   	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      	<launchConfigurationTypeImage
+			icon="icons/dsl_expression.gif"
+            configTypeID="pda.launchType"
+            id="pda.typeImage"/>
+   	</extension>
+   	
+   	<!-- support for selection sensitive launching. -->
+   	<extension point="org.eclipse.debug.ui.launchShortcuts">
+      	<shortcut
+            label="InK Application"
+            icon="icons/dsl_new.gif"
+            class="org.xtext.example.mydsl.debug.ui.pda.launcher.PDALaunchShortcut"
+            modes="run, debug"
+            id="pda.launchShortcut">
+        	<contextualLaunch>
+            	<enablement>
+               		<with variable="selection">
+                 		<count value="1"/>
+                  		<iterate>
+                     		<instanceof value="org.eclipse.core.resources.IFile"/>
+                     		<test value="*.mydsl" property="org.eclipse.debug.ui.matchesPattern"/>
+                  		</iterate>
+               		</with>
+            	</enablement>
+         	</contextualLaunch>
+         	<configurationType
+               id="pda.launchType">
+         	</configurationType>
+      	</shortcut>
+   	</extension>
+  
+  	<!--
+  		tools to handle the presentation aspects of a debug model. 
+  		A debug model presentation is responsible for providing labels, images, and editors for elements in a specific debug model.
+  	-->
+   	<extension point="org.eclipse.debug.ui.debugModelPresentations">
+		<debugModelPresentation
+            class="org.xtext.example.mydsl.debug.ui.pda.presentation.PDAModelPresentation"
+            id="pda.debugModel"/>
+   	</extension>
+  
+  	<!-- to add editors to the workbench. -->
+   	<extension point="org.eclipse.ui.editors">
+      	<editor
+            filenames="*.mydsl"
+            class="org.xtext.example.mydsl.debug.ui.pda.editor.PDAEditor"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            icon="icons/dsl_expression.gif"
+            default="false"
+            name="InK Editor"
+            id="pda.editor"
+            extensions="mydsl"
+        />
+   	</extension>
+
+  	<!-- 
+  		To add actions to the menu and toolbar for editors 
+  		Do not use this extension point, it will be removed in future versions of this product. Instead, use the extension point org.eclipse.ui.commands
+  		
+  		For the moment use MyDsl Editor insted of PDAEditor (targetID="pda.editor")
+  		targetID="org.xtext.example.mydsl.MyDsl"
+  	-->
+  	<extension point="org.eclipse.ui.editorActions">
+      	<editorContribution
+            targetID="pda.editor"
+            id="pda.rulerActions">
+        	<action
+               actionID="RulerDoubleClick"
+               class="org.xtext.example.mydsl.debug.ui.pda.editor.RulerToggleBreakpointAction"
+               id="pda.doubleClickBreakpointAction"
+               label="Not Used"
+               style="push"
+           	/>
+      	</editorContribution>
+   	</extension>
+   
+   	<!-- to declare contexts and associated elements. -->
+    <extension point="org.eclipse.ui.contexts">
+        <context
+			parentId="org.eclipse.debug.ui.debugging"
+			description="Debugging InK Programs"
+			name="Debugging InK Programs"
+			id="pda.debugging"
+        />
+	</extension>
+	
+	<!-- a mechanism for specifying a context that should be associated with the given debug model. -->
+	<extension point="org.eclipse.debug.ui.debugModelContextBindings">
+		<modelContextBinding
+			contextId="pda.debugging"
+           	debugModelId="pda.debugModel"
+        />
+	</extension>
+
+	<!--
+		to add new actions to context menus
+		Do not use this extension point, it will be removed in future versions of this product. Instead, use the extension point org.eclipse.ui.commands
+		targetID="pda.editor.rulerMenu"
+		set in PDAEditor as 'setRulerContextMenuId("pda.editor.rulerMenu");'
+	-->
+	<extension point="org.eclipse.ui.popupMenus">           
+      	<viewerContribution
+			targetID="pda.editor.rulerMenu"
+            id="pda.editor.rulerActions">
+			<action id="pda.editor.ruler.toggleBreakpointAction"
+               	class="org.xtext.example.mydsl.debug.ui.pda.editor.RulerToggleBreakpointAction"
+               	label="Toggle Breakpoint"
+               	menubarPath="debug"
+            />
+      	</viewerContribution>
+   	</extension>
+   
+   	<!-- below to declaratively register adapter factories. -->
+   	<extension point="org.eclipse.core.runtime.adapters">
+      	<factory
+			class="org.xtext.example.mydsl.debug.ui.pda.breakpoints.PDAEditorAdapterFactory"
+            adaptableType="org.xtext.example.mydsl.debug.ui.pda.editor.PDAEditor">
+			<adapter type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget"/>
+      	</factory>
+   	</extension>
+    
+    <!--below for run-to-line activation -->
+   	<extension point="org.eclipse.core.runtime.adapters">
+      	<factory
+            class="org.xtext.example.mydsl.debug.ui.pda.breakpoints.PDAEditorAdapterFactory"
+            adaptableType="org.xtext.example.mydsl.debug.ui.pda.editor.PDAEditor">
+			<adapter type="org.eclipse.debug.ui.actions.IRunToLineTarget"/>
+      	</factory>
+   	</extension>
+   
+   	<!--below for Debugging perspective -->
+    <extension point="org.eclipse.ui.perspectiveExtensions">
+    	<perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
+       		<actionSet id="org.eclipse.debug.ui.launchActionSet"></actionSet>
+    	</perspectiveExtension>
+ 	</extension>
+ 	
+</plugin>
