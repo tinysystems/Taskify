@@ -26,6 +26,12 @@ task abc {
 		print(bool)
 	}
 	print(bool)
+	
+	while(bool) {
+	    print("girdi")
+	    break
+	}
+	print(bitti)
 	end
 }
 
@@ -37,6 +43,7 @@ entry task aa {
 	value = "ali ata bak ulan"
 	while(aab != 14) {
 		aab = aab + 2
+		print("yaram içerdeee")
 		
 		if(aab > 15) {
 			print("aab is greater than 15", aab)

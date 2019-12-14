@@ -30,15 +30,31 @@ public class Runner extends ExpressionSwitcher {
 		
 		EntryTask entryTask = app.getEntry();
 		if (entryTask != null) {
+			boolean endTaskFound = false;
+		
 			TaskBody taskBody = entryTask.getTask().getTaskbody();
 			this.execute(taskBody, entryTask.getTask().getName());
 			
 			Task task = taskBody.getNexttask();
 			while(task != null) {
 				taskBody = task.getTaskbody();
+				String end = taskBody.getEndtask();
 				this.execute(taskBody, task.getName());
-				task = taskBody.getNexttask();			
+				
+				if (end != null) {
+					endTaskFound = true;
+				}
+				
+				task = taskBody.getNexttask();
 			}
+			
+			if (endTaskFound) {
+				System.out.println("Execution is finished.");
+			} else {
+				System.out.println("No end task found, exactly one is expected.");
+			}
+		} else {
+			System.out.println("No entry task found.");
 		}
 		System.exit(0);
 	}
