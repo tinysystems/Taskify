@@ -14,25 +14,85 @@ public abstract class AbstractLogicalHelper extends AbstractStackHelper {
 		return result;
 	}
 	
-	protected boolean compare(Object leftValue, String operator, Object rightValue) {
+	protected boolean compare(double leftValue, String operator, double rightValue) {
 		boolean result = false;
-		if(operator.equals("==")) {
-			
-		} else if(operator.equals("!=")) {
-			result = (leftValue == rightValue);
-		} else if(operator.equals("<")) {
-			result = ((int) leftValue < (int) rightValue);
-		} else if(operator.equals(">")) {
-			result = ((int) leftValue > (int) rightValue);
-		} else if(operator.equals("<=")) {
-			result = ((int) leftValue <= (int) rightValue);
-		} else if(operator.equals(">=")) {
-			result = ((int) leftValue >= (int) rightValue);
-		} else if(operator.equals("AND") | operator.equals("OR")) {
-			result = logicalCompare((boolean) leftValue, operator, (boolean) rightValue);
-		}
-		result = ((int) leftValue >= (int) rightValue);
-		
+		switch (operator) {
+			case "==":
+				result = leftValue == rightValue;
+				break;
+			case "!=":
+				result = leftValue != rightValue;
+				break;
+			case "<":
+				result = leftValue < rightValue;
+				break;
+			case ">":
+				result = leftValue > rightValue;
+				break;
+			case "<=":
+				result = leftValue <= rightValue;
+				break;
+			case ">=":
+				result = leftValue >= rightValue;
+				break;
+		}		
 		return result;
 	}
+	
+	protected boolean compare(int leftValue, String operator, int rightValue) {
+		boolean result = false;
+		switch (operator) {
+			case "==":
+				result = leftValue == rightValue;
+				break;
+			case "!=":
+				result = leftValue != rightValue;
+				break;
+			case "<":
+				result = leftValue < rightValue;
+				break;
+			case ">":
+				result = leftValue > rightValue;
+				break;
+			case "<=":
+				result = leftValue <= rightValue;
+				break;
+			case ">=":
+				result = leftValue >= rightValue;
+				break;
+		}		
+		return result;
+	}
+	
+	protected boolean compare(boolean leftValue, String operator, boolean rightValue) {
+		boolean result = logicalCompare((boolean) leftValue, operator, (boolean) rightValue);
+		return result;
+	}
+	
+	protected boolean compare(Object value) {
+		boolean result = false;
+		if (value != null) {
+			if (value instanceof Integer) {
+				result = ((int) value) > 0;
+			} else if (value instanceof Double) {
+				result = ((double) value) > 0;
+			} else if (value instanceof Boolean) {
+				result = (boolean) value;
+			}
+		}
+		return result;
+	}
+
+//		DELETE
+//	protected boolean compare(int value) {
+//		return value > 0;
+//	}
+//	
+//	protected boolean compare(double value) {
+//		return value > 0;
+//	}
+//	
+//	protected boolean compare(boolean value) {
+//		return value == true;
+//	}
 }

@@ -29,13 +29,14 @@ import com.google.inject.Injector;
 
 public class ModelGenerator {
 	public static String[] args;
-	private static ThreadLauncher launch;
+	private static ThreadLauncher launcher;
 	
 	static String inputFilePath;
 	static String argsValue;
 	static String mode;
 	
 	public static void main(final String[] args) {
+//		-i /home/ink/runtime-DSLapp/demo/src/mydsl/Model.mydsl -m debug
 		init(args);
 	}
 	
@@ -61,12 +62,12 @@ public class ModelGenerator {
 			System.out.println("Debugging is going to be started.");
 			
 			if(mode.equals("debug")) {
-				setTarget(new Debugger(app, null));
-				getTarget().start();
+				setLauncher(new Debugger(app, null));
+				getLauncher().start();
 				System.out.println("Done debug");
 			} else if(mode.equals("run")) {
-				setTarget(new Runner(app));
-				getTarget().start();
+				setLauncher(new Runner(app));
+				getLauncher().start();
 				System.out.println("Done run");
 			} else {
 				System.out.println("Mode is not compatible.");
@@ -181,15 +182,15 @@ public class ModelGenerator {
 		return inkApp;
 	}
 	
-	public static ThreadLauncher getTarget() {
-		return ModelGenerator.launch;
+	public static ThreadLauncher getLauncher() {
+		return ModelGenerator.launcher;
 	}
 
-	public static void setTarget(Debugger target) {
-		ModelGenerator.launch = target;
+	public static void setLauncher(Debugger launcher) {
+		ModelGenerator.launcher = launcher;
 	}
 
-	private static void setTarget(Runner target) {
-		ModelGenerator.launch = target;
+	private static void setLauncher(Runner launcher) {
+		ModelGenerator.launcher = launcher;
 	}
 }

@@ -3,25 +3,18 @@
  */
 package org.xtext.example.mydsl.myDsl.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
 import org.xtext.example.mydsl.myDsl.Task;
+import org.xtext.example.mydsl.myDsl.TaskBody;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,8 +25,7 @@ import org.xtext.example.mydsl.myDsl.Task;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.example.mydsl.myDsl.impl.TaskImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.xtext.example.mydsl.myDsl.impl.TaskImpl#getBody <em>Body</em>}</li>
- *   <li>{@link org.xtext.example.mydsl.myDsl.impl.TaskImpl#getTask <em>Task</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.myDsl.impl.TaskImpl#getTaskbody <em>Taskbody</em>}</li>
  * </ul>
  *
  * @generated
@@ -61,24 +53,14 @@ public class TaskImpl extends MinimalEObjectImpl.Container implements Task
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference list.
+   * The cached value of the '{@link #getTaskbody() <em>Taskbody</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getBody()
+   * @see #getTaskbody()
    * @generated
    * @ordered
    */
-  protected EList<EObject> body;
-
-  /**
-   * The cached value of the '{@link #getTask() <em>Task</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getTask()
-   * @generated
-   * @ordered
-   */
-  protected Task task;
+  protected TaskBody taskbody;
 
   /**
    * <!-- begin-user-doc -->
@@ -132,13 +114,9 @@ public class TaskImpl extends MinimalEObjectImpl.Container implements Task
    * @generated
    */
   @Override
-  public EList<EObject> getBody()
+  public TaskBody getTaskbody()
   {
-    if (body == null)
-    {
-      body = new EObjectContainmentEList<EObject>(EObject.class, this, MyDslPackage.TASK__BODY);
-    }
-    return body;
+    return taskbody;
   }
 
   /**
@@ -146,44 +124,38 @@ public class TaskImpl extends MinimalEObjectImpl.Container implements Task
    * <!-- end-user-doc -->
    * @generated
    */
-  @Override
-  public Task getTask()
+  public NotificationChain basicSetTaskbody(TaskBody newTaskbody, NotificationChain msgs)
   {
-    if (task != null && task.eIsProxy())
-    {
-      InternalEObject oldTask = (InternalEObject)task;
-      task = (Task)eResolveProxy(oldTask);
-      if (task != oldTask)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyDslPackage.TASK__TASK, oldTask, task));
-      }
-    }
-    return task;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Task basicGetTask()
-  {
-    return task;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setTask(Task newTask)
-  {
-    Task oldTask = task;
-    task = newTask;
+    TaskBody oldTaskbody = taskbody;
+    taskbody = newTaskbody;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MyDslPackage.TASK__TASK, oldTask, task));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyDslPackage.TASK__TASKBODY, oldTaskbody, newTaskbody);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setTaskbody(TaskBody newTaskbody)
+  {
+    if (newTaskbody != taskbody)
+    {
+      NotificationChain msgs = null;
+      if (taskbody != null)
+        msgs = ((InternalEObject)taskbody).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.TASK__TASKBODY, null, msgs);
+      if (newTaskbody != null)
+        msgs = ((InternalEObject)newTaskbody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.TASK__TASKBODY, null, msgs);
+      msgs = basicSetTaskbody(newTaskbody, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, MyDslPackage.TASK__TASKBODY, newTaskbody, newTaskbody));
   }
 
   /**
@@ -196,8 +168,8 @@ public class TaskImpl extends MinimalEObjectImpl.Container implements Task
   {
     switch (featureID)
     {
-      case MyDslPackage.TASK__BODY:
-        return ((InternalEList<?>)getBody()).basicRemove(otherEnd, msgs);
+      case MyDslPackage.TASK__TASKBODY:
+        return basicSetTaskbody(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -214,11 +186,8 @@ public class TaskImpl extends MinimalEObjectImpl.Container implements Task
     {
       case MyDslPackage.TASK__NAME:
         return getName();
-      case MyDslPackage.TASK__BODY:
-        return getBody();
-      case MyDslPackage.TASK__TASK:
-        if (resolve) return getTask();
-        return basicGetTask();
+      case MyDslPackage.TASK__TASKBODY:
+        return getTaskbody();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -228,7 +197,6 @@ public class TaskImpl extends MinimalEObjectImpl.Container implements Task
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -237,12 +205,8 @@ public class TaskImpl extends MinimalEObjectImpl.Container implements Task
       case MyDslPackage.TASK__NAME:
         setName((String)newValue);
         return;
-      case MyDslPackage.TASK__BODY:
-        getBody().clear();
-        getBody().addAll((Collection<? extends EObject>)newValue);
-        return;
-      case MyDslPackage.TASK__TASK:
-        setTask((Task)newValue);
+      case MyDslPackage.TASK__TASKBODY:
+        setTaskbody((TaskBody)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -261,11 +225,8 @@ public class TaskImpl extends MinimalEObjectImpl.Container implements Task
       case MyDslPackage.TASK__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case MyDslPackage.TASK__BODY:
-        getBody().clear();
-        return;
-      case MyDslPackage.TASK__TASK:
-        setTask((Task)null);
+      case MyDslPackage.TASK__TASKBODY:
+        setTaskbody((TaskBody)null);
         return;
     }
     super.eUnset(featureID);
@@ -283,10 +244,8 @@ public class TaskImpl extends MinimalEObjectImpl.Container implements Task
     {
       case MyDslPackage.TASK__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case MyDslPackage.TASK__BODY:
-        return body != null && !body.isEmpty();
-      case MyDslPackage.TASK__TASK:
-        return task != null;
+      case MyDslPackage.TASK__TASKBODY:
+        return taskbody != null;
     }
     return super.eIsSet(featureID);
   }

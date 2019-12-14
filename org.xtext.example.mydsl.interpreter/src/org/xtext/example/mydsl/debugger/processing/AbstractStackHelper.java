@@ -13,26 +13,25 @@ import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BooleanReference;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
-import org.xtext.example.mydsl.myDsl.FunctionParameter;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
-import org.xtext.example.mydsl.myDsl.VariableDecleration;
+import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 import org.xtext.example.mydsl.myDsl.VariableReference;
 import org.xtext.example.mydsl.myDsl.VariableSymbol;
 
 
 public abstract class AbstractStackHelper {
-	static boolean isBreak = false;
+	protected static boolean isBreak = false;
 	static boolean isReturn = false;
 	static Object lastFunctionReturn = null;
 	
-	protected CallStackItem lookupStackItem(String functionId) {
+	protected CallStackItem lookupStackItem(String id) {
 		Iterator<CallStackItem> callStackIterator = CallStack.getCallStack().iterator();
 		
 		while(callStackIterator.hasNext()) {
 			CallStackItem item = callStackIterator.next();
 			
-			if(item.getFunctionId() == functionId) {
+			if(item.getId() == id) {
 				return item;
 			}
 		}
@@ -40,7 +39,7 @@ public abstract class AbstractStackHelper {
 		return null;
 	}
 	
-	protected Symbol lookupSymbolByAtomic(Atomic atomic, String functionId) {		
+	protected Symbol lookupSymbolByAtomic(Atomic atomic, String id) {		
 //		if Atomic is StringReference or IntegerReference or DoubleReference or BooleanReference, 
 //		the value is not inside call stack. So make dummy symbol and return it.
 		if(isDummy(atomic)) {
@@ -49,14 +48,16 @@ public abstract class AbstractStackHelper {
 		}
 		
 		String variableName = getAtomicName(atomic);
-		Symbol symbol = lookupSymbolByString(variableName, functionId);
+		Symbol symbol = lookupSymbolByString(variableName, id);
 		
 		return symbol;
 	}
 	
-	protected Symbol lookupSymbolByString(String variableName, String functionId) {
+	protected Symbol lookupSymbolByString(String variableName, String id) {
 		Symbol symbol = null;
-		CallStackItem callStackItem = lookupStackItem(functionId);
+		
+//		Check if variable is in local symbol table
+		CallStackItem callStackItem = lookupStackItem(id);
 		Iterator<Symbol> iterator = callStackItem.getSymbolTable().getSymbolTable().iterator();
 		
 		while(iterator.hasNext()) {
@@ -68,6 +69,8 @@ public abstract class AbstractStackHelper {
 			
 		}
 		
+//		Not found in local symbol table
+//		Check if variable is in global symbol table
 		callStackItem = lookupStackItem("global");
 		iterator = callStackItem.getSymbolTable().getSymbolTable().iterator();
 		
@@ -85,18 +88,23 @@ public abstract class AbstractStackHelper {
 	
 	private Symbol dummySymbol(Atomic atomic) {
 		Object value = null;
-		Symbol dummySymbol = new Symbol();
+		String type = null;
 		
 		if(atomic instanceof StringReference) {
 			value = (String) ((StringReference) atomic).getValue();
+			type = "string";
 		} else if (atomic instanceof IntegerReference) {
 			value = (int) ((IntegerReference) atomic).getValue();
+			type = "integer";
 		} else if (atomic instanceof DoubleReference) {
 			value = (double) ((DoubleReference) atomic).getValue();
+			type = "double";
 		} else if (atomic instanceof BooleanReference) {
 			value = (boolean) ((BooleanReference) atomic).isValue();
+			type = "boolean";
 		}	
 		
+		Symbol dummySymbol = new Symbol("dummy", type);
 		dummySymbol.setVariableValue(value);
 		return dummySymbol;
 	}
@@ -117,27 +125,27 @@ public abstract class AbstractStackHelper {
 		return result;
 	}
 	
-	protected void pushCallStackItem(String functionId) {
-		CallStack.getCallStack().add(new CallStackItem(functionId, new SymbolTable()));
+	protected void pushCallStackItem(String id) {
+		CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
 	}
 
-	protected void popCallStackItem(String functionId) {
-		CallStackItem item = lookupStackItem(functionId);
+	protected void popCallStackItem(String id) {
+		CallStackItem item = lookupStackItem(id);
 		CallStack.getCallStack().remove(item);
 	}
 
-	protected void updateCallStackByAtomic(Atomic atomic, Object value, String functionId) {
-		Symbol sm = lookupSymbolByAtomic(atomic, functionId);
-		sm.setVariableValue(value);
+	protected void updateCallStackByAtomic(Atomic atomic, Object value, String id) {
+		Symbol sm = lookupSymbolByAtomic(atomic, id);
+		sm.setVariableValue((Object) value);
 	}
 
-	protected void addCallStackBySymbol(Symbol symbol, String functionId) {
-		CallStackItem item = lookupStackItem(functionId);
+	protected void addCallStackBySymbol(Symbol symbol, String id) {
+		CallStackItem item = lookupStackItem(id);
 		item.getSymbolTable().getSymbolTable().add(symbol);
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected Object decoupleAtomic(Atomic atomic, String functionId) {
+	protected Object decoupleAtomic(Atomic atomic, String id) {
 		Object m_return = null; 
 		
 		if(atomic instanceof StringReference) {
@@ -147,9 +155,9 @@ public abstract class AbstractStackHelper {
 		} else if(atomic instanceof IntegerReference) {
 			m_return = ((IntegerReference) atomic).getValue();
 		} else if(atomic instanceof ArrayReference) {
-			Symbol symbol = lookupSymbolByAtomic(atomic, functionId);
+			Symbol symbol = lookupSymbolByAtomic(atomic, id);
 			Object dimensionMap = symbol.getVariableValue();
-			String dimensionIndex = arrayKeyGenerator((ArrayReference) atomic, functionId);
+			String dimensionIndex = arrayKeyGenerator((ArrayReference) atomic, id);
 			
 			for(Entry<String, Object> entry: ((Map<String, Object>) dimensionMap).entrySet()) {
 				if(entry.getKey().equals(dimensionIndex)) {
@@ -157,17 +165,17 @@ public abstract class AbstractStackHelper {
 				}
 			}			
 		} else if(atomic instanceof VariableReference) {
-			Symbol symbol = lookupSymbolByAtomic(atomic, functionId);
+			Symbol symbol = lookupSymbolByAtomic(atomic, id);
 			m_return = symbol.getVariableValue();
 		}
 		return m_return;
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected void updateCallStackByArray(ArrayReference arrayLeft, Object returnValue, String callerFunctionId) {
-		String dimensionIndex = arrayKeyGenerator(arrayLeft, callerFunctionId);
-		String target = arrayLeft.getVariableReference().getName();
-		CallStackItem callStackItem = lookupStackItem(callerFunctionId);
+	protected void updateCallStackByArray(ArrayReference arrayLeft, Object returnValue, String callerId) {
+		String dimensionIndex = arrayKeyGenerator(arrayLeft, callerId);
+		String target = ((VariableDeclerationExpression) arrayLeft.getVariableReference()).getName();
+		CallStackItem callStackItem = lookupStackItem(callerId);
 		
 		for(Symbol symbol: callStackItem.getSymbolTable().getSymbolTable()) {
 			if(target.equals(symbol.getName())) {
@@ -216,8 +224,8 @@ public abstract class AbstractStackHelper {
 	private String getVariableSymbolName(VariableSymbol variableSymbol) {
 		String symbolName = "";
 		
-		if(variableSymbol instanceof VariableDecleration | variableSymbol instanceof FunctionParameter) {
-			symbolName = variableSymbol.getName();
+		if(variableSymbol instanceof VariableDeclerationExpression) {
+			symbolName = ((VariableDeclerationExpression) variableSymbol).getName();
 		}
 		return symbolName;
 	}

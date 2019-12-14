@@ -10,10 +10,6 @@ import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.AbstractElementAlias;
-import org.eclipse.xtext.serializer.analysis.GrammarAlias.AlternativeAlias;
-import org.eclipse.xtext.serializer.analysis.GrammarAlias.GroupAlias;
-import org.eclipse.xtext.serializer.analysis.GrammarAlias.TokenAlias;
-import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISynNavigable;
 import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISynTransition;
 import org.eclipse.xtext.serializer.sequencer.AbstractSyntacticSequencer;
 import org.xtext.example.mydsl.services.MyDslGrammarAccess;
@@ -22,14 +18,10 @@ import org.xtext.example.mydsl.services.MyDslGrammarAccess;
 public class MyDslSyntacticSequencer extends AbstractSyntacticSequencer {
 
 	protected MyDslGrammarAccess grammarAccess;
-	protected AbstractElementAlias match_IfExpression___ElseKeyword_9_0_LeftCurlyBracketKeyword_9_1_RightCurlyBracketKeyword_9_4__q;
-	protected AbstractElementAlias match_VariableType_BooleanKeyword_2_1_or_IntegerKeyword_1_1_or_StringKeyword_0_1;
 	
 	@Inject
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (MyDslGrammarAccess) access;
-		match_IfExpression___ElseKeyword_9_0_LeftCurlyBracketKeyword_9_1_RightCurlyBracketKeyword_9_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getIfExpressionAccess().getElseKeyword_9_0()), new TokenAlias(false, false, grammarAccess.getIfExpressionAccess().getLeftCurlyBracketKeyword_9_1()), new TokenAlias(false, false, grammarAccess.getIfExpressionAccess().getRightCurlyBracketKeyword_9_4()));
-		match_VariableType_BooleanKeyword_2_1_or_IntegerKeyword_1_1_or_StringKeyword_0_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getVariableTypeAccess().getBooleanKeyword_2_1()), new TokenAlias(false, false, grammarAccess.getVariableTypeAccess().getIntegerKeyword_1_1()), new TokenAlias(false, false, grammarAccess.getVariableTypeAccess().getStringKeyword_0_1()));
 	}
 	
 	@Override
@@ -44,39 +36,8 @@ public class MyDslSyntacticSequencer extends AbstractSyntacticSequencer {
 		List<INode> transitionNodes = collectNodes(fromNode, toNode);
 		for (AbstractElementAlias syntax : transition.getAmbiguousSyntaxes()) {
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
-			if (match_IfExpression___ElseKeyword_9_0_LeftCurlyBracketKeyword_9_1_RightCurlyBracketKeyword_9_4__q.equals(syntax))
-				emit_IfExpression___ElseKeyword_9_0_LeftCurlyBracketKeyword_9_1_RightCurlyBracketKeyword_9_4__q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_VariableType_BooleanKeyword_2_1_or_IntegerKeyword_1_1_or_StringKeyword_0_1.equals(syntax))
-				emit_VariableType_BooleanKeyword_2_1_or_IntegerKeyword_1_1_or_StringKeyword_0_1(semanticObject, getLastNavigableState(), syntaxNodes);
-			else acceptNodes(getLastNavigableState(), syntaxNodes);
+			acceptNodes(getLastNavigableState(), syntaxNodes);
 		}
 	}
 
-	/**
-	 * Ambiguous syntax:
-	 *     ('else' '{' '}')?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     elsecondition+=OperationExpression ')' '{' '}' (ambiguity) (rule end)
-	 *     elseifbody+=Break '}' (ambiguity) (rule end)
-	 *     elseifbody+=Expression '}' (ambiguity) (rule end)
-	 *     ifbody+=Break '}' (ambiguity) (rule end)
-	 *     ifbody+=Expression '}' (ambiguity) (rule end)
-	 *     ifcondition=OperationExpression ')' '{' '}' (ambiguity) (rule end)
-	 */
-	protected void emit_IfExpression___ElseKeyword_9_0_LeftCurlyBracketKeyword_9_1_RightCurlyBracketKeyword_9_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
-	 *     'string' | 'integer' | 'boolean'
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     (rule start) (ambiguity) (rule start)
-	 */
-	protected void emit_VariableType_BooleanKeyword_2_1_or_IntegerKeyword_1_1_or_StringKeyword_0_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
 }

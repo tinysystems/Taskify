@@ -3,25 +3,24 @@
  */
 package org.xtext.example.mydsl.myDsl;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Break</b></em>'.
+ * A representation of the model object '<em><b>Break Expression</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.example.mydsl.myDsl.Break#getBreak <em>Break</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.myDsl.BreakExpression#getBreak <em>Break</em>}</li>
  * </ul>
  *
- * @see org.xtext.example.mydsl.myDsl.MyDslPackage#getBreak()
+ * @see org.xtext.example.mydsl.myDsl.MyDslPackage#getBreakExpression()
  * @model
  * @generated
  */
-public interface Break extends EObject
+public interface BreakExpression extends Expression
 {
   /**
    * Returns the value of the '<em><b>Break</b></em>' attribute.
@@ -29,14 +28,14 @@ public interface Break extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Break</em>' attribute.
    * @see #setBreak(String)
-   * @see org.xtext.example.mydsl.myDsl.MyDslPackage#getBreak_Break()
+   * @see org.xtext.example.mydsl.myDsl.MyDslPackage#getBreakExpression_Break()
    * @model
    * @generated
    */
   String getBreak();
 
   /**
-   * Sets the value of the '{@link org.xtext.example.mydsl.myDsl.Break#getBreak <em>Break</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.example.mydsl.myDsl.BreakExpression#getBreak <em>Break</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Break</em>' attribute.
@@ -45,4 +44,4 @@ public interface Break extends EObject
    */
   void setBreak(String value);
 
-} // Break
+} // BreakExpression

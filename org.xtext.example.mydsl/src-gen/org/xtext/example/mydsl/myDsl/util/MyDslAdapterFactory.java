@@ -81,9 +81,9 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
         return createInkAppAdapter();
       }
       @Override
-      public Adapter caseBreak(Break object)
+      public Adapter caseBreakExpression(BreakExpression object)
       {
-        return createBreakAdapter();
+        return createBreakExpressionAdapter();
       }
       @Override
       public Adapter caseVariableType(VariableType object)
@@ -91,19 +91,9 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
         return createVariableTypeAdapter();
       }
       @Override
-      public Adapter caseGlobalVariable(GlobalVariable object)
+      public Adapter caseGlobalVariableExpression(GlobalVariableExpression object)
       {
-        return createGlobalVariableAdapter();
-      }
-      @Override
-      public Adapter caseMain(Main object)
-      {
-        return createMainAdapter();
-      }
-      @Override
-      public Adapter caseFunctionBody(FunctionBody object)
-      {
-        return createFunctionBodyAdapter();
+        return createGlobalVariableExpressionAdapter();
       }
       @Override
       public Adapter caseEntryTask(EntryTask object)
@@ -131,6 +121,26 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
         return createWhileExpressionAdapter();
       }
       @Override
+      public Adapter caseBuiltinFunctionCallExpression(BuiltinFunctionCallExpression object)
+      {
+        return createBuiltinFunctionCallExpressionAdapter();
+      }
+      @Override
+      public Adapter caseTaskBody(TaskBody object)
+      {
+        return createTaskBodyAdapter();
+      }
+      @Override
+      public Adapter caseStatementBody(StatementBody object)
+      {
+        return createStatementBodyAdapter();
+      }
+      @Override
+      public Adapter caseBlockExpressions(BlockExpressions object)
+      {
+        return createBlockExpressionsAdapter();
+      }
+      @Override
       public Adapter caseExpression(Expression object)
       {
         return createExpressionAdapter();
@@ -146,14 +156,9 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
         return createArrayDimensionAdapter();
       }
       @Override
-      public Adapter caseVariableDecleration(VariableDecleration object)
+      public Adapter caseVariableDeclerationExpression(VariableDeclerationExpression object)
       {
-        return createVariableDeclerationAdapter();
-      }
-      @Override
-      public Adapter caseFunctionParameter(FunctionParameter object)
-      {
-        return createFunctionParameterAdapter();
+        return createVariableDeclerationExpressionAdapter();
       }
       @Override
       public Adapter caseVariableSymbol(VariableSymbol object)
@@ -164,36 +169,6 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
       public Adapter caseAtomic(Atomic object)
       {
         return createAtomicAdapter();
-      }
-      @Override
-      public Adapter caseVariableReturn(VariableReturn object)
-      {
-        return createVariableReturnAdapter();
-      }
-      @Override
-      public Adapter caseAtomicOrFunctionCall(AtomicOrFunctionCall object)
-      {
-        return createAtomicOrFunctionCallAdapter();
-      }
-      @Override
-      public Adapter caseFunctionDefinition(FunctionDefinition object)
-      {
-        return createFunctionDefinitionAdapter();
-      }
-      @Override
-      public Adapter caseFunctionCall(FunctionCall object)
-      {
-        return createFunctionCallAdapter();
-      }
-      @Override
-      public Adapter caseBuiltinFunctionCall(BuiltinFunctionCall object)
-      {
-        return createBuiltinFunctionCallAdapter();
-      }
-      @Override
-      public Adapter caseAbstractFunctionCall(AbstractFunctionCall object)
-      {
-        return createAbstractFunctionCallAdapter();
       }
       @Override
       public Adapter caseOperation(Operation object)
@@ -268,16 +243,16 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.Break <em>Break</em>}'.
+   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.BreakExpression <em>Break Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.Break
+   * @see org.xtext.example.mydsl.myDsl.BreakExpression
    * @generated
    */
-  public Adapter createBreakAdapter()
+  public Adapter createBreakExpressionAdapter()
   {
     return null;
   }
@@ -298,46 +273,16 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.GlobalVariable <em>Global Variable</em>}'.
+   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.GlobalVariableExpression <em>Global Variable Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.GlobalVariable
+   * @see org.xtext.example.mydsl.myDsl.GlobalVariableExpression
    * @generated
    */
-  public Adapter createGlobalVariableAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.Main <em>Main</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.Main
-   * @generated
-   */
-  public Adapter createMainAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.FunctionBody <em>Function Body</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.FunctionBody
-   * @generated
-   */
-  public Adapter createFunctionBodyAdapter()
+  public Adapter createGlobalVariableExpressionAdapter()
   {
     return null;
   }
@@ -418,6 +363,66 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression <em>Builtin Function Call Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression
+   * @generated
+   */
+  public Adapter createBuiltinFunctionCallExpressionAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.TaskBody <em>Task Body</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.example.mydsl.myDsl.TaskBody
+   * @generated
+   */
+  public Adapter createTaskBodyAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.StatementBody <em>Statement Body</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.example.mydsl.myDsl.StatementBody
+   * @generated
+   */
+  public Adapter createStatementBodyAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.BlockExpressions <em>Block Expressions</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.example.mydsl.myDsl.BlockExpressions
+   * @generated
+   */
+  public Adapter createBlockExpressionsAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.Expression <em>Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -463,31 +468,16 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.VariableDecleration <em>Variable Decleration</em>}'.
+   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.VariableDeclerationExpression <em>Variable Decleration Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.VariableDecleration
+   * @see org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
    * @generated
    */
-  public Adapter createVariableDeclerationAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.FunctionParameter <em>Function Parameter</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.FunctionParameter
-   * @generated
-   */
-  public Adapter createFunctionParameterAdapter()
+  public Adapter createVariableDeclerationExpressionAdapter()
   {
     return null;
   }
@@ -518,96 +508,6 @@ public class MyDslAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createAtomicAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.VariableReturn <em>Variable Return</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.VariableReturn
-   * @generated
-   */
-  public Adapter createVariableReturnAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.AtomicOrFunctionCall <em>Atomic Or Function Call</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.AtomicOrFunctionCall
-   * @generated
-   */
-  public Adapter createAtomicOrFunctionCallAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.FunctionDefinition <em>Function Definition</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.FunctionDefinition
-   * @generated
-   */
-  public Adapter createFunctionDefinitionAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.FunctionCall <em>Function Call</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.FunctionCall
-   * @generated
-   */
-  public Adapter createFunctionCallAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.BuiltinFunctionCall <em>Builtin Function Call</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.BuiltinFunctionCall
-   * @generated
-   */
-  public Adapter createBuiltinFunctionCallAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.example.mydsl.myDsl.AbstractFunctionCall <em>Abstract Function Call</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.example.mydsl.myDsl.AbstractFunctionCall
-   * @generated
-   */
-  public Adapter createAbstractFunctionCallAdapter()
   {
     return null;
   }

@@ -10,36 +10,31 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import org.xtext.example.mydsl.myDsl.AbstractFunctionCall;
 import org.xtext.example.mydsl.myDsl.ArrayDimension;
 import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
-import org.xtext.example.mydsl.myDsl.AtomicOrFunctionCall;
+import org.xtext.example.mydsl.myDsl.BlockExpressions;
 import org.xtext.example.mydsl.myDsl.BooleanReference;
-import org.xtext.example.mydsl.myDsl.Break;
-import org.xtext.example.mydsl.myDsl.BuiltinFunctionCall;
+import org.xtext.example.mydsl.myDsl.BreakExpression;
+import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
 import org.xtext.example.mydsl.myDsl.EntryTask;
 import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.ForExpression;
-import org.xtext.example.mydsl.myDsl.FunctionBody;
-import org.xtext.example.mydsl.myDsl.FunctionCall;
-import org.xtext.example.mydsl.myDsl.FunctionDefinition;
-import org.xtext.example.mydsl.myDsl.FunctionParameter;
-import org.xtext.example.mydsl.myDsl.GlobalVariable;
+import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
 import org.xtext.example.mydsl.myDsl.IfExpression;
 import org.xtext.example.mydsl.myDsl.InkApp;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
-import org.xtext.example.mydsl.myDsl.Main;
 import org.xtext.example.mydsl.myDsl.MyDslFactory;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
 import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.OperationExpression;
+import org.xtext.example.mydsl.myDsl.StatementBody;
 import org.xtext.example.mydsl.myDsl.StringReference;
 import org.xtext.example.mydsl.myDsl.Task;
-import org.xtext.example.mydsl.myDsl.VariableDecleration;
+import org.xtext.example.mydsl.myDsl.TaskBody;
+import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 import org.xtext.example.mydsl.myDsl.VariableReference;
-import org.xtext.example.mydsl.myDsl.VariableReturn;
 import org.xtext.example.mydsl.myDsl.VariableSymbol;
 import org.xtext.example.mydsl.myDsl.VariableType;
 import org.xtext.example.mydsl.myDsl.WhileExpression;
@@ -64,7 +59,7 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass breakEClass = null;
+  private EClass breakExpressionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -78,21 +73,7 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass globalVariableEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass mainEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass functionBodyEClass = null;
+  private EClass globalVariableExpressionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -134,6 +115,34 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass builtinFunctionCallExpressionEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass taskBodyEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass statementBodyEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass blockExpressionsEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass expressionEClass = null;
 
   /**
@@ -155,14 +164,7 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass variableDeclerationEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass functionParameterEClass = null;
+  private EClass variableDeclerationExpressionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -177,48 +179,6 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   private EClass atomicEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass variableReturnEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass atomicOrFunctionCallEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass functionDefinitionEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass functionCallEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass builtinFunctionCallEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass abstractFunctionCallEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -382,9 +342,9 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EClass getBreak()
+  public EClass getBreakExpression()
   {
-    return breakEClass;
+    return breakExpressionEClass;
   }
 
   /**
@@ -393,9 +353,9 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EAttribute getBreak_Break()
+  public EAttribute getBreakExpression_Break()
   {
-    return (EAttribute)breakEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)breakExpressionEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -415,9 +375,9 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EClass getGlobalVariable()
+  public EAttribute getVariableType_Type()
   {
-    return globalVariableEClass;
+    return (EAttribute)variableTypeEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -426,9 +386,9 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EReference getGlobalVariable_Variable()
+  public EClass getGlobalVariableExpression()
   {
-    return (EReference)globalVariableEClass.getEStructuralFeatures().get(0);
+    return globalVariableExpressionEClass;
   }
 
   /**
@@ -437,64 +397,9 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EClass getMain()
+  public EReference getGlobalVariableExpression_Variable()
   {
-    return mainEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getMain_VariableDeclerations()
-  {
-    return (EReference)mainEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getMain_Body()
-  {
-    return (EReference)mainEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getFunctionBody()
-  {
-    return functionBodyEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getFunctionBody_VariableDeclerations()
-  {
-    return (EReference)functionBodyEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getFunctionBody_Body()
-  {
-    return (EReference)functionBodyEClass.getEStructuralFeatures().get(1);
+    return (EReference)globalVariableExpressionEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -547,20 +452,9 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EReference getTask_Body()
+  public EReference getTask_Taskbody()
   {
     return (EReference)taskEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getTask_Task()
-  {
-    return (EReference)taskEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -602,7 +496,7 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EReference getIfExpression_Elsecondition()
+  public EReference getIfExpression_Elseifcondition()
   {
     return (EReference)ifExpressionEClass.getEStructuralFeatures().get(2);
   }
@@ -723,6 +617,116 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
+  public EClass getBuiltinFunctionCallExpression()
+  {
+    return builtinFunctionCallExpressionEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getBuiltinFunctionCallExpression_Function()
+  {
+    return (EAttribute)builtinFunctionCallExpressionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getBuiltinFunctionCallExpression_Parameters()
+  {
+    return (EReference)builtinFunctionCallExpressionEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getTaskBody()
+  {
+    return taskBodyEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getTaskBody_Body()
+  {
+    return (EReference)taskBodyEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getTaskBody_Nexttask()
+  {
+    return (EReference)taskBodyEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getTaskBody_Endtask()
+  {
+    return (EAttribute)taskBodyEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getStatementBody()
+  {
+    return statementBodyEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getStatementBody_Body()
+  {
+    return (EReference)statementBodyEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getBlockExpressions()
+  {
+    return blockExpressionsEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EClass getExpression()
   {
     return expressionEClass;
@@ -778,9 +782,9 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EClass getVariableDecleration()
+  public EClass getVariableDeclerationExpression()
   {
-    return variableDeclerationEClass;
+    return variableDeclerationExpressionEClass;
   }
 
   /**
@@ -789,9 +793,9 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EReference getVariableDecleration_Dimension()
+  public EReference getVariableDeclerationExpression_Type()
   {
-    return (EReference)variableDeclerationEClass.getEStructuralFeatures().get(0);
+    return (EReference)variableDeclerationExpressionEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -800,9 +804,20 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EClass getFunctionParameter()
+  public EAttribute getVariableDeclerationExpression_Name()
   {
-    return functionParameterEClass;
+    return (EAttribute)variableDeclerationExpressionEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getVariableDeclerationExpression_Dimension()
+  {
+    return (EReference)variableDeclerationExpressionEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -822,185 +837,9 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
    * @generated
    */
   @Override
-  public EReference getVariableSymbol_Type()
-  {
-    return (EReference)variableSymbolEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EAttribute getVariableSymbol_Name()
-  {
-    return (EAttribute)variableSymbolEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EClass getAtomic()
   {
     return atomicEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getVariableReturn()
-  {
-    return variableReturnEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getVariableReturn_Return()
-  {
-    return (EReference)variableReturnEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getAtomicOrFunctionCall()
-  {
-    return atomicOrFunctionCallEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getFunctionDefinition()
-  {
-    return functionDefinitionEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getFunctionDefinition_Return()
-  {
-    return (EReference)functionDefinitionEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EAttribute getFunctionDefinition_Name()
-  {
-    return (EAttribute)functionDefinitionEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getFunctionDefinition_Parameters()
-  {
-    return (EReference)functionDefinitionEClass.getEStructuralFeatures().get(2);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getFunctionDefinition_Body()
-  {
-    return (EReference)functionDefinitionEClass.getEStructuralFeatures().get(3);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getFunctionCall()
-  {
-    return functionCallEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getFunctionCall_Function()
-  {
-    return (EReference)functionCallEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getBuiltinFunctionCall()
-  {
-    return builtinFunctionCallEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EAttribute getBuiltinFunctionCall_Function()
-  {
-    return (EAttribute)builtinFunctionCallEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getAbstractFunctionCall()
-  {
-    return abstractFunctionCallEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getAbstractFunctionCall_Parameters()
-  {
-    return (EReference)abstractFunctionCallEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1226,34 +1065,26 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
     createEReference(inkAppEClass, INK_APP__TASKS);
     createEReference(inkAppEClass, INK_APP__ENTRY);
 
-    breakEClass = createEClass(BREAK);
-    createEAttribute(breakEClass, BREAK__BREAK);
+    breakExpressionEClass = createEClass(BREAK_EXPRESSION);
+    createEAttribute(breakExpressionEClass, BREAK_EXPRESSION__BREAK);
 
     variableTypeEClass = createEClass(VARIABLE_TYPE);
+    createEAttribute(variableTypeEClass, VARIABLE_TYPE__TYPE);
 
-    globalVariableEClass = createEClass(GLOBAL_VARIABLE);
-    createEReference(globalVariableEClass, GLOBAL_VARIABLE__VARIABLE);
-
-    mainEClass = createEClass(MAIN);
-    createEReference(mainEClass, MAIN__VARIABLE_DECLERATIONS);
-    createEReference(mainEClass, MAIN__BODY);
-
-    functionBodyEClass = createEClass(FUNCTION_BODY);
-    createEReference(functionBodyEClass, FUNCTION_BODY__VARIABLE_DECLERATIONS);
-    createEReference(functionBodyEClass, FUNCTION_BODY__BODY);
+    globalVariableExpressionEClass = createEClass(GLOBAL_VARIABLE_EXPRESSION);
+    createEReference(globalVariableExpressionEClass, GLOBAL_VARIABLE_EXPRESSION__VARIABLE);
 
     entryTaskEClass = createEClass(ENTRY_TASK);
     createEReference(entryTaskEClass, ENTRY_TASK__TASK);
 
     taskEClass = createEClass(TASK);
     createEAttribute(taskEClass, TASK__NAME);
-    createEReference(taskEClass, TASK__BODY);
-    createEReference(taskEClass, TASK__TASK);
+    createEReference(taskEClass, TASK__TASKBODY);
 
     ifExpressionEClass = createEClass(IF_EXPRESSION);
     createEReference(ifExpressionEClass, IF_EXPRESSION__IFCONDITION);
     createEReference(ifExpressionEClass, IF_EXPRESSION__IFBODY);
-    createEReference(ifExpressionEClass, IF_EXPRESSION__ELSECONDITION);
+    createEReference(ifExpressionEClass, IF_EXPRESSION__ELSEIFCONDITION);
     createEReference(ifExpressionEClass, IF_EXPRESSION__ELSEIFBODY);
     createEReference(ifExpressionEClass, IF_EXPRESSION__ELSEBODY);
 
@@ -1267,6 +1098,20 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
     createEReference(whileExpressionEClass, WHILE_EXPRESSION__TEST);
     createEReference(whileExpressionEClass, WHILE_EXPRESSION__BODY);
 
+    builtinFunctionCallExpressionEClass = createEClass(BUILTIN_FUNCTION_CALL_EXPRESSION);
+    createEAttribute(builtinFunctionCallExpressionEClass, BUILTIN_FUNCTION_CALL_EXPRESSION__FUNCTION);
+    createEReference(builtinFunctionCallExpressionEClass, BUILTIN_FUNCTION_CALL_EXPRESSION__PARAMETERS);
+
+    taskBodyEClass = createEClass(TASK_BODY);
+    createEReference(taskBodyEClass, TASK_BODY__BODY);
+    createEReference(taskBodyEClass, TASK_BODY__NEXTTASK);
+    createEAttribute(taskBodyEClass, TASK_BODY__ENDTASK);
+
+    statementBodyEClass = createEClass(STATEMENT_BODY);
+    createEReference(statementBodyEClass, STATEMENT_BODY__BODY);
+
+    blockExpressionsEClass = createEClass(BLOCK_EXPRESSIONS);
+
     expressionEClass = createEClass(EXPRESSION);
 
     operationExpressionEClass = createEClass(OPERATION_EXPRESSION);
@@ -1275,36 +1120,14 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
     createEReference(arrayDimensionEClass, ARRAY_DIMENSION__INDEX);
     createEAttribute(arrayDimensionEClass, ARRAY_DIMENSION__SIZE);
 
-    variableDeclerationEClass = createEClass(VARIABLE_DECLERATION);
-    createEReference(variableDeclerationEClass, VARIABLE_DECLERATION__DIMENSION);
-
-    functionParameterEClass = createEClass(FUNCTION_PARAMETER);
+    variableDeclerationExpressionEClass = createEClass(VARIABLE_DECLERATION_EXPRESSION);
+    createEReference(variableDeclerationExpressionEClass, VARIABLE_DECLERATION_EXPRESSION__TYPE);
+    createEAttribute(variableDeclerationExpressionEClass, VARIABLE_DECLERATION_EXPRESSION__NAME);
+    createEReference(variableDeclerationExpressionEClass, VARIABLE_DECLERATION_EXPRESSION__DIMENSION);
 
     variableSymbolEClass = createEClass(VARIABLE_SYMBOL);
-    createEReference(variableSymbolEClass, VARIABLE_SYMBOL__TYPE);
-    createEAttribute(variableSymbolEClass, VARIABLE_SYMBOL__NAME);
 
     atomicEClass = createEClass(ATOMIC);
-
-    variableReturnEClass = createEClass(VARIABLE_RETURN);
-    createEReference(variableReturnEClass, VARIABLE_RETURN__RETURN);
-
-    atomicOrFunctionCallEClass = createEClass(ATOMIC_OR_FUNCTION_CALL);
-
-    functionDefinitionEClass = createEClass(FUNCTION_DEFINITION);
-    createEReference(functionDefinitionEClass, FUNCTION_DEFINITION__RETURN);
-    createEAttribute(functionDefinitionEClass, FUNCTION_DEFINITION__NAME);
-    createEReference(functionDefinitionEClass, FUNCTION_DEFINITION__PARAMETERS);
-    createEReference(functionDefinitionEClass, FUNCTION_DEFINITION__BODY);
-
-    functionCallEClass = createEClass(FUNCTION_CALL);
-    createEReference(functionCallEClass, FUNCTION_CALL__FUNCTION);
-
-    builtinFunctionCallEClass = createEClass(BUILTIN_FUNCTION_CALL);
-    createEAttribute(builtinFunctionCallEClass, BUILTIN_FUNCTION_CALL__FUNCTION);
-
-    abstractFunctionCallEClass = createEClass(ABSTRACT_FUNCTION_CALL);
-    createEReference(abstractFunctionCallEClass, ABSTRACT_FUNCTION_CALL__PARAMETERS);
 
     operationEClass = createEClass(OPERATION);
     createEReference(operationEClass, OPERATION__LEFT);
@@ -1360,18 +1183,21 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
     // Set bounds for type parameters
 
     // Add supertypes to classes
+    breakExpressionEClass.getESuperTypes().add(this.getExpression());
+    globalVariableExpressionEClass.getESuperTypes().add(this.getExpression());
+    ifExpressionEClass.getESuperTypes().add(this.getBlockExpressions());
     ifExpressionEClass.getESuperTypes().add(this.getExpression());
+    forExpressionEClass.getESuperTypes().add(this.getBlockExpressions());
     forExpressionEClass.getESuperTypes().add(this.getExpression());
+    whileExpressionEClass.getESuperTypes().add(this.getBlockExpressions());
     whileExpressionEClass.getESuperTypes().add(this.getExpression());
+    builtinFunctionCallExpressionEClass.getESuperTypes().add(this.getBlockExpressions());
+    builtinFunctionCallExpressionEClass.getESuperTypes().add(this.getExpression());
+    operationExpressionEClass.getESuperTypes().add(this.getBlockExpressions());
     operationExpressionEClass.getESuperTypes().add(this.getExpression());
-    variableDeclerationEClass.getESuperTypes().add(this.getVariableSymbol());
-    functionParameterEClass.getESuperTypes().add(this.getVariableSymbol());
+    variableDeclerationExpressionEClass.getESuperTypes().add(this.getExpression());
+    variableDeclerationExpressionEClass.getESuperTypes().add(this.getVariableSymbol());
     atomicEClass.getESuperTypes().add(this.getOperationExpression());
-    atomicEClass.getESuperTypes().add(this.getAtomicOrFunctionCall());
-    functionCallEClass.getESuperTypes().add(this.getAbstractFunctionCall());
-    builtinFunctionCallEClass.getESuperTypes().add(this.getExpression());
-    builtinFunctionCallEClass.getESuperTypes().add(this.getAbstractFunctionCall());
-    abstractFunctionCallEClass.getESuperTypes().add(this.getAtomicOrFunctionCall());
     operationEClass.getESuperTypes().add(this.getOperationExpression());
     integerReferenceEClass.getESuperTypes().add(this.getAtomic());
     doubleReferenceEClass.getESuperTypes().add(this.getAtomic());
@@ -1382,50 +1208,56 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(inkAppEClass, InkApp.class, "InkApp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getInkApp_Globals(), this.getGlobalVariable(), null, "globals", null, 0, -1, InkApp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getInkApp_Globals(), this.getGlobalVariableExpression(), null, "globals", null, 0, -1, InkApp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getInkApp_Tasks(), this.getTask(), null, "tasks", null, 0, -1, InkApp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getInkApp_Entry(), this.getEntryTask(), null, "entry", null, 0, 1, InkApp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(breakEClass, Break.class, "Break", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getBreak_Break(), ecorePackage.getEString(), "break", null, 0, 1, Break.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(breakExpressionEClass, BreakExpression.class, "BreakExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getBreakExpression_Break(), ecorePackage.getEString(), "break", null, 0, 1, BreakExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(variableTypeEClass, VariableType.class, "VariableType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getVariableType_Type(), ecorePackage.getEString(), "type", null, 0, 1, VariableType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(globalVariableEClass, GlobalVariable.class, "GlobalVariable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getGlobalVariable_Variable(), this.getVariableDecleration(), null, "variable", null, 0, 1, GlobalVariable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(mainEClass, Main.class, "Main", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getMain_VariableDeclerations(), this.getVariableDecleration(), null, "variableDeclerations", null, 0, -1, Main.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getMain_Body(), this.getExpression(), null, "body", null, 0, -1, Main.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(functionBodyEClass, FunctionBody.class, "FunctionBody", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getFunctionBody_VariableDeclerations(), this.getVariableDecleration(), null, "variableDeclerations", null, 0, -1, FunctionBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getFunctionBody_Body(), this.getExpression(), null, "body", null, 0, -1, FunctionBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(globalVariableExpressionEClass, GlobalVariableExpression.class, "GlobalVariableExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getGlobalVariableExpression_Variable(), this.getVariableDeclerationExpression(), null, "variable", null, 0, 1, GlobalVariableExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(entryTaskEClass, EntryTask.class, "EntryTask", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEntryTask_Task(), this.getTask(), null, "task", null, 0, 1, EntryTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(taskEClass, Task.class, "Task", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTask_Name(), ecorePackage.getEString(), "name", null, 0, 1, Task.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getTask_Body(), ecorePackage.getEObject(), null, "body", null, 0, -1, Task.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getTask_Task(), this.getTask(), null, "task", null, 0, 1, Task.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getTask_Taskbody(), this.getTaskBody(), null, "taskbody", null, 0, 1, Task.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(ifExpressionEClass, IfExpression.class, "IfExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getIfExpression_Ifcondition(), this.getOperationExpression(), null, "ifcondition", null, 0, 1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getIfExpression_Ifbody(), ecorePackage.getEObject(), null, "ifbody", null, 0, -1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getIfExpression_Elsecondition(), this.getOperationExpression(), null, "elsecondition", null, 0, -1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getIfExpression_Elseifbody(), ecorePackage.getEObject(), null, "elseifbody", null, 0, -1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getIfExpression_Elsebody(), this.getExpression(), null, "elsebody", null, 0, -1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getIfExpression_Ifbody(), this.getStatementBody(), null, "ifbody", null, 0, 1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getIfExpression_Elseifcondition(), this.getOperationExpression(), null, "elseifcondition", null, 0, -1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getIfExpression_Elseifbody(), this.getStatementBody(), null, "elseifbody", null, 0, -1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getIfExpression_Elsebody(), this.getStatementBody(), null, "elsebody", null, 0, 1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(forExpressionEClass, ForExpression.class, "ForExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getForExpression_Initial(), this.getOperationExpression(), null, "initial", null, 0, 1, ForExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getForExpression_Test(), this.getOperationExpression(), null, "test", null, 0, 1, ForExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getForExpression_Update(), this.getOperationExpression(), null, "update", null, 0, 1, ForExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getForExpression_Body(), ecorePackage.getEObject(), null, "body", null, 0, -1, ForExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getForExpression_Body(), this.getStatementBody(), null, "body", null, 0, 1, ForExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(whileExpressionEClass, WhileExpression.class, "WhileExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getWhileExpression_Test(), this.getOperationExpression(), null, "test", null, 0, 1, WhileExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getWhileExpression_Body(), ecorePackage.getEObject(), null, "body", null, 0, -1, WhileExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getWhileExpression_Body(), this.getStatementBody(), null, "body", null, 0, 1, WhileExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(builtinFunctionCallExpressionEClass, BuiltinFunctionCallExpression.class, "BuiltinFunctionCallExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getBuiltinFunctionCallExpression_Function(), ecorePackage.getEString(), "function", null, 0, 1, BuiltinFunctionCallExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getBuiltinFunctionCallExpression_Parameters(), this.getAtomic(), null, "parameters", null, 0, -1, BuiltinFunctionCallExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(taskBodyEClass, TaskBody.class, "TaskBody", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getTaskBody_Body(), ecorePackage.getEObject(), null, "body", null, 0, -1, TaskBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getTaskBody_Nexttask(), this.getTask(), null, "nexttask", null, 0, 1, TaskBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getTaskBody_Endtask(), ecorePackage.getEString(), "endtask", null, 0, 1, TaskBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(statementBodyEClass, StatementBody.class, "StatementBody", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getStatementBody_Body(), ecorePackage.getEObject(), null, "body", null, 0, -1, StatementBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(blockExpressionsEClass, BlockExpressions.class, "BlockExpressions", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(expressionEClass, Expression.class, "Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1435,41 +1267,19 @@ public class MyDslPackageImpl extends EPackageImpl implements MyDslPackage
     initEReference(getArrayDimension_Index(), this.getVariableSymbol(), null, "index", null, 0, 1, ArrayDimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getArrayDimension_Size(), ecorePackage.getEInt(), "size", null, 0, 1, ArrayDimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(variableDeclerationEClass, VariableDecleration.class, "VariableDecleration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getVariableDecleration_Dimension(), this.getArrayDimension(), null, "dimension", null, 0, -1, VariableDecleration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(functionParameterEClass, FunctionParameter.class, "FunctionParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(variableDeclerationExpressionEClass, VariableDeclerationExpression.class, "VariableDeclerationExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getVariableDeclerationExpression_Type(), this.getVariableType(), null, "type", null, 0, 1, VariableDeclerationExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getVariableDeclerationExpression_Name(), ecorePackage.getEString(), "name", null, 0, 1, VariableDeclerationExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getVariableDeclerationExpression_Dimension(), this.getArrayDimension(), null, "dimension", null, 0, -1, VariableDeclerationExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(variableSymbolEClass, VariableSymbol.class, "VariableSymbol", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getVariableSymbol_Type(), this.getVariableType(), null, "type", null, 0, 1, VariableSymbol.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getVariableSymbol_Name(), ecorePackage.getEString(), "name", null, 0, 1, VariableSymbol.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(atomicEClass, Atomic.class, "Atomic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(variableReturnEClass, VariableReturn.class, "VariableReturn", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getVariableReturn_Return(), this.getAtomic(), null, "return", null, 0, 1, VariableReturn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(atomicOrFunctionCallEClass, AtomicOrFunctionCall.class, "AtomicOrFunctionCall", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(functionDefinitionEClass, FunctionDefinition.class, "FunctionDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getFunctionDefinition_Return(), this.getVariableType(), null, "return", null, 0, 1, FunctionDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getFunctionDefinition_Name(), ecorePackage.getEString(), "name", null, 0, 1, FunctionDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getFunctionDefinition_Parameters(), this.getFunctionParameter(), null, "parameters", null, 0, -1, FunctionDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getFunctionDefinition_Body(), this.getExpression(), null, "body", null, 0, -1, FunctionDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(functionCallEClass, FunctionCall.class, "FunctionCall", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getFunctionCall_Function(), this.getFunctionDefinition(), null, "function", null, 0, 1, FunctionCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(builtinFunctionCallEClass, BuiltinFunctionCall.class, "BuiltinFunctionCall", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getBuiltinFunctionCall_Function(), ecorePackage.getEString(), "function", null, 0, 1, BuiltinFunctionCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(abstractFunctionCallEClass, AbstractFunctionCall.class, "AbstractFunctionCall", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getAbstractFunctionCall_Parameters(), this.getAtomic(), null, "parameters", null, 0, -1, AbstractFunctionCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(operationEClass, Operation.class, "Operation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getOperation_Left(), this.getAtomic(), null, "left", null, 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getOperation_Operator(), ecorePackage.getEString(), "operator", null, 0, -1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getOperation_Right(), this.getAtomicOrFunctionCall(), null, "right", null, 0, -1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getOperation_Right(), this.getAtomic(), null, "right", null, 0, -1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(integerReferenceEClass, IntegerReference.class, "IntegerReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getIntegerReference_Value(), ecorePackage.getEInt(), "value", null, 0, 1, IntegerReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

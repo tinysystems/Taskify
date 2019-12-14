@@ -3,25 +3,18 @@
  */
 package org.xtext.example.mydsl.myDsl.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.xtext.example.mydsl.myDsl.ForExpression;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
 import org.xtext.example.mydsl.myDsl.OperationExpression;
+import org.xtext.example.mydsl.myDsl.StatementBody;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +32,7 @@ import org.xtext.example.mydsl.myDsl.OperationExpression;
  *
  * @generated
  */
-public class ForExpressionImpl extends ExpressionImpl implements ForExpression
+public class ForExpressionImpl extends BlockExpressionsImpl implements ForExpression
 {
   /**
    * The cached value of the '{@link #getInitial() <em>Initial</em>}' containment reference.
@@ -72,14 +65,14 @@ public class ForExpressionImpl extends ExpressionImpl implements ForExpression
   protected OperationExpression update;
 
   /**
-   * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference list.
+   * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getBody()
    * @generated
    * @ordered
    */
-  protected EList<EObject> body;
+  protected StatementBody body;
 
   /**
    * <!-- begin-user-doc -->
@@ -258,13 +251,48 @@ public class ForExpressionImpl extends ExpressionImpl implements ForExpression
    * @generated
    */
   @Override
-  public EList<EObject> getBody()
+  public StatementBody getBody()
   {
-    if (body == null)
-    {
-      body = new EObjectContainmentEList<EObject>(EObject.class, this, MyDslPackage.FOR_EXPRESSION__BODY);
-    }
     return body;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetBody(StatementBody newBody, NotificationChain msgs)
+  {
+    StatementBody oldBody = body;
+    body = newBody;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyDslPackage.FOR_EXPRESSION__BODY, oldBody, newBody);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setBody(StatementBody newBody)
+  {
+    if (newBody != body)
+    {
+      NotificationChain msgs = null;
+      if (body != null)
+        msgs = ((InternalEObject)body).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.FOR_EXPRESSION__BODY, null, msgs);
+      if (newBody != null)
+        msgs = ((InternalEObject)newBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.FOR_EXPRESSION__BODY, null, msgs);
+      msgs = basicSetBody(newBody, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, MyDslPackage.FOR_EXPRESSION__BODY, newBody, newBody));
   }
 
   /**
@@ -284,7 +312,7 @@ public class ForExpressionImpl extends ExpressionImpl implements ForExpression
       case MyDslPackage.FOR_EXPRESSION__UPDATE:
         return basicSetUpdate(null, msgs);
       case MyDslPackage.FOR_EXPRESSION__BODY:
-        return ((InternalEList<?>)getBody()).basicRemove(otherEnd, msgs);
+        return basicSetBody(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -316,7 +344,6 @@ public class ForExpressionImpl extends ExpressionImpl implements ForExpression
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -332,8 +359,7 @@ public class ForExpressionImpl extends ExpressionImpl implements ForExpression
         setUpdate((OperationExpression)newValue);
         return;
       case MyDslPackage.FOR_EXPRESSION__BODY:
-        getBody().clear();
-        getBody().addAll((Collection<? extends EObject>)newValue);
+        setBody((StatementBody)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -359,7 +385,7 @@ public class ForExpressionImpl extends ExpressionImpl implements ForExpression
         setUpdate((OperationExpression)null);
         return;
       case MyDslPackage.FOR_EXPRESSION__BODY:
-        getBody().clear();
+        setBody((StatementBody)null);
         return;
     }
     super.eUnset(featureID);
@@ -382,7 +408,7 @@ public class ForExpressionImpl extends ExpressionImpl implements ForExpression
       case MyDslPackage.FOR_EXPRESSION__UPDATE:
         return update != null;
       case MyDslPackage.FOR_EXPRESSION__BODY:
-        return body != null && !body.isEmpty();
+        return body != null;
     }
     return super.eIsSet(featureID);
   }

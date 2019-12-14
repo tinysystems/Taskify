@@ -1,11 +1,11 @@
 package org.xtext.example.mydsl.debugger.context;
 
 public class CallStackItem {
-	private String functionId;
+	private String id;
 	private SymbolTable symbolTable;
 	
-	public CallStackItem(String functionId, SymbolTable symbolTable){
-		this.functionId = functionId;
+	public CallStackItem(String id, SymbolTable symbolTable){
+		this.id = id;
 		this.symbolTable = symbolTable;
 	}
 
@@ -17,20 +17,19 @@ public class CallStackItem {
 		this.symbolTable = symbolTable;
 	}
 
-	public String getFunctionId() {
-		return functionId;
+	public String getId() {
+		return id;
 	}
 
-	public void setFunctionId(String functionId) {
-		this.functionId = functionId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Override
 	public String toString() {
 		return "CallStackItem [" + 
-				"  FunctionId=" + this.functionId + 
-				", SymbolTable=" + symbolTable + 
-				", toString()=" + super.toString() + 
+				"  id=" + this.id + 
+				", SymbolTable=" + this.symbolTable + 
 				"  ]";
 	}
 }

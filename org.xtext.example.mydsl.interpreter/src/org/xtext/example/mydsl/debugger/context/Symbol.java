@@ -1,19 +1,15 @@
 package org.xtext.example.mydsl.debugger.context;
 
+
 public class Symbol {
-	private String type;
 	private String name;
+	private String type;
 	private Object variableValue;
+	private String scope;
 	
-	public Symbol(String type, String name) {
-		this.type = type;
+	public Symbol(String name, String type) {
 		this.name = name;
-	}
-	
-	public Symbol(String type, String name, Object variableValue) {
 		this.type = type;
-		this.name = name;
-		this.variableValue = variableValue;
 	}
 	
 	public Symbol() {}
@@ -39,17 +35,42 @@ public class Symbol {
 	}
 
 	public void setVariableValue(Object variableValue) {
-		this.variableValue = variableValue;
+		Object val = null;
+
+		switch (this.type) {
+			case "string":
+				val = (String) variableValue; 
+				break;
+			case "integer":
+				val = (int) variableValue;
+				break;
+			case "boolean":
+				val = (Boolean) variableValue;
+				break;
+			case "double":
+				val = (double) variableValue;
+				break;
+			default:
+				val = variableValue;
+		} 
+		this.variableValue = val;
 	}
 
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+	
 	@Override
 	public String toString() {
 		return "Symbol [" + 
 				"  type=" + type + 
 				", name=" + name + 
 				", variableValue=" + variableValue + 
+				", scope=" + scope + 
 				"  ]";
 	}
-	
-	
 }

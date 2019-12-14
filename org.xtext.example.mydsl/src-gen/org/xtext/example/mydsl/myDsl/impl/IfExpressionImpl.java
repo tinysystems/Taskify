@@ -11,7 +11,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -19,10 +18,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.IfExpression;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
 import org.xtext.example.mydsl.myDsl.OperationExpression;
+import org.xtext.example.mydsl.myDsl.StatementBody;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,14 +33,14 @@ import org.xtext.example.mydsl.myDsl.OperationExpression;
  * <ul>
  *   <li>{@link org.xtext.example.mydsl.myDsl.impl.IfExpressionImpl#getIfcondition <em>Ifcondition</em>}</li>
  *   <li>{@link org.xtext.example.mydsl.myDsl.impl.IfExpressionImpl#getIfbody <em>Ifbody</em>}</li>
- *   <li>{@link org.xtext.example.mydsl.myDsl.impl.IfExpressionImpl#getElsecondition <em>Elsecondition</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.myDsl.impl.IfExpressionImpl#getElseifcondition <em>Elseifcondition</em>}</li>
  *   <li>{@link org.xtext.example.mydsl.myDsl.impl.IfExpressionImpl#getElseifbody <em>Elseifbody</em>}</li>
  *   <li>{@link org.xtext.example.mydsl.myDsl.impl.IfExpressionImpl#getElsebody <em>Elsebody</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class IfExpressionImpl extends ExpressionImpl implements IfExpression
+public class IfExpressionImpl extends BlockExpressionsImpl implements IfExpression
 {
   /**
    * The cached value of the '{@link #getIfcondition() <em>Ifcondition</em>}' containment reference.
@@ -54,24 +53,24 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
   protected OperationExpression ifcondition;
 
   /**
-   * The cached value of the '{@link #getIfbody() <em>Ifbody</em>}' containment reference list.
+   * The cached value of the '{@link #getIfbody() <em>Ifbody</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getIfbody()
    * @generated
    * @ordered
    */
-  protected EList<EObject> ifbody;
+  protected StatementBody ifbody;
 
   /**
-   * The cached value of the '{@link #getElsecondition() <em>Elsecondition</em>}' containment reference list.
+   * The cached value of the '{@link #getElseifcondition() <em>Elseifcondition</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getElsecondition()
+   * @see #getElseifcondition()
    * @generated
    * @ordered
    */
-  protected EList<OperationExpression> elsecondition;
+  protected EList<OperationExpression> elseifcondition;
 
   /**
    * The cached value of the '{@link #getElseifbody() <em>Elseifbody</em>}' containment reference list.
@@ -81,17 +80,17 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * @generated
    * @ordered
    */
-  protected EList<EObject> elseifbody;
+  protected EList<StatementBody> elseifbody;
 
   /**
-   * The cached value of the '{@link #getElsebody() <em>Elsebody</em>}' containment reference list.
+   * The cached value of the '{@link #getElsebody() <em>Elsebody</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getElsebody()
    * @generated
    * @ordered
    */
-  protected EList<Expression> elsebody;
+  protected StatementBody elsebody;
 
   /**
    * <!-- begin-user-doc -->
@@ -170,12 +169,8 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * @generated
    */
   @Override
-  public EList<EObject> getIfbody()
+  public StatementBody getIfbody()
   {
-    if (ifbody == null)
-    {
-      ifbody = new EObjectContainmentEList<EObject>(EObject.class, this, MyDslPackage.IF_EXPRESSION__IFBODY);
-    }
     return ifbody;
   }
 
@@ -184,14 +179,16 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * <!-- end-user-doc -->
    * @generated
    */
-  @Override
-  public EList<OperationExpression> getElsecondition()
+  public NotificationChain basicSetIfbody(StatementBody newIfbody, NotificationChain msgs)
   {
-    if (elsecondition == null)
+    StatementBody oldIfbody = ifbody;
+    ifbody = newIfbody;
+    if (eNotificationRequired())
     {
-      elsecondition = new EObjectContainmentEList<OperationExpression>(OperationExpression.class, this, MyDslPackage.IF_EXPRESSION__ELSECONDITION);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyDslPackage.IF_EXPRESSION__IFBODY, oldIfbody, newIfbody);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
-    return elsecondition;
+    return msgs;
   }
 
   /**
@@ -200,11 +197,48 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * @generated
    */
   @Override
-  public EList<EObject> getElseifbody()
+  public void setIfbody(StatementBody newIfbody)
+  {
+    if (newIfbody != ifbody)
+    {
+      NotificationChain msgs = null;
+      if (ifbody != null)
+        msgs = ((InternalEObject)ifbody).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.IF_EXPRESSION__IFBODY, null, msgs);
+      if (newIfbody != null)
+        msgs = ((InternalEObject)newIfbody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.IF_EXPRESSION__IFBODY, null, msgs);
+      msgs = basicSetIfbody(newIfbody, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, MyDslPackage.IF_EXPRESSION__IFBODY, newIfbody, newIfbody));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<OperationExpression> getElseifcondition()
+  {
+    if (elseifcondition == null)
+    {
+      elseifcondition = new EObjectContainmentEList<OperationExpression>(OperationExpression.class, this, MyDslPackage.IF_EXPRESSION__ELSEIFCONDITION);
+    }
+    return elseifcondition;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<StatementBody> getElseifbody()
   {
     if (elseifbody == null)
     {
-      elseifbody = new EObjectContainmentEList<EObject>(EObject.class, this, MyDslPackage.IF_EXPRESSION__ELSEIFBODY);
+      elseifbody = new EObjectContainmentEList<StatementBody>(StatementBody.class, this, MyDslPackage.IF_EXPRESSION__ELSEIFBODY);
     }
     return elseifbody;
   }
@@ -215,13 +249,48 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * @generated
    */
   @Override
-  public EList<Expression> getElsebody()
+  public StatementBody getElsebody()
   {
-    if (elsebody == null)
-    {
-      elsebody = new EObjectContainmentEList<Expression>(Expression.class, this, MyDslPackage.IF_EXPRESSION__ELSEBODY);
-    }
     return elsebody;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetElsebody(StatementBody newElsebody, NotificationChain msgs)
+  {
+    StatementBody oldElsebody = elsebody;
+    elsebody = newElsebody;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyDslPackage.IF_EXPRESSION__ELSEBODY, oldElsebody, newElsebody);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setElsebody(StatementBody newElsebody)
+  {
+    if (newElsebody != elsebody)
+    {
+      NotificationChain msgs = null;
+      if (elsebody != null)
+        msgs = ((InternalEObject)elsebody).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.IF_EXPRESSION__ELSEBODY, null, msgs);
+      if (newElsebody != null)
+        msgs = ((InternalEObject)newElsebody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.IF_EXPRESSION__ELSEBODY, null, msgs);
+      msgs = basicSetElsebody(newElsebody, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, MyDslPackage.IF_EXPRESSION__ELSEBODY, newElsebody, newElsebody));
   }
 
   /**
@@ -237,13 +306,13 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
       case MyDslPackage.IF_EXPRESSION__IFCONDITION:
         return basicSetIfcondition(null, msgs);
       case MyDslPackage.IF_EXPRESSION__IFBODY:
-        return ((InternalEList<?>)getIfbody()).basicRemove(otherEnd, msgs);
-      case MyDslPackage.IF_EXPRESSION__ELSECONDITION:
-        return ((InternalEList<?>)getElsecondition()).basicRemove(otherEnd, msgs);
+        return basicSetIfbody(null, msgs);
+      case MyDslPackage.IF_EXPRESSION__ELSEIFCONDITION:
+        return ((InternalEList<?>)getElseifcondition()).basicRemove(otherEnd, msgs);
       case MyDslPackage.IF_EXPRESSION__ELSEIFBODY:
         return ((InternalEList<?>)getElseifbody()).basicRemove(otherEnd, msgs);
       case MyDslPackage.IF_EXPRESSION__ELSEBODY:
-        return ((InternalEList<?>)getElsebody()).basicRemove(otherEnd, msgs);
+        return basicSetElsebody(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -262,8 +331,8 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
         return getIfcondition();
       case MyDslPackage.IF_EXPRESSION__IFBODY:
         return getIfbody();
-      case MyDslPackage.IF_EXPRESSION__ELSECONDITION:
-        return getElsecondition();
+      case MyDslPackage.IF_EXPRESSION__ELSEIFCONDITION:
+        return getElseifcondition();
       case MyDslPackage.IF_EXPRESSION__ELSEIFBODY:
         return getElseifbody();
       case MyDslPackage.IF_EXPRESSION__ELSEBODY:
@@ -287,20 +356,18 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
         setIfcondition((OperationExpression)newValue);
         return;
       case MyDslPackage.IF_EXPRESSION__IFBODY:
-        getIfbody().clear();
-        getIfbody().addAll((Collection<? extends EObject>)newValue);
+        setIfbody((StatementBody)newValue);
         return;
-      case MyDslPackage.IF_EXPRESSION__ELSECONDITION:
-        getElsecondition().clear();
-        getElsecondition().addAll((Collection<? extends OperationExpression>)newValue);
+      case MyDslPackage.IF_EXPRESSION__ELSEIFCONDITION:
+        getElseifcondition().clear();
+        getElseifcondition().addAll((Collection<? extends OperationExpression>)newValue);
         return;
       case MyDslPackage.IF_EXPRESSION__ELSEIFBODY:
         getElseifbody().clear();
-        getElseifbody().addAll((Collection<? extends EObject>)newValue);
+        getElseifbody().addAll((Collection<? extends StatementBody>)newValue);
         return;
       case MyDslPackage.IF_EXPRESSION__ELSEBODY:
-        getElsebody().clear();
-        getElsebody().addAll((Collection<? extends Expression>)newValue);
+        setElsebody((StatementBody)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -320,16 +387,16 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
         setIfcondition((OperationExpression)null);
         return;
       case MyDslPackage.IF_EXPRESSION__IFBODY:
-        getIfbody().clear();
+        setIfbody((StatementBody)null);
         return;
-      case MyDslPackage.IF_EXPRESSION__ELSECONDITION:
-        getElsecondition().clear();
+      case MyDslPackage.IF_EXPRESSION__ELSEIFCONDITION:
+        getElseifcondition().clear();
         return;
       case MyDslPackage.IF_EXPRESSION__ELSEIFBODY:
         getElseifbody().clear();
         return;
       case MyDslPackage.IF_EXPRESSION__ELSEBODY:
-        getElsebody().clear();
+        setElsebody((StatementBody)null);
         return;
     }
     super.eUnset(featureID);
@@ -348,13 +415,13 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
       case MyDslPackage.IF_EXPRESSION__IFCONDITION:
         return ifcondition != null;
       case MyDslPackage.IF_EXPRESSION__IFBODY:
-        return ifbody != null && !ifbody.isEmpty();
-      case MyDslPackage.IF_EXPRESSION__ELSECONDITION:
-        return elsecondition != null && !elsecondition.isEmpty();
+        return ifbody != null;
+      case MyDslPackage.IF_EXPRESSION__ELSEIFCONDITION:
+        return elseifcondition != null && !elseifcondition.isEmpty();
       case MyDslPackage.IF_EXPRESSION__ELSEIFBODY:
         return elseifbody != null && !elseifbody.isEmpty();
       case MyDslPackage.IF_EXPRESSION__ELSEBODY:
-        return elsebody != null && !elsebody.isEmpty();
+        return elsebody != null;
     }
     return super.eIsSet(featureID);
   }

@@ -14,6 +14,6 @@ package org.xtext.example.mydsl.myDsl;
  * @model
  * @generated
  */
-public interface OperationExpression extends Expression
+public interface OperationExpression extends BlockExpressions, Expression
 {
 } // OperationExpression

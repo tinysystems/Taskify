@@ -3,9 +3,6 @@
  */
 package org.xtext.example.mydsl.myDsl;
 
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface ForExpression extends Expression
+public interface ForExpression extends BlockExpressions, Expression
 {
   /**
    * Returns the value of the '<em><b>Initial</b></em>' containment reference.
@@ -95,15 +92,25 @@ public interface ForExpression extends Expression
   void setUpdate(OperationExpression value);
 
   /**
-   * Returns the value of the '<em><b>Body</b></em>' containment reference list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+   * Returns the value of the '<em><b>Body</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Body</em>' containment reference list.
+   * @return the value of the '<em>Body</em>' containment reference.
+   * @see #setBody(StatementBody)
    * @see org.xtext.example.mydsl.myDsl.MyDslPackage#getForExpression_Body()
    * @model containment="true"
    * @generated
    */
-  EList<EObject> getBody();
+  StatementBody getBody();
+
+  /**
+   * Sets the value of the '{@link org.xtext.example.mydsl.myDsl.ForExpression#getBody <em>Body</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Body</em>' containment reference.
+   * @see #getBody()
+   * @generated
+   */
+  void setBody(StatementBody value);
 
 } // ForExpression

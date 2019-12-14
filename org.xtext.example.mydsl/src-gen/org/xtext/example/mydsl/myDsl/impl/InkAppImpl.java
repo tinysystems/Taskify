@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.xtext.example.mydsl.myDsl.EntryTask;
-import org.xtext.example.mydsl.myDsl.GlobalVariable;
+import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
 import org.xtext.example.mydsl.myDsl.InkApp;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
 import org.xtext.example.mydsl.myDsl.Task;
@@ -50,7 +50,7 @@ public class InkAppImpl extends MinimalEObjectImpl.Container implements InkApp
    * @generated
    * @ordered
    */
-  protected EList<GlobalVariable> globals;
+  protected EList<GlobalVariableExpression> globals;
 
   /**
    * The cached value of the '{@link #getTasks() <em>Tasks</em>}' containment reference list.
@@ -99,11 +99,11 @@ public class InkAppImpl extends MinimalEObjectImpl.Container implements InkApp
    * @generated
    */
   @Override
-  public EList<GlobalVariable> getGlobals()
+  public EList<GlobalVariableExpression> getGlobals()
   {
     if (globals == null)
     {
-      globals = new EObjectContainmentEList<GlobalVariable>(GlobalVariable.class, this, MyDslPackage.INK_APP__GLOBALS);
+      globals = new EObjectContainmentEList<GlobalVariableExpression>(GlobalVariableExpression.class, this, MyDslPackage.INK_APP__GLOBALS);
     }
     return globals;
   }
@@ -226,7 +226,7 @@ public class InkAppImpl extends MinimalEObjectImpl.Container implements InkApp
     {
       case MyDslPackage.INK_APP__GLOBALS:
         getGlobals().clear();
-        getGlobals().addAll((Collection<? extends GlobalVariable>)newValue);
+        getGlobals().addAll((Collection<? extends GlobalVariableExpression>)newValue);
         return;
       case MyDslPackage.INK_APP__TASKS:
         getTasks().clear();

@@ -61,7 +61,7 @@ public interface Operation extends OperationExpression
 
   /**
    * Returns the value of the '<em><b>Right</b></em>' containment reference list.
-   * The list contents are of type {@link org.xtext.example.mydsl.myDsl.AtomicOrFunctionCall}.
+   * The list contents are of type {@link org.xtext.example.mydsl.myDsl.Atomic}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the value of the '<em>Right</em>' containment reference list.
@@ -69,6 +69,6 @@ public interface Operation extends OperationExpression
    * @model containment="true"
    * @generated
    */
-  EList<AtomicOrFunctionCall> getRight();
+  EList<Atomic> getRight();
 
 } // Operation

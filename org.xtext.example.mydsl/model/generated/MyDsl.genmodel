@@ -11,33 +11,26 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//InkApp/tasks"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//InkApp/entry"/>
     </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//Break">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//Break/break"/>
+    <genClasses ecoreClass="MyDsl.ecore#//BreakExpression">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//BreakExpression/break"/>
     </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//VariableType"/>
-    <genClasses ecoreClass="MyDsl.ecore#//GlobalVariable">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//GlobalVariable/variable"/>
+    <genClasses ecoreClass="MyDsl.ecore#//VariableType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//VariableType/type"/>
     </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//Main">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Main/variableDeclerations"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Main/body"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//FunctionBody">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//FunctionBody/variableDeclerations"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//FunctionBody/body"/>
+    <genClasses ecoreClass="MyDsl.ecore#//GlobalVariableExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//GlobalVariableExpression/variable"/>
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//EntryTask">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//EntryTask/task"/>
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//Task">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//Task/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Task/body"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Task/task"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Task/taskbody"/>
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//IfExpression">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//IfExpression/ifcondition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//IfExpression/ifbody"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//IfExpression/elsecondition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//IfExpression/elseifcondition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//IfExpression/elseifbody"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//IfExpression/elsebody"/>
     </genClasses>
@@ -51,40 +44,32 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//WhileExpression/test"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//WhileExpression/body"/>
     </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//BuiltinFunctionCallExpression">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//BuiltinFunctionCallExpression/function"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//BuiltinFunctionCallExpression/parameters"/>
+    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//TaskBody">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//TaskBody/body"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyDsl.ecore#//TaskBody/nexttask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//TaskBody/endtask"/>
+    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//StatementBody">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//StatementBody/body"/>
+    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//BlockExpressions"/>
     <genClasses ecoreClass="MyDsl.ecore#//Expression"/>
     <genClasses ecoreClass="MyDsl.ecore#//OperationExpression"/>
     <genClasses ecoreClass="MyDsl.ecore#//ArrayDimension">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ArrayDimension/index"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//ArrayDimension/size"/>
     </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//VariableDecleration">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//VariableDecleration/dimension"/>
+    <genClasses ecoreClass="MyDsl.ecore#//VariableDeclerationExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//VariableDeclerationExpression/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//VariableDeclerationExpression/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//VariableDeclerationExpression/dimension"/>
     </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//FunctionParameter"/>
-    <genClasses ecoreClass="MyDsl.ecore#//VariableSymbol">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//VariableSymbol/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//VariableSymbol/name"/>
-    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//VariableSymbol"/>
     <genClasses ecoreClass="MyDsl.ecore#//Atomic"/>
-    <genClasses ecoreClass="MyDsl.ecore#//VariableReturn">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//VariableReturn/return"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//AtomicOrFunctionCall"/>
-    <genClasses ecoreClass="MyDsl.ecore#//FunctionDefinition">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//FunctionDefinition/return"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//FunctionDefinition/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//FunctionDefinition/parameters"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//FunctionDefinition/body"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//FunctionCall">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyDsl.ecore#//FunctionCall/function"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//BuiltinFunctionCall">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//BuiltinFunctionCall/function"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//AbstractFunctionCall">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//AbstractFunctionCall/parameters"/>
-    </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//Operation">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Operation/left"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//Operation/operator"/>

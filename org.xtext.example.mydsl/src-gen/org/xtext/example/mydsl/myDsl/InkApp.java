@@ -29,7 +29,7 @@ public interface InkApp extends EObject
 {
   /**
    * Returns the value of the '<em><b>Globals</b></em>' containment reference list.
-   * The list contents are of type {@link org.xtext.example.mydsl.myDsl.GlobalVariable}.
+   * The list contents are of type {@link org.xtext.example.mydsl.myDsl.GlobalVariableExpression}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the value of the '<em>Globals</em>' containment reference list.
@@ -37,7 +37,7 @@ public interface InkApp extends EObject
    * @model containment="true"
    * @generated
    */
-  EList<GlobalVariable> getGlobals();
+  EList<GlobalVariableExpression> getGlobals();
 
   /**
    * Returns the value of the '<em><b>Tasks</b></em>' containment reference list.

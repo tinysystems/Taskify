@@ -29,7 +29,7 @@ public class EventHandler {
 				StateContext.setState("RESUME_STEP");
 				break;
 			case "suspend":
-				ModelGenerator.getTarget().suspend();
+				ModelGenerator.getLauncher().suspend();
 				break;
 			case "exit":
 				System.exit(0);
@@ -39,7 +39,7 @@ public class EventHandler {
 		}
 		
 		if(StateContext.getState().equals("RESUME_STEP")) {
-			ModelGenerator.getTarget().resume();
+			ModelGenerator.getLauncher().resume();
 		} else if(StateContext.getState().equals("RESUME")) {
 			checkModelAndTryResume();
 		}
@@ -63,7 +63,7 @@ public class EventHandler {
 		
 		while(wait) {
 			if(StateContext.getModelState().equals("END")) {
-				ModelGenerator.getTarget().resume();
+				ModelGenerator.getLauncher().resume();
 				wait = false;
 			} else {
 				try {
@@ -122,7 +122,7 @@ public class EventHandler {
 		
 //		print frame info
 		for(CallStackItem item : CallStack.getCallStack()){
-			String functinId = item.getFunctionId();
+			String functinId = item.getId();
 			SymbolTable table = item.getSymbolTable();
 			
 			lines.append(StateContext.getFilePath());

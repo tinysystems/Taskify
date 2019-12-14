@@ -6,45 +6,53 @@ package org.xtext.example.mydsl.myDsl.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.xtext.example.mydsl.myDsl.FunctionCall;
-import org.xtext.example.mydsl.myDsl.FunctionDefinition;
+import org.xtext.example.mydsl.myDsl.BreakExpression;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Function Call</b></em>'.
+ * An implementation of the model object '<em><b>Break Expression</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.example.mydsl.myDsl.impl.FunctionCallImpl#getFunction <em>Function</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.myDsl.impl.BreakExpressionImpl#getBreak <em>Break</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class FunctionCallImpl extends AbstractFunctionCallImpl implements FunctionCall
+public class BreakExpressionImpl extends ExpressionImpl implements BreakExpression
 {
   /**
-   * The cached value of the '{@link #getFunction() <em>Function</em>}' reference.
+   * The default value of the '{@link #getBreak() <em>Break</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getFunction()
+   * @see #getBreak()
    * @generated
    * @ordered
    */
-  protected FunctionDefinition function;
+  protected static final String BREAK_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getBreak() <em>Break</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBreak()
+   * @generated
+   * @ordered
+   */
+  protected String break_ = BREAK_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected FunctionCallImpl()
+  protected BreakExpressionImpl()
   {
     super();
   }
@@ -57,7 +65,7 @@ public class FunctionCallImpl extends AbstractFunctionCallImpl implements Functi
   @Override
   protected EClass eStaticClass()
   {
-    return MyDslPackage.Literals.FUNCTION_CALL;
+    return MyDslPackage.Literals.BREAK_EXPRESSION;
   }
 
   /**
@@ -66,29 +74,9 @@ public class FunctionCallImpl extends AbstractFunctionCallImpl implements Functi
    * @generated
    */
   @Override
-  public FunctionDefinition getFunction()
+  public String getBreak()
   {
-    if (function != null && function.eIsProxy())
-    {
-      InternalEObject oldFunction = (InternalEObject)function;
-      function = (FunctionDefinition)eResolveProxy(oldFunction);
-      if (function != oldFunction)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, MyDslPackage.FUNCTION_CALL__FUNCTION, oldFunction, function));
-      }
-    }
-    return function;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public FunctionDefinition basicGetFunction()
-  {
-    return function;
+    return break_;
   }
 
   /**
@@ -97,12 +85,12 @@ public class FunctionCallImpl extends AbstractFunctionCallImpl implements Functi
    * @generated
    */
   @Override
-  public void setFunction(FunctionDefinition newFunction)
+  public void setBreak(String newBreak)
   {
-    FunctionDefinition oldFunction = function;
-    function = newFunction;
+    String oldBreak = break_;
+    break_ = newBreak;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MyDslPackage.FUNCTION_CALL__FUNCTION, oldFunction, function));
+      eNotify(new ENotificationImpl(this, Notification.SET, MyDslPackage.BREAK_EXPRESSION__BREAK, oldBreak, break_));
   }
 
   /**
@@ -115,9 +103,8 @@ public class FunctionCallImpl extends AbstractFunctionCallImpl implements Functi
   {
     switch (featureID)
     {
-      case MyDslPackage.FUNCTION_CALL__FUNCTION:
-        if (resolve) return getFunction();
-        return basicGetFunction();
+      case MyDslPackage.BREAK_EXPRESSION__BREAK:
+        return getBreak();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -132,8 +119,8 @@ public class FunctionCallImpl extends AbstractFunctionCallImpl implements Functi
   {
     switch (featureID)
     {
-      case MyDslPackage.FUNCTION_CALL__FUNCTION:
-        setFunction((FunctionDefinition)newValue);
+      case MyDslPackage.BREAK_EXPRESSION__BREAK:
+        setBreak((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -149,8 +136,8 @@ public class FunctionCallImpl extends AbstractFunctionCallImpl implements Functi
   {
     switch (featureID)
     {
-      case MyDslPackage.FUNCTION_CALL__FUNCTION:
-        setFunction((FunctionDefinition)null);
+      case MyDslPackage.BREAK_EXPRESSION__BREAK:
+        setBreak(BREAK_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -166,10 +153,27 @@ public class FunctionCallImpl extends AbstractFunctionCallImpl implements Functi
   {
     switch (featureID)
     {
-      case MyDslPackage.FUNCTION_CALL__FUNCTION:
-        return function != null;
+      case MyDslPackage.BREAK_EXPRESSION__BREAK:
+        return BREAK_EDEFAULT == null ? break_ != null : !BREAK_EDEFAULT.equals(break_);
     }
     return super.eIsSet(featureID);
   }
 
-} //FunctionCallImpl
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (break: ");
+    result.append(break_);
+    result.append(')');
+    return result.toString();
+  }
+
+} //BreakExpressionImpl

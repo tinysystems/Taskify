@@ -15,7 +15,7 @@ import org.xtext.example.mydsl.myDsl.OperationExpression;
  *
  * @generated
  */
-public class OperationExpressionImpl extends ExpressionImpl implements OperationExpression
+public class OperationExpressionImpl extends BlockExpressionsImpl implements OperationExpression
 {
   /**
    * <!-- begin-user-doc -->

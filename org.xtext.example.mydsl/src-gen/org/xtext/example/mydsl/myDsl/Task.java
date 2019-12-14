@@ -3,8 +3,6 @@
  */
 package org.xtext.example.mydsl.myDsl;
 
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -17,8 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.example.mydsl.myDsl.Task#getName <em>Name</em>}</li>
- *   <li>{@link org.xtext.example.mydsl.myDsl.Task#getBody <em>Body</em>}</li>
- *   <li>{@link org.xtext.example.mydsl.myDsl.Task#getTask <em>Task</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.myDsl.Task#getTaskbody <em>Taskbody</em>}</li>
  * </ul>
  *
  * @see org.xtext.example.mydsl.myDsl.MyDslPackage#getTask()
@@ -50,37 +47,25 @@ public interface Task extends EObject
   void setName(String value);
 
   /**
-   * Returns the value of the '<em><b>Body</b></em>' containment reference list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+   * Returns the value of the '<em><b>Taskbody</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Body</em>' containment reference list.
-   * @see org.xtext.example.mydsl.myDsl.MyDslPackage#getTask_Body()
+   * @return the value of the '<em>Taskbody</em>' containment reference.
+   * @see #setTaskbody(TaskBody)
+   * @see org.xtext.example.mydsl.myDsl.MyDslPackage#getTask_Taskbody()
    * @model containment="true"
    * @generated
    */
-  EList<EObject> getBody();
+  TaskBody getTaskbody();
 
   /**
-   * Returns the value of the '<em><b>Task</b></em>' reference.
+   * Sets the value of the '{@link org.xtext.example.mydsl.myDsl.Task#getTaskbody <em>Taskbody</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Task</em>' reference.
-   * @see #setTask(Task)
-   * @see org.xtext.example.mydsl.myDsl.MyDslPackage#getTask_Task()
-   * @model
+   * @param value the new value of the '<em>Taskbody</em>' containment reference.
+   * @see #getTaskbody()
    * @generated
    */
-  Task getTask();
-
-  /**
-   * Sets the value of the '{@link org.xtext.example.mydsl.myDsl.Task#getTask <em>Task</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Task</em>' reference.
-   * @see #getTask()
-   * @generated
-   */
-  void setTask(Task value);
+  void setTaskbody(TaskBody value);
 
 } // Task

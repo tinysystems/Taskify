@@ -33,13 +33,13 @@ public interface MyDslFactory extends EFactory
   InkApp createInkApp();
 
   /**
-   * Returns a new object of class '<em>Break</em>'.
+   * Returns a new object of class '<em>Break Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Break</em>'.
+   * @return a new object of class '<em>Break Expression</em>'.
    * @generated
    */
-  Break createBreak();
+  BreakExpression createBreakExpression();
 
   /**
    * Returns a new object of class '<em>Variable Type</em>'.
@@ -51,31 +51,13 @@ public interface MyDslFactory extends EFactory
   VariableType createVariableType();
 
   /**
-   * Returns a new object of class '<em>Global Variable</em>'.
+   * Returns a new object of class '<em>Global Variable Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Global Variable</em>'.
+   * @return a new object of class '<em>Global Variable Expression</em>'.
    * @generated
    */
-  GlobalVariable createGlobalVariable();
-
-  /**
-   * Returns a new object of class '<em>Main</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Main</em>'.
-   * @generated
-   */
-  Main createMain();
-
-  /**
-   * Returns a new object of class '<em>Function Body</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Function Body</em>'.
-   * @generated
-   */
-  FunctionBody createFunctionBody();
+  GlobalVariableExpression createGlobalVariableExpression();
 
   /**
    * Returns a new object of class '<em>Entry Task</em>'.
@@ -123,6 +105,42 @@ public interface MyDslFactory extends EFactory
   WhileExpression createWhileExpression();
 
   /**
+   * Returns a new object of class '<em>Builtin Function Call Expression</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Builtin Function Call Expression</em>'.
+   * @generated
+   */
+  BuiltinFunctionCallExpression createBuiltinFunctionCallExpression();
+
+  /**
+   * Returns a new object of class '<em>Task Body</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Task Body</em>'.
+   * @generated
+   */
+  TaskBody createTaskBody();
+
+  /**
+   * Returns a new object of class '<em>Statement Body</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Statement Body</em>'.
+   * @generated
+   */
+  StatementBody createStatementBody();
+
+  /**
+   * Returns a new object of class '<em>Block Expressions</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Block Expressions</em>'.
+   * @generated
+   */
+  BlockExpressions createBlockExpressions();
+
+  /**
    * Returns a new object of class '<em>Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -150,22 +168,13 @@ public interface MyDslFactory extends EFactory
   ArrayDimension createArrayDimension();
 
   /**
-   * Returns a new object of class '<em>Variable Decleration</em>'.
+   * Returns a new object of class '<em>Variable Decleration Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Variable Decleration</em>'.
+   * @return a new object of class '<em>Variable Decleration Expression</em>'.
    * @generated
    */
-  VariableDecleration createVariableDecleration();
-
-  /**
-   * Returns a new object of class '<em>Function Parameter</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Function Parameter</em>'.
-   * @generated
-   */
-  FunctionParameter createFunctionParameter();
+  VariableDeclerationExpression createVariableDeclerationExpression();
 
   /**
    * Returns a new object of class '<em>Variable Symbol</em>'.
@@ -184,60 +193,6 @@ public interface MyDslFactory extends EFactory
    * @generated
    */
   Atomic createAtomic();
-
-  /**
-   * Returns a new object of class '<em>Variable Return</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Variable Return</em>'.
-   * @generated
-   */
-  VariableReturn createVariableReturn();
-
-  /**
-   * Returns a new object of class '<em>Atomic Or Function Call</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Atomic Or Function Call</em>'.
-   * @generated
-   */
-  AtomicOrFunctionCall createAtomicOrFunctionCall();
-
-  /**
-   * Returns a new object of class '<em>Function Definition</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Function Definition</em>'.
-   * @generated
-   */
-  FunctionDefinition createFunctionDefinition();
-
-  /**
-   * Returns a new object of class '<em>Function Call</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Function Call</em>'.
-   * @generated
-   */
-  FunctionCall createFunctionCall();
-
-  /**
-   * Returns a new object of class '<em>Builtin Function Call</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Builtin Function Call</em>'.
-   * @generated
-   */
-  BuiltinFunctionCall createBuiltinFunctionCall();
-
-  /**
-   * Returns a new object of class '<em>Abstract Function Call</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Abstract Function Call</em>'.
-   * @generated
-   */
-  AbstractFunctionCall createAbstractFunctionCall();
 
   /**
    * Returns a new object of class '<em>Operation</em>'.

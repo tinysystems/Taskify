@@ -14,6 +14,6 @@ package org.xtext.example.mydsl.myDsl;
  * @model
  * @generated
  */
-public interface Atomic extends OperationExpression, AtomicOrFunctionCall
+public interface Atomic extends OperationExpression
 {
 } // Atomic

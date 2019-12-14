@@ -104,14 +104,33 @@ public interface MyDslPackage extends EPackage
   int INK_APP_FEATURE_COUNT = 3;
 
   /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.BreakImpl <em>Break</em>}' class.
+   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.ExpressionImpl <em>Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.BreakImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBreak()
+   * @see org.xtext.example.mydsl.myDsl.impl.ExpressionImpl
+   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getExpression()
    * @generated
    */
-  int BREAK = 1;
+  int EXPRESSION = 13;
+
+  /**
+   * The number of structural features of the '<em>Expression</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EXPRESSION_FEATURE_COUNT = 0;
+
+  /**
+   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.BreakExpressionImpl <em>Break Expression</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.xtext.example.mydsl.myDsl.impl.BreakExpressionImpl
+   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBreakExpression()
+   * @generated
+   */
+  int BREAK_EXPRESSION = 1;
 
   /**
    * The feature id for the '<em><b>Break</b></em>' attribute.
@@ -120,16 +139,16 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int BREAK__BREAK = 0;
+  int BREAK_EXPRESSION__BREAK = EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the '<em>Break</em>' class.
+   * The number of structural features of the '<em>Break Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int BREAK_FEATURE_COUNT = 1;
+  int BREAK_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableTypeImpl <em>Variable Type</em>}' class.
@@ -142,23 +161,32 @@ public interface MyDslPackage extends EPackage
   int VARIABLE_TYPE = 2;
 
   /**
+   * The feature id for the '<em><b>Type</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VARIABLE_TYPE__TYPE = 0;
+
+  /**
    * The number of structural features of the '<em>Variable Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int VARIABLE_TYPE_FEATURE_COUNT = 0;
+  int VARIABLE_TYPE_FEATURE_COUNT = 1;
 
   /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.GlobalVariableImpl <em>Global Variable</em>}' class.
+   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.GlobalVariableExpressionImpl <em>Global Variable Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.GlobalVariableImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getGlobalVariable()
+   * @see org.xtext.example.mydsl.myDsl.impl.GlobalVariableExpressionImpl
+   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getGlobalVariableExpression()
    * @generated
    */
-  int GLOBAL_VARIABLE = 3;
+  int GLOBAL_VARIABLE_EXPRESSION = 3;
 
   /**
    * The feature id for the '<em><b>Variable</b></em>' containment reference.
@@ -167,90 +195,16 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GLOBAL_VARIABLE__VARIABLE = 0;
+  int GLOBAL_VARIABLE_EXPRESSION__VARIABLE = EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the '<em>Global Variable</em>' class.
+   * The number of structural features of the '<em>Global Variable Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GLOBAL_VARIABLE_FEATURE_COUNT = 1;
-
-  /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.MainImpl <em>Main</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.MainImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getMain()
-   * @generated
-   */
-  int MAIN = 4;
-
-  /**
-   * The feature id for the '<em><b>Variable Declerations</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MAIN__VARIABLE_DECLERATIONS = 0;
-
-  /**
-   * The feature id for the '<em><b>Body</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MAIN__BODY = 1;
-
-  /**
-   * The number of structural features of the '<em>Main</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MAIN_FEATURE_COUNT = 2;
-
-  /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.FunctionBodyImpl <em>Function Body</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.FunctionBodyImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getFunctionBody()
-   * @generated
-   */
-  int FUNCTION_BODY = 5;
-
-  /**
-   * The feature id for the '<em><b>Variable Declerations</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_BODY__VARIABLE_DECLERATIONS = 0;
-
-  /**
-   * The feature id for the '<em><b>Body</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_BODY__BODY = 1;
-
-  /**
-   * The number of structural features of the '<em>Function Body</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_BODY_FEATURE_COUNT = 2;
+  int GLOBAL_VARIABLE_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.EntryTaskImpl <em>Entry Task</em>}' class.
@@ -260,7 +214,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getEntryTask()
    * @generated
    */
-  int ENTRY_TASK = 6;
+  int ENTRY_TASK = 4;
 
   /**
    * The feature id for the '<em><b>Task</b></em>' containment reference.
@@ -288,7 +242,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getTask()
    * @generated
    */
-  int TASK = 7;
+  int TASK = 5;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -300,22 +254,13 @@ public interface MyDslPackage extends EPackage
   int TASK__NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Body</b></em>' containment reference list.
+   * The feature id for the '<em><b>Taskbody</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int TASK__BODY = 1;
-
-  /**
-   * The feature id for the '<em><b>Task</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TASK__TASK = 2;
+  int TASK__TASKBODY = 1;
 
   /**
    * The number of structural features of the '<em>Task</em>' class.
@@ -324,26 +269,26 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int TASK_FEATURE_COUNT = 3;
+  int TASK_FEATURE_COUNT = 2;
 
   /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.ExpressionImpl <em>Expression</em>}' class.
+   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.BlockExpressionsImpl <em>Block Expressions</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.ExpressionImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getExpression()
+   * @see org.xtext.example.mydsl.myDsl.impl.BlockExpressionsImpl
+   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBlockExpressions()
    * @generated
    */
-  int EXPRESSION = 11;
+  int BLOCK_EXPRESSIONS = 12;
 
   /**
-   * The number of structural features of the '<em>Expression</em>' class.
+   * The number of structural features of the '<em>Block Expressions</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXPRESSION_FEATURE_COUNT = 0;
+  int BLOCK_EXPRESSIONS_FEATURE_COUNT = 0;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.IfExpressionImpl <em>If Expression</em>}' class.
@@ -353,7 +298,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getIfExpression()
    * @generated
    */
-  int IF_EXPRESSION = 8;
+  int IF_EXPRESSION = 6;
 
   /**
    * The feature id for the '<em><b>Ifcondition</b></em>' containment reference.
@@ -362,25 +307,25 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int IF_EXPRESSION__IFCONDITION = EXPRESSION_FEATURE_COUNT + 0;
+  int IF_EXPRESSION__IFCONDITION = BLOCK_EXPRESSIONS_FEATURE_COUNT + 0;
 
   /**
-   * The feature id for the '<em><b>Ifbody</b></em>' containment reference list.
+   * The feature id for the '<em><b>Ifbody</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int IF_EXPRESSION__IFBODY = EXPRESSION_FEATURE_COUNT + 1;
+  int IF_EXPRESSION__IFBODY = BLOCK_EXPRESSIONS_FEATURE_COUNT + 1;
 
   /**
-   * The feature id for the '<em><b>Elsecondition</b></em>' containment reference list.
+   * The feature id for the '<em><b>Elseifcondition</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int IF_EXPRESSION__ELSECONDITION = EXPRESSION_FEATURE_COUNT + 2;
+  int IF_EXPRESSION__ELSEIFCONDITION = BLOCK_EXPRESSIONS_FEATURE_COUNT + 2;
 
   /**
    * The feature id for the '<em><b>Elseifbody</b></em>' containment reference list.
@@ -389,16 +334,16 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int IF_EXPRESSION__ELSEIFBODY = EXPRESSION_FEATURE_COUNT + 3;
+  int IF_EXPRESSION__ELSEIFBODY = BLOCK_EXPRESSIONS_FEATURE_COUNT + 3;
 
   /**
-   * The feature id for the '<em><b>Elsebody</b></em>' containment reference list.
+   * The feature id for the '<em><b>Elsebody</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int IF_EXPRESSION__ELSEBODY = EXPRESSION_FEATURE_COUNT + 4;
+  int IF_EXPRESSION__ELSEBODY = BLOCK_EXPRESSIONS_FEATURE_COUNT + 4;
 
   /**
    * The number of structural features of the '<em>If Expression</em>' class.
@@ -407,7 +352,7 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int IF_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 5;
+  int IF_EXPRESSION_FEATURE_COUNT = BLOCK_EXPRESSIONS_FEATURE_COUNT + 5;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.ForExpressionImpl <em>For Expression</em>}' class.
@@ -417,7 +362,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getForExpression()
    * @generated
    */
-  int FOR_EXPRESSION = 9;
+  int FOR_EXPRESSION = 7;
 
   /**
    * The feature id for the '<em><b>Initial</b></em>' containment reference.
@@ -426,7 +371,7 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int FOR_EXPRESSION__INITIAL = EXPRESSION_FEATURE_COUNT + 0;
+  int FOR_EXPRESSION__INITIAL = BLOCK_EXPRESSIONS_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Test</b></em>' containment reference.
@@ -435,7 +380,7 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int FOR_EXPRESSION__TEST = EXPRESSION_FEATURE_COUNT + 1;
+  int FOR_EXPRESSION__TEST = BLOCK_EXPRESSIONS_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Update</b></em>' containment reference.
@@ -444,16 +389,16 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int FOR_EXPRESSION__UPDATE = EXPRESSION_FEATURE_COUNT + 2;
+  int FOR_EXPRESSION__UPDATE = BLOCK_EXPRESSIONS_FEATURE_COUNT + 2;
 
   /**
-   * The feature id for the '<em><b>Body</b></em>' containment reference list.
+   * The feature id for the '<em><b>Body</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FOR_EXPRESSION__BODY = EXPRESSION_FEATURE_COUNT + 3;
+  int FOR_EXPRESSION__BODY = BLOCK_EXPRESSIONS_FEATURE_COUNT + 3;
 
   /**
    * The number of structural features of the '<em>For Expression</em>' class.
@@ -462,7 +407,7 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int FOR_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 4;
+  int FOR_EXPRESSION_FEATURE_COUNT = BLOCK_EXPRESSIONS_FEATURE_COUNT + 4;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.WhileExpressionImpl <em>While Expression</em>}' class.
@@ -472,7 +417,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getWhileExpression()
    * @generated
    */
-  int WHILE_EXPRESSION = 10;
+  int WHILE_EXPRESSION = 8;
 
   /**
    * The feature id for the '<em><b>Test</b></em>' containment reference.
@@ -481,16 +426,16 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int WHILE_EXPRESSION__TEST = EXPRESSION_FEATURE_COUNT + 0;
+  int WHILE_EXPRESSION__TEST = BLOCK_EXPRESSIONS_FEATURE_COUNT + 0;
 
   /**
-   * The feature id for the '<em><b>Body</b></em>' containment reference list.
+   * The feature id for the '<em><b>Body</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int WHILE_EXPRESSION__BODY = EXPRESSION_FEATURE_COUNT + 1;
+  int WHILE_EXPRESSION__BODY = BLOCK_EXPRESSIONS_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the '<em>While Expression</em>' class.
@@ -499,7 +444,118 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int WHILE_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 2;
+  int WHILE_EXPRESSION_FEATURE_COUNT = BLOCK_EXPRESSIONS_FEATURE_COUNT + 2;
+
+  /**
+   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.BuiltinFunctionCallExpressionImpl <em>Builtin Function Call Expression</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.xtext.example.mydsl.myDsl.impl.BuiltinFunctionCallExpressionImpl
+   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBuiltinFunctionCallExpression()
+   * @generated
+   */
+  int BUILTIN_FUNCTION_CALL_EXPRESSION = 9;
+
+  /**
+   * The feature id for the '<em><b>Function</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BUILTIN_FUNCTION_CALL_EXPRESSION__FUNCTION = BLOCK_EXPRESSIONS_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BUILTIN_FUNCTION_CALL_EXPRESSION__PARAMETERS = BLOCK_EXPRESSIONS_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Builtin Function Call Expression</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BUILTIN_FUNCTION_CALL_EXPRESSION_FEATURE_COUNT = BLOCK_EXPRESSIONS_FEATURE_COUNT + 2;
+
+  /**
+   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.TaskBodyImpl <em>Task Body</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.xtext.example.mydsl.myDsl.impl.TaskBodyImpl
+   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getTaskBody()
+   * @generated
+   */
+  int TASK_BODY = 10;
+
+  /**
+   * The feature id for the '<em><b>Body</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TASK_BODY__BODY = 0;
+
+  /**
+   * The feature id for the '<em><b>Nexttask</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TASK_BODY__NEXTTASK = 1;
+
+  /**
+   * The feature id for the '<em><b>Endtask</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TASK_BODY__ENDTASK = 2;
+
+  /**
+   * The number of structural features of the '<em>Task Body</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TASK_BODY_FEATURE_COUNT = 3;
+
+  /**
+   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.StatementBodyImpl <em>Statement Body</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.xtext.example.mydsl.myDsl.impl.StatementBodyImpl
+   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getStatementBody()
+   * @generated
+   */
+  int STATEMENT_BODY = 11;
+
+  /**
+   * The feature id for the '<em><b>Body</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int STATEMENT_BODY__BODY = 0;
+
+  /**
+   * The number of structural features of the '<em>Statement Body</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int STATEMENT_BODY_FEATURE_COUNT = 1;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.OperationExpressionImpl <em>Operation Expression</em>}' class.
@@ -509,7 +565,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getOperationExpression()
    * @generated
    */
-  int OPERATION_EXPRESSION = 12;
+  int OPERATION_EXPRESSION = 14;
 
   /**
    * The number of structural features of the '<em>Operation Expression</em>' class.
@@ -518,7 +574,7 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OPERATION_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 0;
+  int OPERATION_EXPRESSION_FEATURE_COUNT = BLOCK_EXPRESSIONS_FEATURE_COUNT + 0;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.ArrayDimensionImpl <em>Array Dimension</em>}' class.
@@ -528,7 +584,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getArrayDimension()
    * @generated
    */
-  int ARRAY_DIMENSION = 13;
+  int ARRAY_DIMENSION = 15;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' reference.
@@ -558,14 +614,14 @@ public interface MyDslPackage extends EPackage
   int ARRAY_DIMENSION_FEATURE_COUNT = 2;
 
   /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableSymbolImpl <em>Variable Symbol</em>}' class.
+   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableDeclerationExpressionImpl <em>Variable Decleration Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.VariableSymbolImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getVariableSymbol()
+   * @see org.xtext.example.mydsl.myDsl.impl.VariableDeclerationExpressionImpl
+   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getVariableDeclerationExpression()
    * @generated
    */
-  int VARIABLE_SYMBOL = 16;
+  int VARIABLE_DECLERATION_EXPRESSION = 16;
 
   /**
    * The feature id for the '<em><b>Type</b></em>' containment reference.
@@ -574,7 +630,7 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int VARIABLE_SYMBOL__TYPE = 0;
+  int VARIABLE_DECLERATION_EXPRESSION__TYPE = EXPRESSION_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -583,44 +639,7 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int VARIABLE_SYMBOL__NAME = 1;
-
-  /**
-   * The number of structural features of the '<em>Variable Symbol</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int VARIABLE_SYMBOL_FEATURE_COUNT = 2;
-
-  /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableDeclerationImpl <em>Variable Decleration</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.VariableDeclerationImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getVariableDecleration()
-   * @generated
-   */
-  int VARIABLE_DECLERATION = 14;
-
-  /**
-   * The feature id for the '<em><b>Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int VARIABLE_DECLERATION__TYPE = VARIABLE_SYMBOL__TYPE;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int VARIABLE_DECLERATION__NAME = VARIABLE_SYMBOL__NAME;
+  int VARIABLE_DECLERATION_EXPRESSION__NAME = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Dimension</b></em>' containment reference list.
@@ -629,53 +648,35 @@ public interface MyDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int VARIABLE_DECLERATION__DIMENSION = VARIABLE_SYMBOL_FEATURE_COUNT + 0;
+  int VARIABLE_DECLERATION_EXPRESSION__DIMENSION = EXPRESSION_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the '<em>Variable Decleration</em>' class.
+   * The number of structural features of the '<em>Variable Decleration Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int VARIABLE_DECLERATION_FEATURE_COUNT = VARIABLE_SYMBOL_FEATURE_COUNT + 1;
+  int VARIABLE_DECLERATION_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 3;
 
   /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.FunctionParameterImpl <em>Function Parameter</em>}' class.
+   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableSymbolImpl <em>Variable Symbol</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.FunctionParameterImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getFunctionParameter()
+   * @see org.xtext.example.mydsl.myDsl.impl.VariableSymbolImpl
+   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getVariableSymbol()
    * @generated
    */
-  int FUNCTION_PARAMETER = 15;
+  int VARIABLE_SYMBOL = 17;
 
   /**
-   * The feature id for the '<em><b>Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_PARAMETER__TYPE = VARIABLE_SYMBOL__TYPE;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * The number of structural features of the '<em>Variable Symbol</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_PARAMETER__NAME = VARIABLE_SYMBOL__NAME;
-
-  /**
-   * The number of structural features of the '<em>Function Parameter</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_PARAMETER_FEATURE_COUNT = VARIABLE_SYMBOL_FEATURE_COUNT + 0;
+  int VARIABLE_SYMBOL_FEATURE_COUNT = 0;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.AtomicImpl <em>Atomic</em>}' class.
@@ -685,7 +686,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getAtomic()
    * @generated
    */
-  int ATOMIC = 17;
+  int ATOMIC = 18;
 
   /**
    * The number of structural features of the '<em>Atomic</em>' class.
@@ -697,210 +698,6 @@ public interface MyDslPackage extends EPackage
   int ATOMIC_FEATURE_COUNT = OPERATION_EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableReturnImpl <em>Variable Return</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.VariableReturnImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getVariableReturn()
-   * @generated
-   */
-  int VARIABLE_RETURN = 18;
-
-  /**
-   * The feature id for the '<em><b>Return</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int VARIABLE_RETURN__RETURN = 0;
-
-  /**
-   * The number of structural features of the '<em>Variable Return</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int VARIABLE_RETURN_FEATURE_COUNT = 1;
-
-  /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.AtomicOrFunctionCallImpl <em>Atomic Or Function Call</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.AtomicOrFunctionCallImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getAtomicOrFunctionCall()
-   * @generated
-   */
-  int ATOMIC_OR_FUNCTION_CALL = 19;
-
-  /**
-   * The number of structural features of the '<em>Atomic Or Function Call</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ATOMIC_OR_FUNCTION_CALL_FEATURE_COUNT = 0;
-
-  /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.FunctionDefinitionImpl <em>Function Definition</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.FunctionDefinitionImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getFunctionDefinition()
-   * @generated
-   */
-  int FUNCTION_DEFINITION = 20;
-
-  /**
-   * The feature id for the '<em><b>Return</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_DEFINITION__RETURN = 0;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_DEFINITION__NAME = 1;
-
-  /**
-   * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_DEFINITION__PARAMETERS = 2;
-
-  /**
-   * The feature id for the '<em><b>Body</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_DEFINITION__BODY = 3;
-
-  /**
-   * The number of structural features of the '<em>Function Definition</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_DEFINITION_FEATURE_COUNT = 4;
-
-  /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.AbstractFunctionCallImpl <em>Abstract Function Call</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.AbstractFunctionCallImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getAbstractFunctionCall()
-   * @generated
-   */
-  int ABSTRACT_FUNCTION_CALL = 23;
-
-  /**
-   * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ABSTRACT_FUNCTION_CALL__PARAMETERS = ATOMIC_OR_FUNCTION_CALL_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>Abstract Function Call</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ABSTRACT_FUNCTION_CALL_FEATURE_COUNT = ATOMIC_OR_FUNCTION_CALL_FEATURE_COUNT + 1;
-
-  /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.FunctionCallImpl <em>Function Call</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.FunctionCallImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getFunctionCall()
-   * @generated
-   */
-  int FUNCTION_CALL = 21;
-
-  /**
-   * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_CALL__PARAMETERS = ABSTRACT_FUNCTION_CALL__PARAMETERS;
-
-  /**
-   * The feature id for the '<em><b>Function</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_CALL__FUNCTION = ABSTRACT_FUNCTION_CALL_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>Function Call</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FUNCTION_CALL_FEATURE_COUNT = ABSTRACT_FUNCTION_CALL_FEATURE_COUNT + 1;
-
-  /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.BuiltinFunctionCallImpl <em>Builtin Function Call</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.myDsl.impl.BuiltinFunctionCallImpl
-   * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBuiltinFunctionCall()
-   * @generated
-   */
-  int BUILTIN_FUNCTION_CALL = 22;
-
-  /**
-   * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BUILTIN_FUNCTION_CALL__PARAMETERS = EXPRESSION_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Function</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BUILTIN_FUNCTION_CALL__FUNCTION = EXPRESSION_FEATURE_COUNT + 1;
-
-  /**
-   * The number of structural features of the '<em>Builtin Function Call</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BUILTIN_FUNCTION_CALL_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 2;
-
-  /**
    * The meta object id for the '{@link org.xtext.example.mydsl.myDsl.impl.OperationImpl <em>Operation</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -908,7 +705,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getOperation()
    * @generated
    */
-  int OPERATION = 24;
+  int OPERATION = 19;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -954,7 +751,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getIntegerReference()
    * @generated
    */
-  int INTEGER_REFERENCE = 25;
+  int INTEGER_REFERENCE = 20;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -982,7 +779,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getDoubleReference()
    * @generated
    */
-  int DOUBLE_REFERENCE = 26;
+  int DOUBLE_REFERENCE = 21;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1010,7 +807,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getStringReference()
    * @generated
    */
-  int STRING_REFERENCE = 27;
+  int STRING_REFERENCE = 22;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1038,7 +835,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBooleanReference()
    * @generated
    */
-  int BOOLEAN_REFERENCE = 28;
+  int BOOLEAN_REFERENCE = 23;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1066,7 +863,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getArrayReference()
    * @generated
    */
-  int ARRAY_REFERENCE = 29;
+  int ARRAY_REFERENCE = 24;
 
   /**
    * The feature id for the '<em><b>Variable Reference</b></em>' reference.
@@ -1103,7 +900,7 @@ public interface MyDslPackage extends EPackage
    * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getVariableReference()
    * @generated
    */
-  int VARIABLE_REFERENCE = 30;
+  int VARIABLE_REFERENCE = 25;
 
   /**
    * The feature id for the '<em><b>Variable Reference</b></em>' reference.
@@ -1168,25 +965,25 @@ public interface MyDslPackage extends EPackage
   EReference getInkApp_Entry();
 
   /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.Break <em>Break</em>}'.
+   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.BreakExpression <em>Break Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Break</em>'.
-   * @see org.xtext.example.mydsl.myDsl.Break
+   * @return the meta object for class '<em>Break Expression</em>'.
+   * @see org.xtext.example.mydsl.myDsl.BreakExpression
    * @generated
    */
-  EClass getBreak();
+  EClass getBreakExpression();
 
   /**
-   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.myDsl.Break#getBreak <em>Break</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.myDsl.BreakExpression#getBreak <em>Break</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Break</em>'.
-   * @see org.xtext.example.mydsl.myDsl.Break#getBreak()
-   * @see #getBreak()
+   * @see org.xtext.example.mydsl.myDsl.BreakExpression#getBreak()
+   * @see #getBreakExpression()
    * @generated
    */
-  EAttribute getBreak_Break();
+  EAttribute getBreakExpression_Break();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.VariableType <em>Variable Type</em>}'.
@@ -1199,89 +996,36 @@ public interface MyDslPackage extends EPackage
   EClass getVariableType();
 
   /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.GlobalVariable <em>Global Variable</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.myDsl.VariableType#getType <em>Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Global Variable</em>'.
-   * @see org.xtext.example.mydsl.myDsl.GlobalVariable
+   * @return the meta object for the attribute '<em>Type</em>'.
+   * @see org.xtext.example.mydsl.myDsl.VariableType#getType()
+   * @see #getVariableType()
    * @generated
    */
-  EClass getGlobalVariable();
+  EAttribute getVariableType_Type();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.GlobalVariable#getVariable <em>Variable</em>}'.
+   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.GlobalVariableExpression <em>Global Variable Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Global Variable Expression</em>'.
+   * @see org.xtext.example.mydsl.myDsl.GlobalVariableExpression
+   * @generated
+   */
+  EClass getGlobalVariableExpression();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.GlobalVariableExpression#getVariable <em>Variable</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Variable</em>'.
-   * @see org.xtext.example.mydsl.myDsl.GlobalVariable#getVariable()
-   * @see #getGlobalVariable()
+   * @see org.xtext.example.mydsl.myDsl.GlobalVariableExpression#getVariable()
+   * @see #getGlobalVariableExpression()
    * @generated
    */
-  EReference getGlobalVariable_Variable();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.Main <em>Main</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Main</em>'.
-   * @see org.xtext.example.mydsl.myDsl.Main
-   * @generated
-   */
-  EClass getMain();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.Main#getVariableDeclerations <em>Variable Declerations</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Variable Declerations</em>'.
-   * @see org.xtext.example.mydsl.myDsl.Main#getVariableDeclerations()
-   * @see #getMain()
-   * @generated
-   */
-  EReference getMain_VariableDeclerations();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.Main#getBody <em>Body</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Body</em>'.
-   * @see org.xtext.example.mydsl.myDsl.Main#getBody()
-   * @see #getMain()
-   * @generated
-   */
-  EReference getMain_Body();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.FunctionBody <em>Function Body</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Function Body</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionBody
-   * @generated
-   */
-  EClass getFunctionBody();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.FunctionBody#getVariableDeclerations <em>Variable Declerations</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Variable Declerations</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionBody#getVariableDeclerations()
-   * @see #getFunctionBody()
-   * @generated
-   */
-  EReference getFunctionBody_VariableDeclerations();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.FunctionBody#getBody <em>Body</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Body</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionBody#getBody()
-   * @see #getFunctionBody()
-   * @generated
-   */
-  EReference getFunctionBody_Body();
+  EReference getGlobalVariableExpression_Variable();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.EntryTask <em>Entry Task</em>}'.
@@ -1326,26 +1070,15 @@ public interface MyDslPackage extends EPackage
   EAttribute getTask_Name();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.Task#getBody <em>Body</em>}'.
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.Task#getTaskbody <em>Taskbody</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Body</em>'.
-   * @see org.xtext.example.mydsl.myDsl.Task#getBody()
+   * @return the meta object for the containment reference '<em>Taskbody</em>'.
+   * @see org.xtext.example.mydsl.myDsl.Task#getTaskbody()
    * @see #getTask()
    * @generated
    */
-  EReference getTask_Body();
-
-  /**
-   * Returns the meta object for the reference '{@link org.xtext.example.mydsl.myDsl.Task#getTask <em>Task</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Task</em>'.
-   * @see org.xtext.example.mydsl.myDsl.Task#getTask()
-   * @see #getTask()
-   * @generated
-   */
-  EReference getTask_Task();
+  EReference getTask_Taskbody();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.IfExpression <em>If Expression</em>}'.
@@ -1369,10 +1102,10 @@ public interface MyDslPackage extends EPackage
   EReference getIfExpression_Ifcondition();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.IfExpression#getIfbody <em>Ifbody</em>}'.
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.IfExpression#getIfbody <em>Ifbody</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Ifbody</em>'.
+   * @return the meta object for the containment reference '<em>Ifbody</em>'.
    * @see org.xtext.example.mydsl.myDsl.IfExpression#getIfbody()
    * @see #getIfExpression()
    * @generated
@@ -1380,15 +1113,15 @@ public interface MyDslPackage extends EPackage
   EReference getIfExpression_Ifbody();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.IfExpression#getElsecondition <em>Elsecondition</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.IfExpression#getElseifcondition <em>Elseifcondition</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Elsecondition</em>'.
-   * @see org.xtext.example.mydsl.myDsl.IfExpression#getElsecondition()
+   * @return the meta object for the containment reference list '<em>Elseifcondition</em>'.
+   * @see org.xtext.example.mydsl.myDsl.IfExpression#getElseifcondition()
    * @see #getIfExpression()
    * @generated
    */
-  EReference getIfExpression_Elsecondition();
+  EReference getIfExpression_Elseifcondition();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.IfExpression#getElseifbody <em>Elseifbody</em>}'.
@@ -1402,10 +1135,10 @@ public interface MyDslPackage extends EPackage
   EReference getIfExpression_Elseifbody();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.IfExpression#getElsebody <em>Elsebody</em>}'.
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.IfExpression#getElsebody <em>Elsebody</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Elsebody</em>'.
+   * @return the meta object for the containment reference '<em>Elsebody</em>'.
    * @see org.xtext.example.mydsl.myDsl.IfExpression#getElsebody()
    * @see #getIfExpression()
    * @generated
@@ -1456,10 +1189,10 @@ public interface MyDslPackage extends EPackage
   EReference getForExpression_Update();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.ForExpression#getBody <em>Body</em>}'.
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.ForExpression#getBody <em>Body</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Body</em>'.
+   * @return the meta object for the containment reference '<em>Body</em>'.
    * @see org.xtext.example.mydsl.myDsl.ForExpression#getBody()
    * @see #getForExpression()
    * @generated
@@ -1488,15 +1221,121 @@ public interface MyDslPackage extends EPackage
   EReference getWhileExpression_Test();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.WhileExpression#getBody <em>Body</em>}'.
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.WhileExpression#getBody <em>Body</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Body</em>'.
+   * @return the meta object for the containment reference '<em>Body</em>'.
    * @see org.xtext.example.mydsl.myDsl.WhileExpression#getBody()
    * @see #getWhileExpression()
    * @generated
    */
   EReference getWhileExpression_Body();
+
+  /**
+   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression <em>Builtin Function Call Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Builtin Function Call Expression</em>'.
+   * @see org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression
+   * @generated
+   */
+  EClass getBuiltinFunctionCallExpression();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression#getFunction <em>Function</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Function</em>'.
+   * @see org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression#getFunction()
+   * @see #getBuiltinFunctionCallExpression()
+   * @generated
+   */
+  EAttribute getBuiltinFunctionCallExpression_Function();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression#getParameters <em>Parameters</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Parameters</em>'.
+   * @see org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression#getParameters()
+   * @see #getBuiltinFunctionCallExpression()
+   * @generated
+   */
+  EReference getBuiltinFunctionCallExpression_Parameters();
+
+  /**
+   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.TaskBody <em>Task Body</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Task Body</em>'.
+   * @see org.xtext.example.mydsl.myDsl.TaskBody
+   * @generated
+   */
+  EClass getTaskBody();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.TaskBody#getBody <em>Body</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Body</em>'.
+   * @see org.xtext.example.mydsl.myDsl.TaskBody#getBody()
+   * @see #getTaskBody()
+   * @generated
+   */
+  EReference getTaskBody_Body();
+
+  /**
+   * Returns the meta object for the reference '{@link org.xtext.example.mydsl.myDsl.TaskBody#getNexttask <em>Nexttask</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Nexttask</em>'.
+   * @see org.xtext.example.mydsl.myDsl.TaskBody#getNexttask()
+   * @see #getTaskBody()
+   * @generated
+   */
+  EReference getTaskBody_Nexttask();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.myDsl.TaskBody#getEndtask <em>Endtask</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Endtask</em>'.
+   * @see org.xtext.example.mydsl.myDsl.TaskBody#getEndtask()
+   * @see #getTaskBody()
+   * @generated
+   */
+  EAttribute getTaskBody_Endtask();
+
+  /**
+   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.StatementBody <em>Statement Body</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Statement Body</em>'.
+   * @see org.xtext.example.mydsl.myDsl.StatementBody
+   * @generated
+   */
+  EClass getStatementBody();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.StatementBody#getBody <em>Body</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Body</em>'.
+   * @see org.xtext.example.mydsl.myDsl.StatementBody#getBody()
+   * @see #getStatementBody()
+   * @generated
+   */
+  EReference getStatementBody_Body();
+
+  /**
+   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.BlockExpressions <em>Block Expressions</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Block Expressions</em>'.
+   * @see org.xtext.example.mydsl.myDsl.BlockExpressions
+   * @generated
+   */
+  EClass getBlockExpressions();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.Expression <em>Expression</em>}'.
@@ -1551,35 +1390,47 @@ public interface MyDslPackage extends EPackage
   EAttribute getArrayDimension_Size();
 
   /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.VariableDecleration <em>Variable Decleration</em>}'.
+   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.VariableDeclerationExpression <em>Variable Decleration Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Variable Decleration</em>'.
-   * @see org.xtext.example.mydsl.myDsl.VariableDecleration
+   * @return the meta object for class '<em>Variable Decleration Expression</em>'.
+   * @see org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
    * @generated
    */
-  EClass getVariableDecleration();
+  EClass getVariableDeclerationExpression();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.VariableDecleration#getDimension <em>Dimension</em>}'.
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.VariableDeclerationExpression#getType <em>Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Type</em>'.
+   * @see org.xtext.example.mydsl.myDsl.VariableDeclerationExpression#getType()
+   * @see #getVariableDeclerationExpression()
+   * @generated
+   */
+  EReference getVariableDeclerationExpression_Type();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.myDsl.VariableDeclerationExpression#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see org.xtext.example.mydsl.myDsl.VariableDeclerationExpression#getName()
+   * @see #getVariableDeclerationExpression()
+   * @generated
+   */
+  EAttribute getVariableDeclerationExpression_Name();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.VariableDeclerationExpression#getDimension <em>Dimension</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference list '<em>Dimension</em>'.
-   * @see org.xtext.example.mydsl.myDsl.VariableDecleration#getDimension()
-   * @see #getVariableDecleration()
+   * @see org.xtext.example.mydsl.myDsl.VariableDeclerationExpression#getDimension()
+   * @see #getVariableDeclerationExpression()
    * @generated
    */
-  EReference getVariableDecleration_Dimension();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.FunctionParameter <em>Function Parameter</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Function Parameter</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionParameter
-   * @generated
-   */
-  EClass getFunctionParameter();
+  EReference getVariableDeclerationExpression_Dimension();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.VariableSymbol <em>Variable Symbol</em>}'.
@@ -1592,28 +1443,6 @@ public interface MyDslPackage extends EPackage
   EClass getVariableSymbol();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.VariableSymbol#getType <em>Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Type</em>'.
-   * @see org.xtext.example.mydsl.myDsl.VariableSymbol#getType()
-   * @see #getVariableSymbol()
-   * @generated
-   */
-  EReference getVariableSymbol_Type();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.myDsl.VariableSymbol#getName <em>Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Name</em>'.
-   * @see org.xtext.example.mydsl.myDsl.VariableSymbol#getName()
-   * @see #getVariableSymbol()
-   * @generated
-   */
-  EAttribute getVariableSymbol_Name();
-
-  /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.Atomic <em>Atomic</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1622,154 +1451,6 @@ public interface MyDslPackage extends EPackage
    * @generated
    */
   EClass getAtomic();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.VariableReturn <em>Variable Return</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Variable Return</em>'.
-   * @see org.xtext.example.mydsl.myDsl.VariableReturn
-   * @generated
-   */
-  EClass getVariableReturn();
-
-  /**
-   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.VariableReturn#getReturn <em>Return</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Return</em>'.
-   * @see org.xtext.example.mydsl.myDsl.VariableReturn#getReturn()
-   * @see #getVariableReturn()
-   * @generated
-   */
-  EReference getVariableReturn_Return();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.AtomicOrFunctionCall <em>Atomic Or Function Call</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Atomic Or Function Call</em>'.
-   * @see org.xtext.example.mydsl.myDsl.AtomicOrFunctionCall
-   * @generated
-   */
-  EClass getAtomicOrFunctionCall();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.FunctionDefinition <em>Function Definition</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Function Definition</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionDefinition
-   * @generated
-   */
-  EClass getFunctionDefinition();
-
-  /**
-   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.myDsl.FunctionDefinition#getReturn <em>Return</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Return</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionDefinition#getReturn()
-   * @see #getFunctionDefinition()
-   * @generated
-   */
-  EReference getFunctionDefinition_Return();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.myDsl.FunctionDefinition#getName <em>Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Name</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionDefinition#getName()
-   * @see #getFunctionDefinition()
-   * @generated
-   */
-  EAttribute getFunctionDefinition_Name();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.FunctionDefinition#getParameters <em>Parameters</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Parameters</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionDefinition#getParameters()
-   * @see #getFunctionDefinition()
-   * @generated
-   */
-  EReference getFunctionDefinition_Parameters();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.FunctionDefinition#getBody <em>Body</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Body</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionDefinition#getBody()
-   * @see #getFunctionDefinition()
-   * @generated
-   */
-  EReference getFunctionDefinition_Body();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.FunctionCall <em>Function Call</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Function Call</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionCall
-   * @generated
-   */
-  EClass getFunctionCall();
-
-  /**
-   * Returns the meta object for the reference '{@link org.xtext.example.mydsl.myDsl.FunctionCall#getFunction <em>Function</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Function</em>'.
-   * @see org.xtext.example.mydsl.myDsl.FunctionCall#getFunction()
-   * @see #getFunctionCall()
-   * @generated
-   */
-  EReference getFunctionCall_Function();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.BuiltinFunctionCall <em>Builtin Function Call</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Builtin Function Call</em>'.
-   * @see org.xtext.example.mydsl.myDsl.BuiltinFunctionCall
-   * @generated
-   */
-  EClass getBuiltinFunctionCall();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.myDsl.BuiltinFunctionCall#getFunction <em>Function</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Function</em>'.
-   * @see org.xtext.example.mydsl.myDsl.BuiltinFunctionCall#getFunction()
-   * @see #getBuiltinFunctionCall()
-   * @generated
-   */
-  EAttribute getBuiltinFunctionCall_Function();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.AbstractFunctionCall <em>Abstract Function Call</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Abstract Function Call</em>'.
-   * @see org.xtext.example.mydsl.myDsl.AbstractFunctionCall
-   * @generated
-   */
-  EClass getAbstractFunctionCall();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.myDsl.AbstractFunctionCall#getParameters <em>Parameters</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Parameters</em>'.
-   * @see org.xtext.example.mydsl.myDsl.AbstractFunctionCall#getParameters()
-   * @see #getAbstractFunctionCall()
-   * @generated
-   */
-  EReference getAbstractFunctionCall_Parameters();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.myDsl.Operation <em>Operation</em>}'.
@@ -2009,14 +1690,14 @@ public interface MyDslPackage extends EPackage
     EReference INK_APP__ENTRY = eINSTANCE.getInkApp_Entry();
 
     /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.BreakImpl <em>Break</em>}' class.
+     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.BreakExpressionImpl <em>Break Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.BreakImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBreak()
+     * @see org.xtext.example.mydsl.myDsl.impl.BreakExpressionImpl
+     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBreakExpression()
      * @generated
      */
-    EClass BREAK = eINSTANCE.getBreak();
+    EClass BREAK_EXPRESSION = eINSTANCE.getBreakExpression();
 
     /**
      * The meta object literal for the '<em><b>Break</b></em>' attribute feature.
@@ -2024,7 +1705,7 @@ public interface MyDslPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute BREAK__BREAK = eINSTANCE.getBreak_Break();
+    EAttribute BREAK_EXPRESSION__BREAK = eINSTANCE.getBreakExpression_Break();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableTypeImpl <em>Variable Type</em>}' class.
@@ -2037,14 +1718,22 @@ public interface MyDslPackage extends EPackage
     EClass VARIABLE_TYPE = eINSTANCE.getVariableType();
 
     /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.GlobalVariableImpl <em>Global Variable</em>}' class.
+     * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.GlobalVariableImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getGlobalVariable()
      * @generated
      */
-    EClass GLOBAL_VARIABLE = eINSTANCE.getGlobalVariable();
+    EAttribute VARIABLE_TYPE__TYPE = eINSTANCE.getVariableType_Type();
+
+    /**
+     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.GlobalVariableExpressionImpl <em>Global Variable Expression</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.xtext.example.mydsl.myDsl.impl.GlobalVariableExpressionImpl
+     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getGlobalVariableExpression()
+     * @generated
+     */
+    EClass GLOBAL_VARIABLE_EXPRESSION = eINSTANCE.getGlobalVariableExpression();
 
     /**
      * The meta object literal for the '<em><b>Variable</b></em>' containment reference feature.
@@ -2052,59 +1741,7 @@ public interface MyDslPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference GLOBAL_VARIABLE__VARIABLE = eINSTANCE.getGlobalVariable_Variable();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.MainImpl <em>Main</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.MainImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getMain()
-     * @generated
-     */
-    EClass MAIN = eINSTANCE.getMain();
-
-    /**
-     * The meta object literal for the '<em><b>Variable Declerations</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MAIN__VARIABLE_DECLERATIONS = eINSTANCE.getMain_VariableDeclerations();
-
-    /**
-     * The meta object literal for the '<em><b>Body</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MAIN__BODY = eINSTANCE.getMain_Body();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.FunctionBodyImpl <em>Function Body</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.FunctionBodyImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getFunctionBody()
-     * @generated
-     */
-    EClass FUNCTION_BODY = eINSTANCE.getFunctionBody();
-
-    /**
-     * The meta object literal for the '<em><b>Variable Declerations</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference FUNCTION_BODY__VARIABLE_DECLERATIONS = eINSTANCE.getFunctionBody_VariableDeclerations();
-
-    /**
-     * The meta object literal for the '<em><b>Body</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference FUNCTION_BODY__BODY = eINSTANCE.getFunctionBody_Body();
+    EReference GLOBAL_VARIABLE_EXPRESSION__VARIABLE = eINSTANCE.getGlobalVariableExpression_Variable();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.EntryTaskImpl <em>Entry Task</em>}' class.
@@ -2143,20 +1780,12 @@ public interface MyDslPackage extends EPackage
     EAttribute TASK__NAME = eINSTANCE.getTask_Name();
 
     /**
-     * The meta object literal for the '<em><b>Body</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Taskbody</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference TASK__BODY = eINSTANCE.getTask_Body();
-
-    /**
-     * The meta object literal for the '<em><b>Task</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference TASK__TASK = eINSTANCE.getTask_Task();
+    EReference TASK__TASKBODY = eINSTANCE.getTask_Taskbody();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.IfExpressionImpl <em>If Expression</em>}' class.
@@ -2177,7 +1806,7 @@ public interface MyDslPackage extends EPackage
     EReference IF_EXPRESSION__IFCONDITION = eINSTANCE.getIfExpression_Ifcondition();
 
     /**
-     * The meta object literal for the '<em><b>Ifbody</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Ifbody</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2185,12 +1814,12 @@ public interface MyDslPackage extends EPackage
     EReference IF_EXPRESSION__IFBODY = eINSTANCE.getIfExpression_Ifbody();
 
     /**
-     * The meta object literal for the '<em><b>Elsecondition</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Elseifcondition</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference IF_EXPRESSION__ELSECONDITION = eINSTANCE.getIfExpression_Elsecondition();
+    EReference IF_EXPRESSION__ELSEIFCONDITION = eINSTANCE.getIfExpression_Elseifcondition();
 
     /**
      * The meta object literal for the '<em><b>Elseifbody</b></em>' containment reference list feature.
@@ -2201,7 +1830,7 @@ public interface MyDslPackage extends EPackage
     EReference IF_EXPRESSION__ELSEIFBODY = eINSTANCE.getIfExpression_Elseifbody();
 
     /**
-     * The meta object literal for the '<em><b>Elsebody</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Elsebody</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2243,7 +1872,7 @@ public interface MyDslPackage extends EPackage
     EReference FOR_EXPRESSION__UPDATE = eINSTANCE.getForExpression_Update();
 
     /**
-     * The meta object literal for the '<em><b>Body</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Body</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -2269,12 +1898,100 @@ public interface MyDslPackage extends EPackage
     EReference WHILE_EXPRESSION__TEST = eINSTANCE.getWhileExpression_Test();
 
     /**
-     * The meta object literal for the '<em><b>Body</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Body</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     EReference WHILE_EXPRESSION__BODY = eINSTANCE.getWhileExpression_Body();
+
+    /**
+     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.BuiltinFunctionCallExpressionImpl <em>Builtin Function Call Expression</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.xtext.example.mydsl.myDsl.impl.BuiltinFunctionCallExpressionImpl
+     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBuiltinFunctionCallExpression()
+     * @generated
+     */
+    EClass BUILTIN_FUNCTION_CALL_EXPRESSION = eINSTANCE.getBuiltinFunctionCallExpression();
+
+    /**
+     * The meta object literal for the '<em><b>Function</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BUILTIN_FUNCTION_CALL_EXPRESSION__FUNCTION = eINSTANCE.getBuiltinFunctionCallExpression_Function();
+
+    /**
+     * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BUILTIN_FUNCTION_CALL_EXPRESSION__PARAMETERS = eINSTANCE.getBuiltinFunctionCallExpression_Parameters();
+
+    /**
+     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.TaskBodyImpl <em>Task Body</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.xtext.example.mydsl.myDsl.impl.TaskBodyImpl
+     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getTaskBody()
+     * @generated
+     */
+    EClass TASK_BODY = eINSTANCE.getTaskBody();
+
+    /**
+     * The meta object literal for the '<em><b>Body</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference TASK_BODY__BODY = eINSTANCE.getTaskBody_Body();
+
+    /**
+     * The meta object literal for the '<em><b>Nexttask</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference TASK_BODY__NEXTTASK = eINSTANCE.getTaskBody_Nexttask();
+
+    /**
+     * The meta object literal for the '<em><b>Endtask</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TASK_BODY__ENDTASK = eINSTANCE.getTaskBody_Endtask();
+
+    /**
+     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.StatementBodyImpl <em>Statement Body</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.xtext.example.mydsl.myDsl.impl.StatementBodyImpl
+     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getStatementBody()
+     * @generated
+     */
+    EClass STATEMENT_BODY = eINSTANCE.getStatementBody();
+
+    /**
+     * The meta object literal for the '<em><b>Body</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference STATEMENT_BODY__BODY = eINSTANCE.getStatementBody_Body();
+
+    /**
+     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.BlockExpressionsImpl <em>Block Expressions</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.xtext.example.mydsl.myDsl.impl.BlockExpressionsImpl
+     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBlockExpressions()
+     * @generated
+     */
+    EClass BLOCK_EXPRESSIONS = eINSTANCE.getBlockExpressions();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.ExpressionImpl <em>Expression</em>}' class.
@@ -2323,14 +2040,30 @@ public interface MyDslPackage extends EPackage
     EAttribute ARRAY_DIMENSION__SIZE = eINSTANCE.getArrayDimension_Size();
 
     /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableDeclerationImpl <em>Variable Decleration</em>}' class.
+     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableDeclerationExpressionImpl <em>Variable Decleration Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.VariableDeclerationImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getVariableDecleration()
+     * @see org.xtext.example.mydsl.myDsl.impl.VariableDeclerationExpressionImpl
+     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getVariableDeclerationExpression()
      * @generated
      */
-    EClass VARIABLE_DECLERATION = eINSTANCE.getVariableDecleration();
+    EClass VARIABLE_DECLERATION_EXPRESSION = eINSTANCE.getVariableDeclerationExpression();
+
+    /**
+     * The meta object literal for the '<em><b>Type</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference VARIABLE_DECLERATION_EXPRESSION__TYPE = eINSTANCE.getVariableDeclerationExpression_Type();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute VARIABLE_DECLERATION_EXPRESSION__NAME = eINSTANCE.getVariableDeclerationExpression_Name();
 
     /**
      * The meta object literal for the '<em><b>Dimension</b></em>' containment reference list feature.
@@ -2338,17 +2071,7 @@ public interface MyDslPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference VARIABLE_DECLERATION__DIMENSION = eINSTANCE.getVariableDecleration_Dimension();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.FunctionParameterImpl <em>Function Parameter</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.FunctionParameterImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getFunctionParameter()
-     * @generated
-     */
-    EClass FUNCTION_PARAMETER = eINSTANCE.getFunctionParameter();
+    EReference VARIABLE_DECLERATION_EXPRESSION__DIMENSION = eINSTANCE.getVariableDeclerationExpression_Dimension();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableSymbolImpl <em>Variable Symbol</em>}' class.
@@ -2361,22 +2084,6 @@ public interface MyDslPackage extends EPackage
     EClass VARIABLE_SYMBOL = eINSTANCE.getVariableSymbol();
 
     /**
-     * The meta object literal for the '<em><b>Type</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference VARIABLE_SYMBOL__TYPE = eINSTANCE.getVariableSymbol_Type();
-
-    /**
-     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute VARIABLE_SYMBOL__NAME = eINSTANCE.getVariableSymbol_Name();
-
-    /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.AtomicImpl <em>Atomic</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2385,130 +2092,6 @@ public interface MyDslPackage extends EPackage
      * @generated
      */
     EClass ATOMIC = eINSTANCE.getAtomic();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.VariableReturnImpl <em>Variable Return</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.VariableReturnImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getVariableReturn()
-     * @generated
-     */
-    EClass VARIABLE_RETURN = eINSTANCE.getVariableReturn();
-
-    /**
-     * The meta object literal for the '<em><b>Return</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference VARIABLE_RETURN__RETURN = eINSTANCE.getVariableReturn_Return();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.AtomicOrFunctionCallImpl <em>Atomic Or Function Call</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.AtomicOrFunctionCallImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getAtomicOrFunctionCall()
-     * @generated
-     */
-    EClass ATOMIC_OR_FUNCTION_CALL = eINSTANCE.getAtomicOrFunctionCall();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.FunctionDefinitionImpl <em>Function Definition</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.FunctionDefinitionImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getFunctionDefinition()
-     * @generated
-     */
-    EClass FUNCTION_DEFINITION = eINSTANCE.getFunctionDefinition();
-
-    /**
-     * The meta object literal for the '<em><b>Return</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference FUNCTION_DEFINITION__RETURN = eINSTANCE.getFunctionDefinition_Return();
-
-    /**
-     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute FUNCTION_DEFINITION__NAME = eINSTANCE.getFunctionDefinition_Name();
-
-    /**
-     * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference FUNCTION_DEFINITION__PARAMETERS = eINSTANCE.getFunctionDefinition_Parameters();
-
-    /**
-     * The meta object literal for the '<em><b>Body</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference FUNCTION_DEFINITION__BODY = eINSTANCE.getFunctionDefinition_Body();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.FunctionCallImpl <em>Function Call</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.FunctionCallImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getFunctionCall()
-     * @generated
-     */
-    EClass FUNCTION_CALL = eINSTANCE.getFunctionCall();
-
-    /**
-     * The meta object literal for the '<em><b>Function</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference FUNCTION_CALL__FUNCTION = eINSTANCE.getFunctionCall_Function();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.BuiltinFunctionCallImpl <em>Builtin Function Call</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.BuiltinFunctionCallImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getBuiltinFunctionCall()
-     * @generated
-     */
-    EClass BUILTIN_FUNCTION_CALL = eINSTANCE.getBuiltinFunctionCall();
-
-    /**
-     * The meta object literal for the '<em><b>Function</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute BUILTIN_FUNCTION_CALL__FUNCTION = eINSTANCE.getBuiltinFunctionCall_Function();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.AbstractFunctionCallImpl <em>Abstract Function Call</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.myDsl.impl.AbstractFunctionCallImpl
-     * @see org.xtext.example.mydsl.myDsl.impl.MyDslPackageImpl#getAbstractFunctionCall()
-     * @generated
-     */
-    EClass ABSTRACT_FUNCTION_CALL = eINSTANCE.getAbstractFunctionCall();
-
-    /**
-     * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference ABSTRACT_FUNCTION_CALL__PARAMETERS = eINSTANCE.getAbstractFunctionCall_Parameters();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.myDsl.impl.OperationImpl <em>Operation</em>}' class.

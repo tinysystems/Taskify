@@ -66,29 +66,24 @@ public class MyDslFactoryImpl extends EFactoryImpl implements MyDslFactory
     switch (eClass.getClassifierID())
     {
       case MyDslPackage.INK_APP: return createInkApp();
-      case MyDslPackage.BREAK: return createBreak();
+      case MyDslPackage.BREAK_EXPRESSION: return createBreakExpression();
       case MyDslPackage.VARIABLE_TYPE: return createVariableType();
-      case MyDslPackage.GLOBAL_VARIABLE: return createGlobalVariable();
-      case MyDslPackage.MAIN: return createMain();
-      case MyDslPackage.FUNCTION_BODY: return createFunctionBody();
+      case MyDslPackage.GLOBAL_VARIABLE_EXPRESSION: return createGlobalVariableExpression();
       case MyDslPackage.ENTRY_TASK: return createEntryTask();
       case MyDslPackage.TASK: return createTask();
       case MyDslPackage.IF_EXPRESSION: return createIfExpression();
       case MyDslPackage.FOR_EXPRESSION: return createForExpression();
       case MyDslPackage.WHILE_EXPRESSION: return createWhileExpression();
+      case MyDslPackage.BUILTIN_FUNCTION_CALL_EXPRESSION: return createBuiltinFunctionCallExpression();
+      case MyDslPackage.TASK_BODY: return createTaskBody();
+      case MyDslPackage.STATEMENT_BODY: return createStatementBody();
+      case MyDslPackage.BLOCK_EXPRESSIONS: return createBlockExpressions();
       case MyDslPackage.EXPRESSION: return createExpression();
       case MyDslPackage.OPERATION_EXPRESSION: return createOperationExpression();
       case MyDslPackage.ARRAY_DIMENSION: return createArrayDimension();
-      case MyDslPackage.VARIABLE_DECLERATION: return createVariableDecleration();
-      case MyDslPackage.FUNCTION_PARAMETER: return createFunctionParameter();
+      case MyDslPackage.VARIABLE_DECLERATION_EXPRESSION: return createVariableDeclerationExpression();
       case MyDslPackage.VARIABLE_SYMBOL: return createVariableSymbol();
       case MyDslPackage.ATOMIC: return createAtomic();
-      case MyDslPackage.VARIABLE_RETURN: return createVariableReturn();
-      case MyDslPackage.ATOMIC_OR_FUNCTION_CALL: return createAtomicOrFunctionCall();
-      case MyDslPackage.FUNCTION_DEFINITION: return createFunctionDefinition();
-      case MyDslPackage.FUNCTION_CALL: return createFunctionCall();
-      case MyDslPackage.BUILTIN_FUNCTION_CALL: return createBuiltinFunctionCall();
-      case MyDslPackage.ABSTRACT_FUNCTION_CALL: return createAbstractFunctionCall();
       case MyDslPackage.OPERATION: return createOperation();
       case MyDslPackage.INTEGER_REFERENCE: return createIntegerReference();
       case MyDslPackage.DOUBLE_REFERENCE: return createDoubleReference();
@@ -119,10 +114,10 @@ public class MyDslFactoryImpl extends EFactoryImpl implements MyDslFactory
    * @generated
    */
   @Override
-  public Break createBreak()
+  public BreakExpression createBreakExpression()
   {
-    BreakImpl break_ = new BreakImpl();
-    return break_;
+    BreakExpressionImpl breakExpression = new BreakExpressionImpl();
+    return breakExpression;
   }
 
   /**
@@ -143,34 +138,10 @@ public class MyDslFactoryImpl extends EFactoryImpl implements MyDslFactory
    * @generated
    */
   @Override
-  public GlobalVariable createGlobalVariable()
+  public GlobalVariableExpression createGlobalVariableExpression()
   {
-    GlobalVariableImpl globalVariable = new GlobalVariableImpl();
-    return globalVariable;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Main createMain()
-  {
-    MainImpl main = new MainImpl();
-    return main;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public FunctionBody createFunctionBody()
-  {
-    FunctionBodyImpl functionBody = new FunctionBodyImpl();
-    return functionBody;
+    GlobalVariableExpressionImpl globalVariableExpression = new GlobalVariableExpressionImpl();
+    return globalVariableExpression;
   }
 
   /**
@@ -239,6 +210,54 @@ public class MyDslFactoryImpl extends EFactoryImpl implements MyDslFactory
    * @generated
    */
   @Override
+  public BuiltinFunctionCallExpression createBuiltinFunctionCallExpression()
+  {
+    BuiltinFunctionCallExpressionImpl builtinFunctionCallExpression = new BuiltinFunctionCallExpressionImpl();
+    return builtinFunctionCallExpression;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public TaskBody createTaskBody()
+  {
+    TaskBodyImpl taskBody = new TaskBodyImpl();
+    return taskBody;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public StatementBody createStatementBody()
+  {
+    StatementBodyImpl statementBody = new StatementBodyImpl();
+    return statementBody;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public BlockExpressions createBlockExpressions()
+  {
+    BlockExpressionsImpl blockExpressions = new BlockExpressionsImpl();
+    return blockExpressions;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public Expression createExpression()
   {
     ExpressionImpl expression = new ExpressionImpl();
@@ -275,22 +294,10 @@ public class MyDslFactoryImpl extends EFactoryImpl implements MyDslFactory
    * @generated
    */
   @Override
-  public VariableDecleration createVariableDecleration()
+  public VariableDeclerationExpression createVariableDeclerationExpression()
   {
-    VariableDeclerationImpl variableDecleration = new VariableDeclerationImpl();
-    return variableDecleration;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public FunctionParameter createFunctionParameter()
-  {
-    FunctionParameterImpl functionParameter = new FunctionParameterImpl();
-    return functionParameter;
+    VariableDeclerationExpressionImpl variableDeclerationExpression = new VariableDeclerationExpressionImpl();
+    return variableDeclerationExpression;
   }
 
   /**
@@ -315,78 +322,6 @@ public class MyDslFactoryImpl extends EFactoryImpl implements MyDslFactory
   {
     AtomicImpl atomic = new AtomicImpl();
     return atomic;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public VariableReturn createVariableReturn()
-  {
-    VariableReturnImpl variableReturn = new VariableReturnImpl();
-    return variableReturn;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public AtomicOrFunctionCall createAtomicOrFunctionCall()
-  {
-    AtomicOrFunctionCallImpl atomicOrFunctionCall = new AtomicOrFunctionCallImpl();
-    return atomicOrFunctionCall;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public FunctionDefinition createFunctionDefinition()
-  {
-    FunctionDefinitionImpl functionDefinition = new FunctionDefinitionImpl();
-    return functionDefinition;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public FunctionCall createFunctionCall()
-  {
-    FunctionCallImpl functionCall = new FunctionCallImpl();
-    return functionCall;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public BuiltinFunctionCall createBuiltinFunctionCall()
-  {
-    BuiltinFunctionCallImpl builtinFunctionCall = new BuiltinFunctionCallImpl();
-    return builtinFunctionCall;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public AbstractFunctionCall createAbstractFunctionCall()
-  {
-    AbstractFunctionCallImpl abstractFunctionCall = new AbstractFunctionCallImpl();
-    return abstractFunctionCall;
   }
 
   /**

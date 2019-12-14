@@ -17,27 +17,23 @@ import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransi
 import org.xtext.example.mydsl.myDsl.ArrayDimension;
 import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.BooleanReference;
-import org.xtext.example.mydsl.myDsl.Break;
-import org.xtext.example.mydsl.myDsl.BuiltinFunctionCall;
+import org.xtext.example.mydsl.myDsl.BreakExpression;
+import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
 import org.xtext.example.mydsl.myDsl.EntryTask;
 import org.xtext.example.mydsl.myDsl.ForExpression;
-import org.xtext.example.mydsl.myDsl.FunctionBody;
-import org.xtext.example.mydsl.myDsl.FunctionCall;
-import org.xtext.example.mydsl.myDsl.FunctionDefinition;
-import org.xtext.example.mydsl.myDsl.FunctionParameter;
-import org.xtext.example.mydsl.myDsl.GlobalVariable;
+import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
 import org.xtext.example.mydsl.myDsl.IfExpression;
 import org.xtext.example.mydsl.myDsl.InkApp;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
-import org.xtext.example.mydsl.myDsl.Main;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
 import org.xtext.example.mydsl.myDsl.Operation;
+import org.xtext.example.mydsl.myDsl.StatementBody;
 import org.xtext.example.mydsl.myDsl.StringReference;
 import org.xtext.example.mydsl.myDsl.Task;
-import org.xtext.example.mydsl.myDsl.VariableDecleration;
+import org.xtext.example.mydsl.myDsl.TaskBody;
+import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 import org.xtext.example.mydsl.myDsl.VariableReference;
-import org.xtext.example.mydsl.myDsl.VariableReturn;
 import org.xtext.example.mydsl.myDsl.VariableType;
 import org.xtext.example.mydsl.myDsl.WhileExpression;
 import org.xtext.example.mydsl.services.MyDslGrammarAccess;
@@ -65,11 +61,11 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 			case MyDslPackage.BOOLEAN_REFERENCE:
 				sequence_Atomic(context, (BooleanReference) semanticObject); 
 				return; 
-			case MyDslPackage.BREAK:
-				sequence_Break(context, (Break) semanticObject); 
+			case MyDslPackage.BREAK_EXPRESSION:
+				sequence_BreakExpression(context, (BreakExpression) semanticObject); 
 				return; 
-			case MyDslPackage.BUILTIN_FUNCTION_CALL:
-				sequence_BuiltinFunctionCall(context, (BuiltinFunctionCall) semanticObject); 
+			case MyDslPackage.BUILTIN_FUNCTION_CALL_EXPRESSION:
+				sequence_BuiltinFunctionCallExpression(context, (BuiltinFunctionCallExpression) semanticObject); 
 				return; 
 			case MyDslPackage.DOUBLE_REFERENCE:
 				sequence_Atomic(context, (DoubleReference) semanticObject); 
@@ -80,20 +76,8 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 			case MyDslPackage.FOR_EXPRESSION:
 				sequence_ForExpression(context, (ForExpression) semanticObject); 
 				return; 
-			case MyDslPackage.FUNCTION_BODY:
-				sequence_FunctionBody(context, (FunctionBody) semanticObject); 
-				return; 
-			case MyDslPackage.FUNCTION_CALL:
-				sequence_FunctionCall(context, (FunctionCall) semanticObject); 
-				return; 
-			case MyDslPackage.FUNCTION_DEFINITION:
-				sequence_FunctionDefinition(context, (FunctionDefinition) semanticObject); 
-				return; 
-			case MyDslPackage.FUNCTION_PARAMETER:
-				sequence_FunctionParameter(context, (FunctionParameter) semanticObject); 
-				return; 
-			case MyDslPackage.GLOBAL_VARIABLE:
-				sequence_GlobalVariable(context, (GlobalVariable) semanticObject); 
+			case MyDslPackage.GLOBAL_VARIABLE_EXPRESSION:
+				sequence_GlobalVariableExpression(context, (GlobalVariableExpression) semanticObject); 
 				return; 
 			case MyDslPackage.IF_EXPRESSION:
 				sequence_IfExpression(context, (IfExpression) semanticObject); 
@@ -104,11 +88,11 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 			case MyDslPackage.INTEGER_REFERENCE:
 				sequence_Atomic(context, (IntegerReference) semanticObject); 
 				return; 
-			case MyDslPackage.MAIN:
-				sequence_Main(context, (Main) semanticObject); 
-				return; 
 			case MyDslPackage.OPERATION:
 				sequence_Operation(context, (Operation) semanticObject); 
+				return; 
+			case MyDslPackage.STATEMENT_BODY:
+				sequence_StatementBody(context, (StatementBody) semanticObject); 
 				return; 
 			case MyDslPackage.STRING_REFERENCE:
 				sequence_Atomic(context, (StringReference) semanticObject); 
@@ -116,14 +100,14 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 			case MyDslPackage.TASK:
 				sequence_Task(context, (Task) semanticObject); 
 				return; 
-			case MyDslPackage.VARIABLE_DECLERATION:
-				sequence_VariableDecleration(context, (VariableDecleration) semanticObject); 
+			case MyDslPackage.TASK_BODY:
+				sequence_TaskBody(context, (TaskBody) semanticObject); 
+				return; 
+			case MyDslPackage.VARIABLE_DECLERATION_EXPRESSION:
+				sequence_VariableDeclerationExpression(context, (VariableDeclerationExpression) semanticObject); 
 				return; 
 			case MyDslPackage.VARIABLE_REFERENCE:
 				sequence_Atomic(context, (VariableReference) semanticObject); 
-				return; 
-			case MyDslPackage.VARIABLE_RETURN:
-				sequence_VariableReturn(context, (VariableReturn) semanticObject); 
 				return; 
 			case MyDslPackage.VARIABLE_TYPE:
 				sequence_VariableType(context, (VariableType) semanticObject); 
@@ -152,7 +136,6 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 * Contexts:
 	 *     Operation.Operation_1_0 returns ArrayReference
 	 *     Atomic returns ArrayReference
-	 *     AtomicOrFunctionCall returns ArrayReference
 	 *
 	 * Constraint:
 	 *     (variableReference=[VariableSymbol|ID] dimension+=ArrayDimension+)
@@ -166,7 +149,6 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 * Contexts:
 	 *     Operation.Operation_1_0 returns BooleanReference
 	 *     Atomic returns BooleanReference
-	 *     AtomicOrFunctionCall returns BooleanReference
 	 *
 	 * Constraint:
 	 *     value=BOOLEAN
@@ -186,7 +168,6 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 * Contexts:
 	 *     Operation.Operation_1_0 returns DoubleReference
 	 *     Atomic returns DoubleReference
-	 *     AtomicOrFunctionCall returns DoubleReference
 	 *
 	 * Constraint:
 	 *     value=DOUBLE
@@ -206,7 +187,6 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 * Contexts:
 	 *     Operation.Operation_1_0 returns IntegerReference
 	 *     Atomic returns IntegerReference
-	 *     AtomicOrFunctionCall returns IntegerReference
 	 *
 	 * Constraint:
 	 *     value=INT
@@ -226,7 +206,6 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 * Contexts:
 	 *     Operation.Operation_1_0 returns StringReference
 	 *     Atomic returns StringReference
-	 *     AtomicOrFunctionCall returns StringReference
 	 *
 	 * Constraint:
 	 *     value=STRING
@@ -246,7 +225,6 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 * Contexts:
 	 *     Operation.Operation_1_0 returns VariableReference
 	 *     Atomic returns VariableReference
-	 *     AtomicOrFunctionCall returns VariableReference
 	 *
 	 * Constraint:
 	 *     variableReference=[VariableSymbol|ID]
@@ -264,33 +242,33 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	
 	/**
 	 * Contexts:
-	 *     Break returns Break
+	 *     BreakExpression returns BreakExpression
+	 *     Expression returns BreakExpression
 	 *
 	 * Constraint:
 	 *     break='break'
 	 */
-	protected void sequence_Break(ISerializationContext context, Break semanticObject) {
+	protected void sequence_BreakExpression(ISerializationContext context, BreakExpression semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.BREAK__BREAK) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.BREAK__BREAK));
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.BREAK_EXPRESSION__BREAK) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.BREAK_EXPRESSION__BREAK));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getBreakAccess().getBreakBreakKeyword_1_0(), semanticObject.getBreak());
+		feeder.accept(grammarAccess.getBreakExpressionAccess().getBreakBreakKeyword_1_0(), semanticObject.getBreak());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Contexts:
-	 *     Expression returns BuiltinFunctionCall
-	 *     AtomicOrFunctionCall returns BuiltinFunctionCall
-	 *     BuiltinFunctionCall returns BuiltinFunctionCall
-	 *     AbstractFunctionCall returns BuiltinFunctionCall
+	 *     BuiltinFunctionCallExpression returns BuiltinFunctionCallExpression
+	 *     BlockExpressions returns BuiltinFunctionCallExpression
+	 *     Expression returns BuiltinFunctionCallExpression
 	 *
 	 * Constraint:
 	 *     (function=BuiltinFunctions (parameters+=Atomic parameters+=Atomic*)?)
 	 */
-	protected void sequence_BuiltinFunctionCall(ISerializationContext context, BuiltinFunctionCall semanticObject) {
+	protected void sequence_BuiltinFunctionCallExpression(ISerializationContext context, BuiltinFunctionCallExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -316,90 +294,47 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	/**
 	 * Contexts:
 	 *     ForExpression returns ForExpression
+	 *     BlockExpressions returns ForExpression
 	 *     Expression returns ForExpression
 	 *
 	 * Constraint:
-	 *     (initial=OperationExpression test=OperationExpression update=OperationExpression body+=Expression* body+=Break?)
+	 *     (initial=OperationExpression test=OperationExpression update=OperationExpression body=StatementBody)
 	 */
 	protected void sequence_ForExpression(ISerializationContext context, ForExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     FunctionBody returns FunctionBody
-	 *
-	 * Constraint:
-	 *     (variableDeclerations+=VariableDecleration* body+=Expression*)
-	 */
-	protected void sequence_FunctionBody(ISerializationContext context, FunctionBody semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     AtomicOrFunctionCall returns FunctionCall
-	 *     FunctionCall returns FunctionCall
-	 *     AbstractFunctionCall returns FunctionCall
-	 *
-	 * Constraint:
-	 *     (function=[FunctionDefinition|ID] (parameters+=Atomic parameters+=Atomic*)?)
-	 */
-	protected void sequence_FunctionCall(ISerializationContext context, FunctionCall semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     FunctionDefinition returns FunctionDefinition
-	 *
-	 * Constraint:
-	 *     (return=VariableType name=ID (parameters+=FunctionParameter parameters+=FunctionParameter*)? body+=Expression*)
-	 */
-	protected void sequence_FunctionDefinition(ISerializationContext context, FunctionDefinition semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     FunctionParameter returns FunctionParameter
-	 *     VariableSymbol returns FunctionParameter
-	 *
-	 * Constraint:
-	 *     (type=VariableType name=ID)
-	 */
-	protected void sequence_FunctionParameter(ISerializationContext context, FunctionParameter semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.VARIABLE_SYMBOL__TYPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.VARIABLE_SYMBOL__TYPE));
-			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.VARIABLE_SYMBOL__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.VARIABLE_SYMBOL__NAME));
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.FOR_EXPRESSION__INITIAL) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.FOR_EXPRESSION__INITIAL));
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.FOR_EXPRESSION__TEST) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.FOR_EXPRESSION__TEST));
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.FOR_EXPRESSION__UPDATE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.FOR_EXPRESSION__UPDATE));
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.FOR_EXPRESSION__BODY) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.FOR_EXPRESSION__BODY));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getFunctionParameterAccess().getTypeVariableTypeParserRuleCall_0_0(), semanticObject.getType());
-		feeder.accept(grammarAccess.getFunctionParameterAccess().getNameIDTerminalRuleCall_1_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getForExpressionAccess().getInitialOperationExpressionParserRuleCall_3_0(), semanticObject.getInitial());
+		feeder.accept(grammarAccess.getForExpressionAccess().getTestOperationExpressionParserRuleCall_5_0(), semanticObject.getTest());
+		feeder.accept(grammarAccess.getForExpressionAccess().getUpdateOperationExpressionParserRuleCall_7_0(), semanticObject.getUpdate());
+		feeder.accept(grammarAccess.getForExpressionAccess().getBodyStatementBodyParserRuleCall_10_0(), semanticObject.getBody());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Contexts:
-	 *     GlobalVariable returns GlobalVariable
+	 *     GlobalVariableExpression returns GlobalVariableExpression
+	 *     Expression returns GlobalVariableExpression
 	 *
 	 * Constraint:
-	 *     variable=VariableDecleration
+	 *     variable=VariableDeclerationExpression
 	 */
-	protected void sequence_GlobalVariable(ISerializationContext context, GlobalVariable semanticObject) {
+	protected void sequence_GlobalVariableExpression(ISerializationContext context, GlobalVariableExpression semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.GLOBAL_VARIABLE__VARIABLE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.GLOBAL_VARIABLE__VARIABLE));
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.GLOBAL_VARIABLE_EXPRESSION__VARIABLE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.GLOBAL_VARIABLE_EXPRESSION__VARIABLE));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getGlobalVariableAccess().getVariableVariableDeclerationParserRuleCall_2_0(), semanticObject.getVariable());
+		feeder.accept(grammarAccess.getGlobalVariableExpressionAccess().getVariableVariableDeclerationExpressionParserRuleCall_2_0(), semanticObject.getVariable());
 		feeder.finish();
 	}
 	
@@ -407,17 +342,11 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	/**
 	 * Contexts:
 	 *     IfExpression returns IfExpression
+	 *     BlockExpressions returns IfExpression
 	 *     Expression returns IfExpression
 	 *
 	 * Constraint:
-	 *     (
-	 *         ifcondition=OperationExpression 
-	 *         ifbody+=Expression* 
-	 *         ifbody+=Break? 
-	 *         (elsecondition+=OperationExpression elseifbody+=Expression* elseifbody+=Break?)* 
-	 *         elsebody+=Expression* 
-	 *         elseifbody+=Break?
-	 *     )
+	 *     (ifcondition=OperationExpression ifbody=StatementBody (elseifcondition+=OperationExpression elseifbody+=StatementBody)* elsebody=StatementBody?)
 	 */
 	protected void sequence_IfExpression(ISerializationContext context, IfExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -429,7 +358,7 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     InkApp returns InkApp
 	 *
 	 * Constraint:
-	 *     (globals+=GlobalVariable* tasks+=Task* entry=EntryTask)
+	 *     (globals+=GlobalVariableExpression* tasks+=Task* entry=EntryTask)
 	 */
 	protected void sequence_InkApp(ISerializationContext context, InkApp semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -438,26 +367,39 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	
 	/**
 	 * Contexts:
-	 *     Main returns Main
+	 *     BlockExpressions returns Operation
+	 *     Expression returns Operation
+	 *     OperationExpression returns Operation
+	 *     Operation returns Operation
 	 *
 	 * Constraint:
-	 *     (variableDeclerations+=VariableDecleration* body+=Expression*)
+	 *     (left=Operation_Operation_1_0 (operator+=Operator right+=Atomic)*)
 	 */
-	protected void sequence_Main(ISerializationContext context, Main semanticObject) {
+	protected void sequence_Operation(ISerializationContext context, Operation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
 	 * Contexts:
-	 *     Expression returns Operation
-	 *     OperationExpression returns Operation
-	 *     Operation returns Operation
+	 *     StatementBody returns StatementBody
 	 *
 	 * Constraint:
-	 *     (left=Operation_Operation_1_0 (operator+=Operator right+=AtomicOrFunctionCall)*)
+	 *     (body+=BlockExpressions* body+=BreakExpression?)
 	 */
-	protected void sequence_Operation(ISerializationContext context, Operation semanticObject) {
+	protected void sequence_StatementBody(ISerializationContext context, StatementBody semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     TaskBody returns TaskBody
+	 *
+	 * Constraint:
+	 *     (body+=VariableDeclerationExpression* body+=BlockExpressions* (nexttask=[Task|ID] | endtask='end'))
+	 */
+	protected void sequence_TaskBody(ISerializationContext context, TaskBody semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -467,41 +409,33 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     Task returns Task
 	 *
 	 * Constraint:
-	 *     (name=ID body+=VariableDecleration* body+=Expression* task=[Task|ID]?)
+	 *     (name=ID taskbody=TaskBody)
 	 */
 	protected void sequence_Task(ISerializationContext context, Task semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.TASK__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.TASK__NAME));
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.TASK__TASKBODY) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.TASK__TASKBODY));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTaskAccess().getNameIDTerminalRuleCall_2_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getTaskAccess().getTaskbodyTaskBodyParserRuleCall_4_0(), semanticObject.getTaskbody());
+		feeder.finish();
 	}
 	
 	
 	/**
 	 * Contexts:
-	 *     VariableDecleration returns VariableDecleration
-	 *     VariableSymbol returns VariableDecleration
+	 *     Expression returns VariableDeclerationExpression
+	 *     VariableDeclerationExpression returns VariableDeclerationExpression
+	 *     VariableSymbol returns VariableDeclerationExpression
 	 *
 	 * Constraint:
 	 *     (type=VariableType (name=ID | (name=ID dimension+=ArrayDimension+)))
 	 */
-	protected void sequence_VariableDecleration(ISerializationContext context, VariableDecleration semanticObject) {
+	protected void sequence_VariableDeclerationExpression(ISerializationContext context, VariableDeclerationExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     VariableReturn returns VariableReturn
-	 *
-	 * Constraint:
-	 *     return=Atomic
-	 */
-	protected void sequence_VariableReturn(ISerializationContext context, VariableReturn semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.VARIABLE_RETURN__RETURN) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.VARIABLE_RETURN__RETURN));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getVariableReturnAccess().getReturnAtomicParserRuleCall_1_0(), semanticObject.getReturn());
-		feeder.finish();
 	}
 	
 	
@@ -510,7 +444,7 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     VariableType returns VariableType
 	 *
 	 * Constraint:
-	 *     {VariableType}
+	 *     (type='string' | type='integer' | type='boolean')
 	 */
 	protected void sequence_VariableType(ISerializationContext context, VariableType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -520,13 +454,23 @@ public class MyDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	/**
 	 * Contexts:
 	 *     WhileExpression returns WhileExpression
+	 *     BlockExpressions returns WhileExpression
 	 *     Expression returns WhileExpression
 	 *
 	 * Constraint:
-	 *     (test=OperationExpression body+=Expression* body+=Break?)
+	 *     (test=OperationExpression body=StatementBody)
 	 */
 	protected void sequence_WhileExpression(ISerializationContext context, WhileExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.WHILE_EXPRESSION__TEST) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.WHILE_EXPRESSION__TEST));
+			if (transientValues.isValueTransient(semanticObject, MyDslPackage.Literals.WHILE_EXPRESSION__BODY) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MyDslPackage.Literals.WHILE_EXPRESSION__BODY));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getWhileExpressionAccess().getTestOperationExpressionParserRuleCall_3_0(), semanticObject.getTest());
+		feeder.accept(grammarAccess.getWhileExpressionAccess().getBodyStatementBodyParserRuleCall_6_0(), semanticObject.getBody());
+		feeder.finish();
 	}
 	
 	

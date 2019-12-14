@@ -10,6 +10,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
@@ -17,37 +18,24 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import org.xtext.example.mydsl.myDsl.Expression;
-import org.xtext.example.mydsl.myDsl.FunctionBody;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
-import org.xtext.example.mydsl.myDsl.VariableDecleration;
+import org.xtext.example.mydsl.myDsl.StatementBody;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Function Body</b></em>'.
+ * An implementation of the model object '<em><b>Statement Body</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.example.mydsl.myDsl.impl.FunctionBodyImpl#getVariableDeclerations <em>Variable Declerations</em>}</li>
- *   <li>{@link org.xtext.example.mydsl.myDsl.impl.FunctionBodyImpl#getBody <em>Body</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.myDsl.impl.StatementBodyImpl#getBody <em>Body</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class FunctionBodyImpl extends MinimalEObjectImpl.Container implements FunctionBody
+public class StatementBodyImpl extends MinimalEObjectImpl.Container implements StatementBody
 {
-  /**
-   * The cached value of the '{@link #getVariableDeclerations() <em>Variable Declerations</em>}' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getVariableDeclerations()
-   * @generated
-   * @ordered
-   */
-  protected EList<VariableDecleration> variableDeclerations;
-
   /**
    * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -56,14 +44,14 @@ public class FunctionBodyImpl extends MinimalEObjectImpl.Container implements Fu
    * @generated
    * @ordered
    */
-  protected EList<Expression> body;
+  protected EList<EObject> body;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected FunctionBodyImpl()
+  protected StatementBodyImpl()
   {
     super();
   }
@@ -76,7 +64,7 @@ public class FunctionBodyImpl extends MinimalEObjectImpl.Container implements Fu
   @Override
   protected EClass eStaticClass()
   {
-    return MyDslPackage.Literals.FUNCTION_BODY;
+    return MyDslPackage.Literals.STATEMENT_BODY;
   }
 
   /**
@@ -85,26 +73,11 @@ public class FunctionBodyImpl extends MinimalEObjectImpl.Container implements Fu
    * @generated
    */
   @Override
-  public EList<VariableDecleration> getVariableDeclerations()
-  {
-    if (variableDeclerations == null)
-    {
-      variableDeclerations = new EObjectContainmentEList<VariableDecleration>(VariableDecleration.class, this, MyDslPackage.FUNCTION_BODY__VARIABLE_DECLERATIONS);
-    }
-    return variableDeclerations;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EList<Expression> getBody()
+  public EList<EObject> getBody()
   {
     if (body == null)
     {
-      body = new EObjectContainmentEList<Expression>(Expression.class, this, MyDslPackage.FUNCTION_BODY__BODY);
+      body = new EObjectContainmentEList<EObject>(EObject.class, this, MyDslPackage.STATEMENT_BODY__BODY);
     }
     return body;
   }
@@ -119,9 +92,7 @@ public class FunctionBodyImpl extends MinimalEObjectImpl.Container implements Fu
   {
     switch (featureID)
     {
-      case MyDslPackage.FUNCTION_BODY__VARIABLE_DECLERATIONS:
-        return ((InternalEList<?>)getVariableDeclerations()).basicRemove(otherEnd, msgs);
-      case MyDslPackage.FUNCTION_BODY__BODY:
+      case MyDslPackage.STATEMENT_BODY__BODY:
         return ((InternalEList<?>)getBody()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -137,9 +108,7 @@ public class FunctionBodyImpl extends MinimalEObjectImpl.Container implements Fu
   {
     switch (featureID)
     {
-      case MyDslPackage.FUNCTION_BODY__VARIABLE_DECLERATIONS:
-        return getVariableDeclerations();
-      case MyDslPackage.FUNCTION_BODY__BODY:
+      case MyDslPackage.STATEMENT_BODY__BODY:
         return getBody();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -156,13 +125,9 @@ public class FunctionBodyImpl extends MinimalEObjectImpl.Container implements Fu
   {
     switch (featureID)
     {
-      case MyDslPackage.FUNCTION_BODY__VARIABLE_DECLERATIONS:
-        getVariableDeclerations().clear();
-        getVariableDeclerations().addAll((Collection<? extends VariableDecleration>)newValue);
-        return;
-      case MyDslPackage.FUNCTION_BODY__BODY:
+      case MyDslPackage.STATEMENT_BODY__BODY:
         getBody().clear();
-        getBody().addAll((Collection<? extends Expression>)newValue);
+        getBody().addAll((Collection<? extends EObject>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -178,10 +143,7 @@ public class FunctionBodyImpl extends MinimalEObjectImpl.Container implements Fu
   {
     switch (featureID)
     {
-      case MyDslPackage.FUNCTION_BODY__VARIABLE_DECLERATIONS:
-        getVariableDeclerations().clear();
-        return;
-      case MyDslPackage.FUNCTION_BODY__BODY:
+      case MyDslPackage.STATEMENT_BODY__BODY:
         getBody().clear();
         return;
     }
@@ -198,12 +160,10 @@ public class FunctionBodyImpl extends MinimalEObjectImpl.Container implements Fu
   {
     switch (featureID)
     {
-      case MyDslPackage.FUNCTION_BODY__VARIABLE_DECLERATIONS:
-        return variableDeclerations != null && !variableDeclerations.isEmpty();
-      case MyDslPackage.FUNCTION_BODY__BODY:
+      case MyDslPackage.STATEMENT_BODY__BODY:
         return body != null && !body.isEmpty();
     }
     return super.eIsSet(featureID);
   }
 
-} //FunctionBodyImpl
+} //StatementBodyImpl

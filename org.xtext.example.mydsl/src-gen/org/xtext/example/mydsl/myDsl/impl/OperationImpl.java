@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.xtext.example.mydsl.myDsl.Atomic;
-import org.xtext.example.mydsl.myDsl.AtomicOrFunctionCall;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
 import org.xtext.example.mydsl.myDsl.Operation;
 
@@ -69,7 +68,7 @@ public class OperationImpl extends OperationExpressionImpl implements Operation
    * @generated
    * @ordered
    */
-  protected EList<AtomicOrFunctionCall> right;
+  protected EList<Atomic> right;
 
   /**
    * <!-- begin-user-doc -->
@@ -163,11 +162,11 @@ public class OperationImpl extends OperationExpressionImpl implements Operation
    * @generated
    */
   @Override
-  public EList<AtomicOrFunctionCall> getRight()
+  public EList<Atomic> getRight()
   {
     if (right == null)
     {
-      right = new EObjectContainmentEList<AtomicOrFunctionCall>(AtomicOrFunctionCall.class, this, MyDslPackage.OPERATION__RIGHT);
+      right = new EObjectContainmentEList<Atomic>(Atomic.class, this, MyDslPackage.OPERATION__RIGHT);
     }
     return right;
   }
@@ -230,7 +229,7 @@ public class OperationImpl extends OperationExpressionImpl implements Operation
         return;
       case MyDslPackage.OPERATION__RIGHT:
         getRight().clear();
-        getRight().addAll((Collection<? extends AtomicOrFunctionCall>)newValue);
+        getRight().addAll((Collection<? extends Atomic>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

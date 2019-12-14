@@ -10,43 +10,42 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.xtext.example.mydsl.myDsl.Atomic;
+import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
-import org.xtext.example.mydsl.myDsl.VariableReturn;
+import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Variable Return</b></em>'.
+ * An implementation of the model object '<em><b>Global Variable Expression</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.example.mydsl.myDsl.impl.VariableReturnImpl#getReturn <em>Return</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.myDsl.impl.GlobalVariableExpressionImpl#getVariable <em>Variable</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class VariableReturnImpl extends MinimalEObjectImpl.Container implements VariableReturn
+public class GlobalVariableExpressionImpl extends ExpressionImpl implements GlobalVariableExpression
 {
   /**
-   * The cached value of the '{@link #getReturn() <em>Return</em>}' containment reference.
+   * The cached value of the '{@link #getVariable() <em>Variable</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getReturn()
+   * @see #getVariable()
    * @generated
    * @ordered
    */
-  protected Atomic return_;
+  protected VariableDeclerationExpression variable;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected VariableReturnImpl()
+  protected GlobalVariableExpressionImpl()
   {
     super();
   }
@@ -59,7 +58,7 @@ public class VariableReturnImpl extends MinimalEObjectImpl.Container implements 
   @Override
   protected EClass eStaticClass()
   {
-    return MyDslPackage.Literals.VARIABLE_RETURN;
+    return MyDslPackage.Literals.GLOBAL_VARIABLE_EXPRESSION;
   }
 
   /**
@@ -68,9 +67,9 @@ public class VariableReturnImpl extends MinimalEObjectImpl.Container implements 
    * @generated
    */
   @Override
-  public Atomic getReturn()
+  public VariableDeclerationExpression getVariable()
   {
-    return return_;
+    return variable;
   }
 
   /**
@@ -78,13 +77,13 @@ public class VariableReturnImpl extends MinimalEObjectImpl.Container implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetReturn(Atomic newReturn, NotificationChain msgs)
+  public NotificationChain basicSetVariable(VariableDeclerationExpression newVariable, NotificationChain msgs)
   {
-    Atomic oldReturn = return_;
-    return_ = newReturn;
+    VariableDeclerationExpression oldVariable = variable;
+    variable = newVariable;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyDslPackage.VARIABLE_RETURN__RETURN, oldReturn, newReturn);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MyDslPackage.GLOBAL_VARIABLE_EXPRESSION__VARIABLE, oldVariable, newVariable);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -96,20 +95,20 @@ public class VariableReturnImpl extends MinimalEObjectImpl.Container implements 
    * @generated
    */
   @Override
-  public void setReturn(Atomic newReturn)
+  public void setVariable(VariableDeclerationExpression newVariable)
   {
-    if (newReturn != return_)
+    if (newVariable != variable)
     {
       NotificationChain msgs = null;
-      if (return_ != null)
-        msgs = ((InternalEObject)return_).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.VARIABLE_RETURN__RETURN, null, msgs);
-      if (newReturn != null)
-        msgs = ((InternalEObject)newReturn).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.VARIABLE_RETURN__RETURN, null, msgs);
-      msgs = basicSetReturn(newReturn, msgs);
+      if (variable != null)
+        msgs = ((InternalEObject)variable).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.GLOBAL_VARIABLE_EXPRESSION__VARIABLE, null, msgs);
+      if (newVariable != null)
+        msgs = ((InternalEObject)newVariable).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MyDslPackage.GLOBAL_VARIABLE_EXPRESSION__VARIABLE, null, msgs);
+      msgs = basicSetVariable(newVariable, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MyDslPackage.VARIABLE_RETURN__RETURN, newReturn, newReturn));
+      eNotify(new ENotificationImpl(this, Notification.SET, MyDslPackage.GLOBAL_VARIABLE_EXPRESSION__VARIABLE, newVariable, newVariable));
   }
 
   /**
@@ -122,8 +121,8 @@ public class VariableReturnImpl extends MinimalEObjectImpl.Container implements 
   {
     switch (featureID)
     {
-      case MyDslPackage.VARIABLE_RETURN__RETURN:
-        return basicSetReturn(null, msgs);
+      case MyDslPackage.GLOBAL_VARIABLE_EXPRESSION__VARIABLE:
+        return basicSetVariable(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -138,8 +137,8 @@ public class VariableReturnImpl extends MinimalEObjectImpl.Container implements 
   {
     switch (featureID)
     {
-      case MyDslPackage.VARIABLE_RETURN__RETURN:
-        return getReturn();
+      case MyDslPackage.GLOBAL_VARIABLE_EXPRESSION__VARIABLE:
+        return getVariable();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -154,8 +153,8 @@ public class VariableReturnImpl extends MinimalEObjectImpl.Container implements 
   {
     switch (featureID)
     {
-      case MyDslPackage.VARIABLE_RETURN__RETURN:
-        setReturn((Atomic)newValue);
+      case MyDslPackage.GLOBAL_VARIABLE_EXPRESSION__VARIABLE:
+        setVariable((VariableDeclerationExpression)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -171,8 +170,8 @@ public class VariableReturnImpl extends MinimalEObjectImpl.Container implements 
   {
     switch (featureID)
     {
-      case MyDslPackage.VARIABLE_RETURN__RETURN:
-        setReturn((Atomic)null);
+      case MyDslPackage.GLOBAL_VARIABLE_EXPRESSION__VARIABLE:
+        setVariable((VariableDeclerationExpression)null);
         return;
     }
     super.eUnset(featureID);
@@ -188,10 +187,10 @@ public class VariableReturnImpl extends MinimalEObjectImpl.Container implements 
   {
     switch (featureID)
     {
-      case MyDslPackage.VARIABLE_RETURN__RETURN:
-        return return_ != null;
+      case MyDslPackage.GLOBAL_VARIABLE_EXPRESSION__VARIABLE:
+        return variable != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //VariableReturnImpl
+} //GlobalVariableExpressionImpl

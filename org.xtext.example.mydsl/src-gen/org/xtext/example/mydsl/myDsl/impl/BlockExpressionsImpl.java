@@ -5,24 +5,26 @@ package org.xtext.example.mydsl.myDsl.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.xtext.example.mydsl.myDsl.FunctionParameter;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.xtext.example.mydsl.myDsl.BlockExpressions;
 import org.xtext.example.mydsl.myDsl.MyDslPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Function Parameter</b></em>'.
+ * An implementation of the model object '<em><b>Block Expressions</b></em>'.
  * <!-- end-user-doc -->
  *
  * @generated
  */
-public class FunctionParameterImpl extends VariableSymbolImpl implements FunctionParameter
+public class BlockExpressionsImpl extends MinimalEObjectImpl.Container implements BlockExpressions
 {
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected FunctionParameterImpl()
+  protected BlockExpressionsImpl()
   {
     super();
   }
@@ -35,7 +37,7 @@ public class FunctionParameterImpl extends VariableSymbolImpl implements Functio
   @Override
   protected EClass eStaticClass()
   {
-    return MyDslPackage.Literals.FUNCTION_PARAMETER;
+    return MyDslPackage.Literals.BLOCK_EXPRESSIONS;
   }
 
-} //FunctionParameterImpl
+} //BlockExpressionsImpl

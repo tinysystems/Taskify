@@ -80,10 +80,11 @@ public class MyDslSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case MyDslPackage.BREAK:
+      case MyDslPackage.BREAK_EXPRESSION:
       {
-        Break break_ = (Break)theEObject;
-        T result = caseBreak(break_);
+        BreakExpression breakExpression = (BreakExpression)theEObject;
+        T result = caseBreakExpression(breakExpression);
+        if (result == null) result = caseExpression(breakExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -94,24 +95,11 @@ public class MyDslSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case MyDslPackage.GLOBAL_VARIABLE:
+      case MyDslPackage.GLOBAL_VARIABLE_EXPRESSION:
       {
-        GlobalVariable globalVariable = (GlobalVariable)theEObject;
-        T result = caseGlobalVariable(globalVariable);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MyDslPackage.MAIN:
-      {
-        Main main = (Main)theEObject;
-        T result = caseMain(main);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MyDslPackage.FUNCTION_BODY:
-      {
-        FunctionBody functionBody = (FunctionBody)theEObject;
-        T result = caseFunctionBody(functionBody);
+        GlobalVariableExpression globalVariableExpression = (GlobalVariableExpression)theEObject;
+        T result = caseGlobalVariableExpression(globalVariableExpression);
+        if (result == null) result = caseExpression(globalVariableExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -133,6 +121,7 @@ public class MyDslSwitch<T> extends Switch<T>
       {
         IfExpression ifExpression = (IfExpression)theEObject;
         T result = caseIfExpression(ifExpression);
+        if (result == null) result = caseBlockExpressions(ifExpression);
         if (result == null) result = caseExpression(ifExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -141,6 +130,7 @@ public class MyDslSwitch<T> extends Switch<T>
       {
         ForExpression forExpression = (ForExpression)theEObject;
         T result = caseForExpression(forExpression);
+        if (result == null) result = caseBlockExpressions(forExpression);
         if (result == null) result = caseExpression(forExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -149,7 +139,38 @@ public class MyDslSwitch<T> extends Switch<T>
       {
         WhileExpression whileExpression = (WhileExpression)theEObject;
         T result = caseWhileExpression(whileExpression);
+        if (result == null) result = caseBlockExpressions(whileExpression);
         if (result == null) result = caseExpression(whileExpression);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MyDslPackage.BUILTIN_FUNCTION_CALL_EXPRESSION:
+      {
+        BuiltinFunctionCallExpression builtinFunctionCallExpression = (BuiltinFunctionCallExpression)theEObject;
+        T result = caseBuiltinFunctionCallExpression(builtinFunctionCallExpression);
+        if (result == null) result = caseBlockExpressions(builtinFunctionCallExpression);
+        if (result == null) result = caseExpression(builtinFunctionCallExpression);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MyDslPackage.TASK_BODY:
+      {
+        TaskBody taskBody = (TaskBody)theEObject;
+        T result = caseTaskBody(taskBody);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MyDslPackage.STATEMENT_BODY:
+      {
+        StatementBody statementBody = (StatementBody)theEObject;
+        T result = caseStatementBody(statementBody);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MyDslPackage.BLOCK_EXPRESSIONS:
+      {
+        BlockExpressions blockExpressions = (BlockExpressions)theEObject;
+        T result = caseBlockExpressions(blockExpressions);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -164,6 +185,7 @@ public class MyDslSwitch<T> extends Switch<T>
       {
         OperationExpression operationExpression = (OperationExpression)theEObject;
         T result = caseOperationExpression(operationExpression);
+        if (result == null) result = caseBlockExpressions(operationExpression);
         if (result == null) result = caseExpression(operationExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -175,19 +197,12 @@ public class MyDslSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case MyDslPackage.VARIABLE_DECLERATION:
+      case MyDslPackage.VARIABLE_DECLERATION_EXPRESSION:
       {
-        VariableDecleration variableDecleration = (VariableDecleration)theEObject;
-        T result = caseVariableDecleration(variableDecleration);
-        if (result == null) result = caseVariableSymbol(variableDecleration);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MyDslPackage.FUNCTION_PARAMETER:
-      {
-        FunctionParameter functionParameter = (FunctionParameter)theEObject;
-        T result = caseFunctionParameter(functionParameter);
-        if (result == null) result = caseVariableSymbol(functionParameter);
+        VariableDeclerationExpression variableDeclerationExpression = (VariableDeclerationExpression)theEObject;
+        T result = caseVariableDeclerationExpression(variableDeclerationExpression);
+        if (result == null) result = caseExpression(variableDeclerationExpression);
+        if (result == null) result = caseVariableSymbol(variableDeclerationExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -203,56 +218,8 @@ public class MyDslSwitch<T> extends Switch<T>
         Atomic atomic = (Atomic)theEObject;
         T result = caseAtomic(atomic);
         if (result == null) result = caseOperationExpression(atomic);
-        if (result == null) result = caseAtomicOrFunctionCall(atomic);
+        if (result == null) result = caseBlockExpressions(atomic);
         if (result == null) result = caseExpression(atomic);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MyDslPackage.VARIABLE_RETURN:
-      {
-        VariableReturn variableReturn = (VariableReturn)theEObject;
-        T result = caseVariableReturn(variableReturn);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MyDslPackage.ATOMIC_OR_FUNCTION_CALL:
-      {
-        AtomicOrFunctionCall atomicOrFunctionCall = (AtomicOrFunctionCall)theEObject;
-        T result = caseAtomicOrFunctionCall(atomicOrFunctionCall);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MyDslPackage.FUNCTION_DEFINITION:
-      {
-        FunctionDefinition functionDefinition = (FunctionDefinition)theEObject;
-        T result = caseFunctionDefinition(functionDefinition);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MyDslPackage.FUNCTION_CALL:
-      {
-        FunctionCall functionCall = (FunctionCall)theEObject;
-        T result = caseFunctionCall(functionCall);
-        if (result == null) result = caseAbstractFunctionCall(functionCall);
-        if (result == null) result = caseAtomicOrFunctionCall(functionCall);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MyDslPackage.BUILTIN_FUNCTION_CALL:
-      {
-        BuiltinFunctionCall builtinFunctionCall = (BuiltinFunctionCall)theEObject;
-        T result = caseBuiltinFunctionCall(builtinFunctionCall);
-        if (result == null) result = caseExpression(builtinFunctionCall);
-        if (result == null) result = caseAbstractFunctionCall(builtinFunctionCall);
-        if (result == null) result = caseAtomicOrFunctionCall(builtinFunctionCall);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MyDslPackage.ABSTRACT_FUNCTION_CALL:
-      {
-        AbstractFunctionCall abstractFunctionCall = (AbstractFunctionCall)theEObject;
-        T result = caseAbstractFunctionCall(abstractFunctionCall);
-        if (result == null) result = caseAtomicOrFunctionCall(abstractFunctionCall);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -261,6 +228,7 @@ public class MyDslSwitch<T> extends Switch<T>
         Operation operation = (Operation)theEObject;
         T result = caseOperation(operation);
         if (result == null) result = caseOperationExpression(operation);
+        if (result == null) result = caseBlockExpressions(operation);
         if (result == null) result = caseExpression(operation);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -271,7 +239,7 @@ public class MyDslSwitch<T> extends Switch<T>
         T result = caseIntegerReference(integerReference);
         if (result == null) result = caseAtomic(integerReference);
         if (result == null) result = caseOperationExpression(integerReference);
-        if (result == null) result = caseAtomicOrFunctionCall(integerReference);
+        if (result == null) result = caseBlockExpressions(integerReference);
         if (result == null) result = caseExpression(integerReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -282,7 +250,7 @@ public class MyDslSwitch<T> extends Switch<T>
         T result = caseDoubleReference(doubleReference);
         if (result == null) result = caseAtomic(doubleReference);
         if (result == null) result = caseOperationExpression(doubleReference);
-        if (result == null) result = caseAtomicOrFunctionCall(doubleReference);
+        if (result == null) result = caseBlockExpressions(doubleReference);
         if (result == null) result = caseExpression(doubleReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -293,7 +261,7 @@ public class MyDslSwitch<T> extends Switch<T>
         T result = caseStringReference(stringReference);
         if (result == null) result = caseAtomic(stringReference);
         if (result == null) result = caseOperationExpression(stringReference);
-        if (result == null) result = caseAtomicOrFunctionCall(stringReference);
+        if (result == null) result = caseBlockExpressions(stringReference);
         if (result == null) result = caseExpression(stringReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -304,7 +272,7 @@ public class MyDslSwitch<T> extends Switch<T>
         T result = caseBooleanReference(booleanReference);
         if (result == null) result = caseAtomic(booleanReference);
         if (result == null) result = caseOperationExpression(booleanReference);
-        if (result == null) result = caseAtomicOrFunctionCall(booleanReference);
+        if (result == null) result = caseBlockExpressions(booleanReference);
         if (result == null) result = caseExpression(booleanReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -315,7 +283,7 @@ public class MyDslSwitch<T> extends Switch<T>
         T result = caseArrayReference(arrayReference);
         if (result == null) result = caseAtomic(arrayReference);
         if (result == null) result = caseOperationExpression(arrayReference);
-        if (result == null) result = caseAtomicOrFunctionCall(arrayReference);
+        if (result == null) result = caseBlockExpressions(arrayReference);
         if (result == null) result = caseExpression(arrayReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -326,7 +294,7 @@ public class MyDslSwitch<T> extends Switch<T>
         T result = caseVariableReference(variableReference);
         if (result == null) result = caseAtomic(variableReference);
         if (result == null) result = caseOperationExpression(variableReference);
-        if (result == null) result = caseAtomicOrFunctionCall(variableReference);
+        if (result == null) result = caseBlockExpressions(variableReference);
         if (result == null) result = caseExpression(variableReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -352,17 +320,17 @@ public class MyDslSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Break</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Break Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Break</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Break Expression</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseBreak(Break object)
+  public T caseBreakExpression(BreakExpression object)
   {
     return null;
   }
@@ -384,49 +352,17 @@ public class MyDslSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Global Variable</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Global Variable Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Global Variable</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Global Variable Expression</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseGlobalVariable(GlobalVariable object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Main</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Main</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseMain(Main object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Function Body</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Function Body</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseFunctionBody(FunctionBody object)
+  public T caseGlobalVariableExpression(GlobalVariableExpression object)
   {
     return null;
   }
@@ -512,6 +448,70 @@ public class MyDslSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Builtin Function Call Expression</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Builtin Function Call Expression</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseBuiltinFunctionCallExpression(BuiltinFunctionCallExpression object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Task Body</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Task Body</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTaskBody(TaskBody object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Statement Body</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Statement Body</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseStatementBody(StatementBody object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Block Expressions</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Block Expressions</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseBlockExpressions(BlockExpressions object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -560,33 +560,17 @@ public class MyDslSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Variable Decleration</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Variable Decleration Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Variable Decleration</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Variable Decleration Expression</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseVariableDecleration(VariableDecleration object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Function Parameter</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Function Parameter</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseFunctionParameter(FunctionParameter object)
+  public T caseVariableDeclerationExpression(VariableDeclerationExpression object)
   {
     return null;
   }
@@ -619,102 +603,6 @@ public class MyDslSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseAtomic(Atomic object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Variable Return</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Variable Return</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseVariableReturn(VariableReturn object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Atomic Or Function Call</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Atomic Or Function Call</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseAtomicOrFunctionCall(AtomicOrFunctionCall object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Function Definition</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Function Definition</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseFunctionDefinition(FunctionDefinition object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Function Call</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Function Call</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseFunctionCall(FunctionCall object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Builtin Function Call</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Builtin Function Call</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseBuiltinFunctionCall(BuiltinFunctionCall object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Abstract Function Call</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Abstract Function Call</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseAbstractFunctionCall(AbstractFunctionCall object)
   {
     return null;
   }
