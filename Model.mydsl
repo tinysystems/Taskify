@@ -1,0 +1,49 @@
+/*
+ * This is an example model
+ */
+
+GLOBAL string value
+
+/*
+CONSTANT {
+	
+}
+
+SHARED {
+	
+}
+*/
+
+task abc {
+	boolean bool
+	bool = false
+	if(bool) {
+		break
+	} else if (bool == false) {
+		bool = true
+		print(value)
+	} else {
+		print(bool)
+	}
+	print(bool)
+	end
+}
+
+
+
+entry task aa {
+	integer aab
+	aab = 1
+	value = "ali ata bak ulan"
+	while(aab != 14) {
+		aab = aab + 2
+		
+		if(aab > 15) {
+			print("aab is greater than 15", aab)
+			break
+		}
+	}
+	print(aab)
+	next abc
+}
+
