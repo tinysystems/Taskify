@@ -19,7 +19,7 @@ public class DebugUIPlugin extends AbstractUIPlugin {
 	//Resource bundle.
 	private ResourceBundle resourceBundle;
 	
-	private ImageRegistry imageRegistry;
+//	private ImageRegistry imageRegistry;
 	
 	private final static String ICONS_PATH = "icons/";//$NON-NLS-1$
 	

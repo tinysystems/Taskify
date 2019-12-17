@@ -31,7 +31,7 @@ task abc {
 	    print("girdi")
 	    break
 	}
-	print(bitti)
+	print("bitti")
 	end
 }
 

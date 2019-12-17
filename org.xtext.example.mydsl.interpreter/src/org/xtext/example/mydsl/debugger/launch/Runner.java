@@ -18,6 +18,8 @@ public class Runner extends ExpressionSwitcher {
 	InkApp app;
 	
 	public Runner(InkApp app) {
+		super();
+		setMode(MODES.RUN);
 		this.app = app;
 	}
 	
@@ -59,19 +61,19 @@ public class Runner extends ExpressionSwitcher {
 		System.exit(0);
 	}
 	
-	private void execute(TaskBody taskBody, String id) {
-		CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
-		
-		for(EObject bodyElement: taskBody.getBody()) {
-			super.execute(bodyElement, id);
-		}
-	}
-	
 	private void execute(EList<GlobalVariableExpression> globalVariables) {
 		CallStack.getCallStack().add(new CallStackItem("global", new SymbolTable()));
 		
 		for(GlobalVariableExpression global: globalVariables) {
 			super.execute(global, "global");
+		}
+	}
+	
+	private void execute(TaskBody taskBody, String id) {
+		CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
+		
+		for(EObject bodyElement: taskBody.getBody()) {
+			super.execute(bodyElement, id);
 		}
 	}
 }

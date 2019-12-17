@@ -1,2 +1,7 @@
+
+#**/xtend-gen/
+**/*.xtendbin
 .metadata/
 **/*.class
+#**/*.xtendbin
+#**/bin/

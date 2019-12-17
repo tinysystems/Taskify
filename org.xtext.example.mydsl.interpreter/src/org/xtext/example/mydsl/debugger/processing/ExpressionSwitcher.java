@@ -21,8 +21,22 @@ import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 import org.xtext.example.mydsl.myDsl.WhileExpression;
 
 public class ExpressionSwitcher extends ProcessHandler {
+	public static enum MODES {RUN, DEBUG}
+	private static MODES MODE = ExpressionSwitcher.MODES.RUN;
+	
+	public MODES getMode() {
+		return ExpressionSwitcher.MODE;
+	}
+	
+	public void setMode(MODES mode) {
+		ExpressionSwitcher.MODE = mode;
+	}
+	
 	public void execute(EObject expression, String id) {
-		ThreadStateForDebugging(expression);
+		if (ExpressionSwitcher.MODE == ExpressionSwitcher.MODES.DEBUG) {
+			ThreadStateForDebugging(expression);
+		}
+
 		IExpressionExecutor executor = null;
 		
 		try {

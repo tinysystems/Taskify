@@ -110,7 +110,7 @@ public class PDADebugTarget extends PDADebugElement implements IDebugTarget, IBr
 				try {
 					event = fEventReader.readLine();
 					if (event != null && !event.isEmpty()) {
-						System.out.println("event: " + event); 
+						System.out.println("org.xtext.example.mydsl.debug.core in event: " + event); 
 						// debugging
 						Object[] listeners = fEventListeners.toArray();
 						for (int i = 0; i < listeners.length; i++) {
@@ -376,6 +376,7 @@ public class PDADebugTarget extends PDADebugElement implements IDebugTarget, IBr
 		synchronized (fRequestSocket) {
 			fRequestWriter.println(request);
 			fRequestWriter.flush();
+			System.out.println("org.xtext.example.mydsl.debug.core sent event: " + request);
 			try {
 				// wait for reply
 				return fRequestReader.readLine();

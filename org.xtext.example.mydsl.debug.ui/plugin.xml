@@ -76,7 +76,7 @@
   	-->
   	<extension point="org.eclipse.ui.editorActions">
       	<editorContribution
-            targetID="pda.editor"
+            targetID="org.xtext.example.mydsl.MyDsl"
             id="pda.rulerActions">
         	<action
                actionID="RulerDoubleClick"
@@ -111,10 +111,11 @@
 		Do not use this extension point, it will be removed in future versions of this product. Instead, use the extension point org.eclipse.ui.commands
 		targetID="pda.editor.rulerMenu"
 		set in PDAEditor as 'setRulerContextMenuId("pda.editor.rulerMenu");'
+		set targetID="org.xtext.example.mydsl.MyDsl.RulerContext" to add 'Toggle Breakpoint' action to native XTextEditor
 	-->
 	<extension point="org.eclipse.ui.popupMenus">           
       	<viewerContribution
-			targetID="pda.editor.rulerMenu"
+			targetID="org.xtext.example.mydsl.MyDsl.RulerContext"
             id="pda.editor.rulerActions">
 			<action id="pda.editor.ruler.toggleBreakpointAction"
                	class="org.xtext.example.mydsl.debug.ui.pda.editor.RulerToggleBreakpointAction"

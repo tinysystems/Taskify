@@ -32,25 +32,25 @@ public class ForExpressionExecutor extends AbstractLogicalHelper implements IExp
 		this.executor.execute(update, id);
 	}
 	
-	private Symbol getInitialSymbol(OperationExpression expression, String id) {
-		Symbol symbol = null;
-		if (expression instanceof Operation) {
-			Atomic atomic = ((Operation) expression).getLeft();
-			symbol = lookupSymbolByAtomic(atomic, id);
-		} 
-		return symbol;
-	}
-	
-	private int getInitialValue(OperationExpression expression, String id) {
-		int value = 0;
-		if (expression instanceof Operation) {
-			Atomic atomic = ((Operation) expression).getRight().get(0);
-			Symbol symbol = lookupSymbolByAtomic(atomic, id);
-			value = (int) symbol.getVariableValue();
-		}
-		return value;
-	}
-	
+//	private Symbol getInitialSymbol(OperationExpression expression, String id) {
+//		Symbol symbol = null;
+//		if (expression instanceof Operation) {
+//			Atomic atomic = ((Operation) expression).getLeft();
+//			symbol = lookupSymbolByAtomic(atomic, id);
+//		} 
+//		return symbol;
+//	}
+//	
+//	private int getInitialValue(OperationExpression expression, String id) {
+//		int value = 0;
+//		if (expression instanceof Operation) {
+//			Atomic atomic = ((Operation) expression).getRight().get(0);
+//			Symbol symbol = lookupSymbolByAtomic(atomic, id);
+//			value = (int) symbol.getVariableValue();
+//		}
+//		return value;
+//	}
+//	
 //	private Symbol getTestSymbol(Operaration)
 
 }

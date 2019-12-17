@@ -1,7 +1,18 @@
 package org.xtext.example.mydsl.debug.ui.pda.launcher;
 
+//import java.io.File;
+//import java.io.FilenameFilter;
+//import java.io.IOException;
+//import java.nio.file.Files;
+//import java.nio.file.Paths;
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.stream.Collectors;
+//import java.util.stream.Stream;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -24,6 +35,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
 import org.xtext.example.mydsl.debug.core.pda.DebugCorePlugin;
@@ -99,12 +111,39 @@ public class PDAMainTab extends AbstractLaunchConfigurationTab {
 		});
 	}
 	
+//	private File[] getFilesUnderPath(String path, String extension) {
+//		File[] files = null;
+//		path = "home/ink/runtime-DSLapp/";
+//		try (Stream<java.nio.file.Path> walk = Files.walk(Paths.get(path))) {
+//			
+//            // We want to find only regular files
+//            List<String> result = walk.filter(Files::isRegularFile)
+//                    .map(x -> x.toString())
+//                    .collect(Collectors.toList());
+//
+//            result.forEach(System.out::println);
+//        } catch (IOException e) {
+//        }
+//		return files;
+//	}
+	
+	
 	/**
 	 * Open a resource chooser to select a PDA program 
 	 */
 	protected void browsePDAFiles() {
-		ResourceListSelectionDialog dialog = new ResourceListSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), IResource.FILE);
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		Shell shell = getShell();
+		
+		
+		ResourceListSelectionDialog dialog = new ResourceListSelectionDialog(shell, root, IResource.FILE);
 		dialog.setTitle("PDA Program");
+//		File[] filesUnderWorkspace = getFilesUnderPath(root.getWorkspace().toString(), ".mydsl"); 
+//		List<File> f = new ArrayList<File>();
+//		
+//		f.add(new File("home/ink/runtime-DSLapp/demo/src/mydsl/Model.mydsl"));
+//		
+//		dialog.setInitialElementSelections(f);
 		dialog.setMessage("Select PDA Program");
 		
 		//when want to appear file list in Dialog UI. input * or ? => "Select a resource to open"

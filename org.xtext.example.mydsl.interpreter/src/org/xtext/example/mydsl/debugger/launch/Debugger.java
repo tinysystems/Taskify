@@ -24,6 +24,7 @@ public class Debugger extends ExpressionSwitcher {
 	
 	public Debugger(InkApp inkApp, Socket socket) {
 		super();
+		setMode(MODES.DEBUG);
 		this.app = inkApp;
 		this.suspended = true;
 		this.socket = socket;
@@ -38,25 +39,33 @@ public class Debugger extends ExpressionSwitcher {
 		
 		EntryTask entryTask = app.getEntry();
 		if (entryTask != null) {
+			boolean endTaskFound = false;
+		
 			TaskBody taskBody = entryTask.getTask().getTaskbody();
-			this.execute(taskBody);
+			this.execute(taskBody, entryTask.getTask().getName());
 			
 			Task task = taskBody.getNexttask();
 			while(task != null) {
 				taskBody = task.getTaskbody();
-				this.execute(taskBody);
-				task = taskBody.getNexttask();			
+				String end = taskBody.getEndtask();
+				this.execute(taskBody, task.getName());
+				
+				if (end != null) {
+					endTaskFound = true;
+				}
+				
+				task = taskBody.getNexttask();
 			}
+			
+			if (endTaskFound) {
+				System.out.println("Execution is finished.");
+			} else {
+				System.out.println("No end task found, exactly one is expected.");
+			}
+		} else {
+			System.out.println("No entry task found.");
 		}
 		System.exit(0);
-	}
-	
-	private void execute(TaskBody taskBody) {
-		CallStack.getCallStack().add(new CallStackItem("local", new SymbolTable()));
-		
-		for(EObject bodyElement: taskBody.getBody()) {
-			super.execute(bodyElement, "");
-		}
 	}
 	
 	private void execute(EList<GlobalVariableExpression> globalVariables) {
@@ -64,6 +73,14 @@ public class Debugger extends ExpressionSwitcher {
 		
 		for(GlobalVariableExpression global: globalVariables) {
 			super.execute(global, "global");
+		}
+	}
+	
+	private void execute(TaskBody taskBody, String id) {
+		CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
+		
+		for(EObject bodyElement: taskBody.getBody()) {
+			super.execute(bodyElement, id);
 		}
 	}
 }

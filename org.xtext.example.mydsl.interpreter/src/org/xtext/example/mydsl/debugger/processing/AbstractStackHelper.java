@@ -26,6 +26,7 @@ public abstract class AbstractStackHelper {
 	static Object lastFunctionReturn = null;
 	
 	protected CallStackItem lookupStackItem(String id) {
+//		System.out.println("lookupStackItem: id: " + id);
 		Iterator<CallStackItem> callStackIterator = CallStack.getCallStack().iterator();
 		
 		while(callStackIterator.hasNext()) {
@@ -42,6 +43,7 @@ public abstract class AbstractStackHelper {
 	protected Symbol lookupSymbolByAtomic(Atomic atomic, String id) {		
 //		if Atomic is StringReference or IntegerReference or DoubleReference or BooleanReference, 
 //		the value is not inside call stack. So make dummy symbol and return it.
+//		System.out.println("lookupSymbolByAtomic: atomic: " + atomic.toString() + " id: " + id);
 		if(isDummy(atomic)) {
 			Symbol dummy = dummySymbol(atomic);
 			return dummy;
@@ -55,7 +57,7 @@ public abstract class AbstractStackHelper {
 	
 	protected Symbol lookupSymbolByString(String variableName, String id) {
 		Symbol symbol = null;
-		
+//		System.out.println("lookupSymbolByString: variableName: " + variableName + " id: " + id);
 //		Check if variable is in local symbol table
 		CallStackItem callStackItem = lookupStackItem(id);
 		Iterator<Symbol> iterator = callStackItem.getSymbolTable().getSymbolTable().iterator();
