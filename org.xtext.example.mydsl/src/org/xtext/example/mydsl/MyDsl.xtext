@@ -10,8 +10,27 @@ InkApp:
 	entry = EntryTask
 ;
 
+LogicalOperator:
+	'AND' | 'OR'
+;
+
+ComparisionOperator:
+	 '>=' | '<=' | '==' | '!=' | '<' | '>'
+;
+
+AssignmentOperator:
+	'='
+;
+
+ArithmeticOperator:
+	'-' | '+' | '/' | '*'
+;
+
 Operator:
-	'-' | '+' | '/' | '*' | '>=' | '<=' | '==' | '!=' | '<' | '>' | '=' | 'AND' | 'OR'
+	ArithmeticOperator | 
+	ComparisionOperator | 
+	LogicalOperator | 
+	AssignmentOperator
 ;
 
 BuiltinFunctions:
@@ -98,7 +117,7 @@ WhileExpression:
 
 BuiltinFunctionCallExpression:
 	{BuiltinFunctionCallExpression}
-	function=BuiltinFunctions '(' (parameters += Atomic (',' parameters += Atomic)*)? ')'
+	function = BuiltinFunctions '(' (parameters += Atomic (',' parameters += Atomic)*)? ')'
 ;
 
 //AbstractFunctionCall:
@@ -154,8 +173,6 @@ ArrayDimension:
 VariableDeclerationExpression:
 	type = VariableType (name = ID | name = ID (dimension += ArrayDimension)+)
 ;
-
-
 
 VariableSymbol:
 	VariableDeclerationExpression

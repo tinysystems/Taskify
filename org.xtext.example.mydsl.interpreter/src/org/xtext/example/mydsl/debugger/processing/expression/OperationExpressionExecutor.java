@@ -35,11 +35,6 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 		return list.contains(operator);
 	}
 	
-//	private Object arithmeticCalculate(Object left, String operator, Object right) {
-//		Object result = calculate(left, operator, right);
-//		return result;
-//	}
-	
 	public int arithmeticCalculate(int left, String operator, int right) {
 		int result = 0;
 
