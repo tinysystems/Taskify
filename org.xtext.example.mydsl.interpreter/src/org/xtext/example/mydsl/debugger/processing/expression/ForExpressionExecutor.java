@@ -1,11 +1,8 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
-import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractLogicalHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
-import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.ForExpression;
-import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.OperationExpression;
 
 
@@ -27,6 +24,7 @@ public class ForExpressionExecutor extends AbstractLogicalHelper implements IExp
 		
 		
 		OperationExpression test = expression.getTest();
+		System.out.println(test.toString());
 		
 		OperationExpression update = expression.getUpdate();
 		this.executor.execute(update, id);

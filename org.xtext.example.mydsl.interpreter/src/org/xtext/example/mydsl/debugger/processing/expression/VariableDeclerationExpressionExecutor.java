@@ -1,13 +1,14 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import org.xtext.example.mydsl.debugger.context.CallStackItem;
+import org.eclipse.emf.ecore.EObject;
 import org.xtext.example.mydsl.debugger.context.Symbol;
-import org.xtext.example.mydsl.debugger.context.SymbolTable;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
+import org.xtext.example.mydsl.debugger.processing.Calculator;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
+import org.xtext.example.mydsl.myDsl.ArrayAssignment;
+import org.xtext.example.mydsl.myDsl.Atomic;
+import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;;
 
 
@@ -25,30 +26,73 @@ public class VariableDeclerationExpressionExecutor extends AbstractStackHelper i
 		String name = this.expression.getName();
 		String type = this.expression.getType().getType();
 		
-		Symbol symbol = new Symbol(name, type);
-		symbol.setScope("local");
-		if(this.expression.getDimension().size() > 0) {
-//			?? generateArrayValue(symbol); since 'symbol' is not primitive type
-			symbol = generateArrayValue(symbol);
+		String scope = "local";
+		Symbol symbol = new Symbol(name, type, scope);
+		if(this.expression.getDimension() != null && this.expression.getDimension().getSize() > 0) {
+			int size = this.expression.getDimension().getSize();
+			setArrayValue(symbol, size);
 		}
 		addToSymbolTable(symbol, id);
+		
+		if (this.expression.getOperator() != null) {
+			EObject rightExpression= this.expression.getValue().getExpression();
+			if (rightExpression != null) {
+				if (rightExpression instanceof Operation) {
+					operateValue((Operation) rightExpression, symbol, id);
+				} else if (rightExpression instanceof ArrayAssignment){					
+					operateValue((ArrayAssignment) rightExpression, symbol, id);
+				}
+			} else {
+				System.out.println("Typo while defining variable " + symbol.getName());
+				System.exit(0);
+			}
+			
+		}		
 	}
 	
-	private Symbol generateArrayValue(Symbol symbol) {
-//		Array is converted into map internally.
-//		integer[10][20][30] => Map<"10,20,30", value>
-		Map<String, Object> array = new HashMap<String, Object>();
-		symbol.setVariableValue(array);
-		return symbol;
-	}
-
-	private void addToSymbolTable(Symbol symbol, String id) {
-		CallStackItem item = lookupStackItem(id);
-		
-		if (item != null) {
-			SymbolTable symbolTable = item.getSymbolTable();
-			symbolTable.getSymbolTable().add(symbol);
+	private void operateValue(Operation expression, Symbol symbol, String id) {
+		if (expression != null) {
+			Object value = null;
+			Object rightVal = null;
+			
+			Atomic atomicValue = expression.getLeft();
+			value = decoupleAtomic(atomicValue, id);
+			
+			if (expression.getOperator().size() > 0) {
+				for (String operator: expression.getOperator()) {
+					int operatorIndex = expression.getOperator().indexOf(operator);
+					atomicValue = expression.getRight().get(operatorIndex);
+					
+					rightVal = decoupleAtomic(atomicValue, id);
+					if (Calculator.isArithmetic(operator)) {
+						switch (symbol.getType()) {
+							case "integer":
+								value = Calculator.arithmeticCalculate((int) value, operator, (int) rightVal);
+								break;
+							case "double":
+								value = Calculator.arithmeticCalculate((double) value, operator, (double) rightVal);
+								break;
+						}
+					}
+				}
+			}
+			updateCallStackBySymbol(symbol, value);
 		}
 	}
-
+	
+	private void operateValue(ArrayAssignment expression, Symbol symbol, String id) {
+		if (expression != null) {
+			int size = ((Object[])symbol.getVariableValue()).length;
+			if (size > 0) {
+				Object values[] = new Object[size];
+				int index = 0;
+				for (Atomic atomicValue: ((ArrayAssignment) expression).getVariable()) {
+					Object value = decoupleAtomic(atomicValue, id);
+					values[index] = value;
+					index++;
+				}
+				updateCallStackBySymbol(symbol, values);
+			}
+		}
+	}
 }

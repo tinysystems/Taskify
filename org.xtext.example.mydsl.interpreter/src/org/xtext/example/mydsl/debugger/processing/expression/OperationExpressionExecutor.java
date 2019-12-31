@@ -1,12 +1,13 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
-import java.util.Arrays;
-import java.util.List;
+//import java.util.Arrays;
+//import java.util.List;
 
 import org.xtext.example.mydsl.debugger.context.CallStack;
 import org.xtext.example.mydsl.debugger.context.CallStackItem;
 import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
+import org.xtext.example.mydsl.debugger.processing.Calculator;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
@@ -18,7 +19,7 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 	OperationExpression expression;
 	ExpressionSwitcher executor;
 	
-	final static String[] arithmeticOperators = new String[] {"+", "-", "*", "/"};
+//	final static String[] arithmeticOperators = new String[] {"+", "-", "*", "/"};
 	
 	public OperationExpressionExecutor(OperationExpression expression, ExpressionSwitcher executor) {
 		this.expression = expression;
@@ -30,79 +31,57 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 		return item.getId();
 	}
 	
-	private boolean isArithmetic(String operator) {
-		final List<String> list = Arrays.asList(OperationExpressionExecutor.arithmeticOperators);
-		return list.contains(operator);
-	}
+//	private boolean isArithmetic(String operator) {
+//		final List<String> list = Arrays.asList(OperationExpressionExecutor.arithmeticOperators);
+//		return list.contains(operator);
+//	}
 	
-	public int arithmeticCalculate(int left, String operator, int right) {
-		int result = 0;
-
-		switch(operator) {
-			case "+":
-				result = left + right;
-				break;
-			case "-":
-				result = left - right;
-				break;
-			case "*":
-				result = left * right;
-				break;
-			case "/":
-				result = left / right;
-				break;
-		}
-		return result;
-	}
-	
-	public double arithmeticCalculate(double left, String operator, double right) {
-		double result = 0.00;
-		
-		switch(operator) {
-			case "+":
-				result = left + right;
-				break;
-			case "-":
-				result = left - right;
-				break;
-			case "*":
-				result = left * right;
-				break;
-			case "/":
-				result = left / right;
-				break;
-		}
-		return result;
-	}
-	
-//	private Object calculate(Object left, String operator, Object right) {
-//		double result = 0;
-//		double leftVal = Double.parseDouble(left.toString());
-//		double rightVal = Double.parseDouble(right.toString());
+//	public int arithmeticCalculate(int left, String operator, int right) {
+//		int result = 0;
+//
+//		switch(operator) {
+//			case "+":
+//				result = left + right;
+//				break;
+//			case "-":
+//				result = left - right;
+//				break;
+//			case "*":
+//				result = left * right;
+//				break;
+//			case "/":
+//				result = left / right;
+//				break;
+//		}
+//		return result;
+//	}
+//	
+//	public double arithmeticCalculate(double left, String operator, double right) {
+//		double result = 0.00;
 //		
 //		switch(operator) {
 //			case "+":
-//				result = leftVal + rightVal;
+//				result = left + right;
 //				break;
 //			case "-":
-//				result = leftVal - rightVal;
+//				result = left - right;
 //				break;
 //			case "*":
-//				result = leftVal * rightVal;
+//				result = left * right;
 //				break;
 //			case "/":
-//				result = leftVal / rightVal;
+//				result = left / right;
 //				break;
 //		}
-//		return (Object) result;
+//		return result;
 //	}
 	
 	@Override
 	public void execute(String id) {
 		if (expression instanceof Operation) {
-			Atomic atomic = ((Operation) expression).getLeft();
-			Symbol symbol = lookupSymbolByAtomic(atomic, id);
-			Object result = null;
+			Atomic variable = ((Operation) expression).getLeft();
+			Symbol symbol = lookupSymbolByAtomic(variable, id);
+			Object value = null;
 			Object rightVal = null;
 			
 			for (String operator: ((Operation) expression).getOperator()) {
@@ -112,25 +91,24 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 				
 				rightVal = decoupleAtomic(atomicValue, id);
 				if (operator.equals("=")) {
-					result = (Object) rightVal;
-				} else if (isArithmetic(operator)) {
+					value = (Object) rightVal;
+				} else if (Calculator.isArithmetic(operator)) {
 					switch (symbol.getType()) {
 						case "integer":
-							result = arithmeticCalculate((int) result, operator, (int) rightVal);
+							value = Calculator.arithmeticCalculate((int) value, operator, (int) rightVal);
 							break;
 						case "double":
-							result = arithmeticCalculate((double) result, operator, (double) rightVal);
+							value = Calculator.arithmeticCalculate((double) value, operator, (double) rightVal);
 							break;
 					}
 					
 				}
 			}
 			
-			
-			if (atomic instanceof ArrayReference) {
-				updateCallStackByArray((ArrayReference) atomic, result, getParentId());
+			if (variable instanceof ArrayReference) {
+				updateCallStackByArray((ArrayReference) variable, value, getParentId());
 			} else {
-				updateCallStackByAtomic(atomic, result, getParentId());
+				updateCallStackByAtomic(variable, value, getParentId());
 			}
 		}
 	}

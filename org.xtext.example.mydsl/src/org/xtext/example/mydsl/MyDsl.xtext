@@ -55,6 +55,15 @@ VariableType:
 	type = ('string' | 'integer' |  'boolean')
 ;
 
+ArrayAssignment:
+	'[' variable += Atomic (',' variable += Atomic)* ']'
+;
+
+VariableAssignment:
+	{VariableAssignment} 
+	expression = (OperationExpression | ArrayAssignment)
+;
+
 GlobalVariableExpression:
 	{GlobalVariableExpression}
 	'GLOBAL' variable = VariableDeclerationExpression
@@ -171,7 +180,8 @@ ArrayDimension:
 ;
 
 VariableDeclerationExpression:
-	type = VariableType (name = ID | name = ID (dimension += ArrayDimension)+)
+	{VariableDeclerationExpression}
+	type = VariableType name = ID (dimension = ArrayDimension)? (operator = AssignmentOperator value = VariableAssignment)?
 ;
 
 VariableSymbol:
@@ -183,7 +193,7 @@ Atomic:
 	{DoubleReference} value = DOUBLE |
 	{StringReference} value = STRING |
 	{BooleanReference} value = BOOLEAN |
-	{ArrayReference} variableReference = [VariableSymbol] (dimension += ArrayDimension)+ |
+	{ArrayReference} variableReference = [VariableSymbol] (index = ArrayDimension) |
  	{VariableReference} variableReference = [VariableSymbol]
 ;
 

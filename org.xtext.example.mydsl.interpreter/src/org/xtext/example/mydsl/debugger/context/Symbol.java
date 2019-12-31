@@ -3,15 +3,20 @@ package org.xtext.example.mydsl.debugger.context;
 
 public class Symbol {
 	private String name;
-	private String type;
-	private Object variableValue;
-	private String scope;
+	private String type; // int | string | double | boolean
+	private Object variableValue; // value of the variable
+	private String scope; // global | local
 	
 	public Symbol(String name, String type) {
 		this.name = name;
 		this.type = type;
 	}
 	
+	public Symbol(String name, String type, String scope) {
+		this.name = name;
+		this.type = type;
+		this.scope = scope;
+	}
 	public Symbol() {}
 
 	public String getType() {
@@ -35,25 +40,7 @@ public class Symbol {
 	}
 
 	public void setVariableValue(Object variableValue) {
-		Object val = null;
-
-		switch (this.type) {
-			case "string":
-				val = (String) variableValue; 
-				break;
-			case "integer":
-				val = (int) variableValue;
-				break;
-			case "boolean":
-				val = (Boolean) variableValue;
-				break;
-			case "double":
-				val = (double) variableValue;
-				break;
-			default:
-				val = variableValue;
-		} 
-		this.variableValue = val;
+		this.variableValue = variableValue;
 	}
 
 	public String getScope() {

@@ -57,7 +57,7 @@ public class ExpressionSwitcher extends ProcessHandler {
 			} else if (expression instanceof WhileExpression) {
 				executor = (IExpressionExecutor) new WhileExpressionExecutor((WhileExpression) expression, this);
 			} else {
-				new InterpreterException("Unsupported expression " + expression.toString());
+				throw new InterpreterException("Unsupported expression " + expression.toString());
 			}
 			
 			executor.execute(id);

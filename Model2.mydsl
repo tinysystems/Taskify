@@ -1,0 +1,77 @@
+/*
+ * This is an example model
+ */
+
+GLOBAL string value = 5
+GLOBAL string value2
+GLOBAL integer intVal = value + 3 // 5 + 3
+//GLOBAL integer intVal2 = 
+GLOBAL integer array[3] = [3, 5, 7]
+
+/*
+CONSTANT {
+	
+}
+
+SHARED {
+	
+}
+*/
+
+task abc {
+	boolean bool = true
+	bool = false
+	if(bool) {
+		break
+	} else if (bool == false) {
+		bool = true
+		print(value)
+	} else {
+		print(bool)
+	}
+	print(bool)
+	
+	while(bool) {
+	    print("task abc: girdi")
+	    break
+	}
+	print("task abc: bitti")
+	end
+}
+
+
+
+entry task aa {
+	integer aab = 3 + array[1]
+	integer local_array[5] = [4, 5, 6, 7, 7]
+	local_array[3] = 16
+	print(local_array)
+	print(aab)
+	print()
+	print(array)
+	
+	print(value)
+    intVal = intVal + 3 // 8 + 3
+    print(intVal)
+    
+    array[0] = 3
+    array[0] = intVal + 2 // 11 + 2
+	array[1] = array[0] + 1 // 13 + 1 
+	array[2] = 8 // 8
+	print(array)
+	aab = 1
+	value = "entry task: ali ata bak ulan"
+	
+	while(aab != 14) {
+		aab = aab + 2
+		print("entry: task yaram içerdeee")
+		
+		if(aab > 15) {
+			print("entry task: aab is greater than 15", aab)
+			break
+		}
+	}
+	print(aab)
+	next abc
+//	end
+}
