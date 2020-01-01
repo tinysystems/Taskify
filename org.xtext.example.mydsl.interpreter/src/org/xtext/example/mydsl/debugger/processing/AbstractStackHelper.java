@@ -9,6 +9,7 @@ import org.xtext.example.mydsl.debugger.context.SymbolTable;
 import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BooleanReference;
+import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
@@ -54,8 +55,23 @@ public abstract class AbstractStackHelper {
 	
 	protected Symbol lookupSymbolByString(String variableName, String id) {
 		Symbol symbol = null;
-//		System.out.println("lookupSymbolByString: variableName: " + variableName + " id: " + id);
-//		Check if variable is in local symbol table
+		
+		symbol = searchByString(variableName, id);
+		
+		if (symbol == null) {
+			// Look for GLOBAL variables
+			symbol = searchByString(variableName, "global");
+		}
+		
+		if (symbol == null) {
+			// Look for CONSTANT variables
+			symbol = searchByString(variableName, "constant");
+		}
+		return symbol;
+	}
+	
+	private Symbol searchByString(String variableName, String id) {
+		Symbol symbol = null;
 		CallStackItem callStackItem = lookupStackItem(id);
 		Iterator<Symbol> iterator = callStackItem.getSymbolTable().getSymbolTable().iterator();
 		
@@ -65,23 +81,7 @@ public abstract class AbstractStackHelper {
 			if(symbol.getName() == variableName) {
 				return symbol;
 			}
-			
 		}
-		
-//		Not found in local symbol table
-//		Check if variable is in global symbol table
-		callStackItem = lookupStackItem("global");
-		iterator = callStackItem.getSymbolTable().getSymbolTable().iterator();
-		
-		while(iterator.hasNext()) {
-			symbol = iterator.next();
-			
-			if(symbol.getName() == variableName) {
-				return symbol;
-			}
-		}
-		
-//		Return null
 		return null;
 	}
 	
@@ -221,8 +221,10 @@ public abstract class AbstractStackHelper {
 	private String getVariableSymbolName(VariableSymbol variableSymbol) {
 		String symbolName = "";
 		
-		if(variableSymbol instanceof VariableDeclerationExpression) {
+		if (variableSymbol instanceof VariableDeclerationExpression) {
 			symbolName = ((VariableDeclerationExpression) variableSymbol).getName();
+		} else if (variableSymbol instanceof ConstantVariableExpression) {
+			symbolName = ((ConstantVariableExpression) variableSymbol).getName();
 		}
 		return symbolName;
 	}

@@ -6,8 +6,6 @@ import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression;
-//import org.xtext.example.mydsl.myDsl.Atomic;
-//import org.xtext.example.mydsl.myDsl.StringReference;
 
 
 public class BuiltinFunctionCallExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
@@ -53,15 +51,19 @@ public class BuiltinFunctionCallExpressionExecutor extends AbstractStackHelper i
 				
 				if(expression.getParameters().size() > 0) {
 					symbol = lookupSymbolByAtomic(expression.getParameters().get(0), id);
-					Object value = symbol.getVariableValue();
-					if (value instanceof Object[]) {
-						output = Arrays.toString((Object[]) value);
-					} else {
-						if (value != null) {
-							output = value.toString();
+					if (symbol != null) {
+						Object value = symbol.getVariableValue();
+						if (value instanceof Object[]) {
+							output = Arrays.toString((Object[]) value);
+						} else {
+							if (value != null) {
+								output = value.toString();
+							}
 						}
+						System.out.println(output);
+					} else {
+						System.out.println("Variable is not defined.");
 					}
-					System.out.println(output);
 				}
 				break;
 		}

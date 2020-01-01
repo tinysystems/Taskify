@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.xtext.example.mydsl.debugger.InterpreterException;
 import org.xtext.example.mydsl.debugger.processing.expression.BreakExpressionExecutor;
 import org.xtext.example.mydsl.debugger.processing.expression.BuiltinFunctionCallExpressionExecutor;
+import org.xtext.example.mydsl.debugger.processing.expression.ConstantVariableExpressionExecutor;
 import org.xtext.example.mydsl.debugger.processing.expression.ForExpressionExecutor;
 import org.xtext.example.mydsl.debugger.processing.expression.GlobalVariableExpressionExecutor;
 import org.xtext.example.mydsl.debugger.processing.expression.IExpressionExecutor;
@@ -13,6 +14,7 @@ import org.xtext.example.mydsl.debugger.processing.expression.VariableDecleratio
 import org.xtext.example.mydsl.debugger.processing.expression.WhileExpressionExecutor;
 import org.xtext.example.mydsl.myDsl.BreakExpression;
 import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression;
+import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.ForExpression;
 import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
 import org.xtext.example.mydsl.myDsl.IfExpression;
@@ -44,6 +46,8 @@ public class ExpressionSwitcher extends ProcessHandler {
 				executor = (IExpressionExecutor) new BreakExpressionExecutor((BreakExpression) expression, this);
 			} else if (expression instanceof BuiltinFunctionCallExpression) {
 				executor = (IExpressionExecutor) new BuiltinFunctionCallExpressionExecutor((BuiltinFunctionCallExpression) expression, this);
+			} else if (expression instanceof ConstantVariableExpression) {
+				executor = (IExpressionExecutor) new ConstantVariableExpressionExecutor((ConstantVariableExpression) expression, this);
 			} else if (expression instanceof ForExpression) {
 				executor = (IExpressionExecutor) new ForExpressionExecutor((ForExpression) expression, this);
 			} else if (expression instanceof GlobalVariableExpression) {

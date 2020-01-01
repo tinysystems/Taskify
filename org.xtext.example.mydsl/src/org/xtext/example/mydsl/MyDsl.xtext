@@ -6,6 +6,7 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 InkApp:
 	globals += GlobalVariableExpression*
+	constants += ConstantVariableExpression*
 	tasks+=Task*
 	entry = EntryTask
 ;
@@ -69,22 +70,10 @@ GlobalVariableExpression:
 	'GLOBAL' variable = VariableDeclerationExpression
 ;
 
-//ConstantVariableExpression:
-//	{ConstantVariableExpression}
-//	'CONSTANT' variable = VariableDeclerationExpression
-//;
-
-//Main:
-//	{Main}
-//	variableDeclerations += VariableDecleration*
-//	body += Expression*
-//;
-//
-//FunctionBody:
-//	{FunctionBody}
-//	variableDeclerations += VariableDecleration* 
-//	body += Expression*
-//;
+ConstantVariableExpression:
+	{ConstantVariableExpression}
+	'CONSTANT' type = VariableType name = ID (dimension = ArrayDimension)? operator = AssignmentOperator value = VariableAssignment
+;
 
 EntryTask:
 	'entry' task = Task
@@ -129,11 +118,6 @@ BuiltinFunctionCallExpression:
 	function = BuiltinFunctions '(' (parameters += Atomic (',' parameters += Atomic)*)? ')'
 ;
 
-//AbstractFunctionCall:
-//	FunctionCall | 
-//	BuiltinFunctionCallExpression
-//;
-
 TaskBody:
 	{TaskBody}
 	body += VariableDeclerationExpression*
@@ -158,10 +142,11 @@ BlockExpressions:
 Expression:
 	BreakExpression |
 	BuiltinFunctionCallExpression |
-	OperationExpression |
+	ConstantVariableExpression |
 	ForExpression |
 	GlobalVariableExpression|
 	IfExpression |
+	OperationExpression |
 	VariableDeclerationExpression |
 	WhileExpression
 ;
@@ -185,7 +170,7 @@ VariableDeclerationExpression:
 ;
 
 VariableSymbol:
-	VariableDeclerationExpression
+	VariableDeclerationExpression | ConstantVariableExpression
 ;
 
 Atomic:
@@ -196,33 +181,5 @@ Atomic:
 	{ArrayReference} variableReference = [VariableSymbol] (index = ArrayDimension) |
  	{VariableReference} variableReference = [VariableSymbol]
 ;
-
-//VariableSymbol:
-//	FunctionParameter |
-//	VariableDeclerationExpression
-//;
-
-//VariableReturn:
-//	'return' return = Atomic
-//;
-
-//AtomicOrFunctionCall:
-//	Atomic | AbstractFunctionCall
-//;
-
-//FunctionParameter:
-//	type = VariableType name = ID
-//;
-
-//FunctionDefinition:
-//	'function' return=VariableType name=ID '(' (parameters += FunctionParameter (',' parameters += FunctionParameter)* )?   ')' '{'
-//		body+=Expression*
-//	'}'
-//;
-
-//FunctionCall:
-//	{FunctionCall}
-//	function=[FunctionDefinition] '(' (parameters += Atomic (',' parameters += Atomic)*)? ')'
-//;
 
 

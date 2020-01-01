@@ -7,36 +7,34 @@ import org.xtext.example.mydsl.debugger.processing.Calculator;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayAssignment;
 import org.xtext.example.mydsl.myDsl.Atomic;
-import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
+import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.Operation;
-import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 
 
-public class GlobalVariableExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
-	GlobalVariableExpression expression;
+public class ConstantVariableExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
+	ConstantVariableExpression expression;
 	ExpressionSwitcher executor;
 	
-	public GlobalVariableExpressionExecutor(GlobalVariableExpression expression, ExpressionSwitcher executor) {
+	public ConstantVariableExpressionExecutor(ConstantVariableExpression expression, ExpressionSwitcher executor) {
 		this.expression = expression;
 		this.executor = executor;
 	}
 
 	@Override
 	public void execute(String id) {
-		VariableDeclerationExpression variableDeclerationExpression = this.expression.getVariable();
-		String name = variableDeclerationExpression.getName();
-		String type = variableDeclerationExpression.getType().getType();
-		String scope = "global";
-		
+		String name = expression.getName();
+		String type = expression.getType().getType();
+		String scope = "constant";
 		Symbol symbol = new Symbol(name, type, scope);
-		if(variableDeclerationExpression.getDimension() != null && variableDeclerationExpression.getDimension().getSize() > 0) {
-			int size = variableDeclerationExpression.getDimension().getSize();
+		
+		if(expression.getDimension() != null && expression.getDimension().getSize() > 0) {
+			int size = expression.getDimension().getSize();
 			setArrayValue(symbol, size);
 		}
 		addToSymbolTable(symbol, id);
 		
-		if (variableDeclerationExpression.getOperator() != null) {
-			EObject rightExpression= variableDeclerationExpression.getValue().getExpression();
+		if (expression.getOperator() != null) {
+			EObject rightExpression= expression.getValue().getExpression();
 			if (rightExpression != null) {
 				if (rightExpression instanceof Operation) {
 					operateValue((Operation) rightExpression, symbol, id);
@@ -44,7 +42,7 @@ public class GlobalVariableExpressionExecutor extends AbstractStackHelper implem
 					operateValue((ArrayAssignment) rightExpression, symbol, id);
 				}
 			} else {
-				System.out.println("Typo while defining global variable " + name);
+				System.out.println("Typo while defining constant variable " + name);
 				System.exit(0);
 			}
 		}
@@ -95,5 +93,5 @@ public class GlobalVariableExpressionExecutor extends AbstractStackHelper implem
 			}
 		}
 	}
-	
+
 }

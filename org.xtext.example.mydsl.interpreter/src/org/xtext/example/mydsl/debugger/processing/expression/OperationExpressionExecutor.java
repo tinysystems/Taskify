@@ -84,10 +84,10 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 			Object value = null;
 			Object rightVal = null;
 			
+//			TODO: Add operator priority 8+3*5 is calculated wrong as 55 instead of 23
 			for (String operator: ((Operation) expression).getOperator()) {
 				int operatorIndex = ((Operation) expression).getOperator().indexOf(operator);
 				Atomic atomicValue = ((Operation) expression).getRight().get(operatorIndex);
-				
 				
 				rightVal = decoupleAtomic(atomicValue, id);
 				if (operator.equals("=")) {

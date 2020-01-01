@@ -25,9 +25,9 @@ public class VariableDeclerationExpressionExecutor extends AbstractStackHelper i
 	public void execute(String id) {
 		String name = this.expression.getName();
 		String type = this.expression.getType().getType();
-		
 		String scope = "local";
 		Symbol symbol = new Symbol(name, type, scope);
+		
 		if(this.expression.getDimension() != null && this.expression.getDimension().getSize() > 0) {
 			int size = this.expression.getDimension().getSize();
 			setArrayValue(symbol, size);
@@ -43,7 +43,7 @@ public class VariableDeclerationExpressionExecutor extends AbstractStackHelper i
 					operateValue((ArrayAssignment) rightExpression, symbol, id);
 				}
 			} else {
-				System.out.println("Typo while defining variable " + symbol.getName());
+				System.out.println("Typo while defining local variable " + name);
 				System.exit(0);
 			}
 			

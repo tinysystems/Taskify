@@ -15,6 +15,8 @@ public abstract class AbstractLogicalHelper extends AbstractStackHelper {
 			result = (leftValue & rightValue);
 		} else if(operator.equals("OR")) {
 			result = (leftValue | rightValue);
+		} else if (operator.equals("==")) {
+			result = (leftValue == rightValue);
 		}
 		
 		return result;
@@ -119,16 +121,5 @@ public abstract class AbstractLogicalHelper extends AbstractStackHelper {
 		}
 		return isApplicable;
 	}
-//		DELETE
-//	protected boolean compare(int value) {
-//		return value > 0;
-//	}
-//	
-//	protected boolean compare(double value) {
-//		return value > 0;
-//	}
-//	
-//	protected boolean compare(boolean value) {
-//		return value == true;
-//	}
+	
 }

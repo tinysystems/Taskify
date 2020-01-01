@@ -8,6 +8,8 @@ GLOBAL integer intVal = value + 3 // 5 + 3
 //GLOBAL integer intVal2 = 
 GLOBAL integer array[3] = [3, 5, 7]
 
+CONSTANT integer constant = 5
+
 /*
 CONSTANT {
 	
@@ -44,6 +46,10 @@ task abc {
 entry task aa {
 	integer aab = 3 + array[1]
 	integer local_array[5] = [4, 5, 6, 7, 7]
+	
+	print(constant)
+	
+	
 	local_array[3] = 16
 	print(local_array)
 	print(aab)
@@ -64,7 +70,7 @@ entry task aa {
 	
 	while(aab != 14) {
 		aab = aab + 2
-		print("entry: task yaram içerdeee")
+		//print("entry: task yaram içerdeee")
 		
 		if(aab > 15) {
 			print("entry task: aab is greater than 15", aab)
