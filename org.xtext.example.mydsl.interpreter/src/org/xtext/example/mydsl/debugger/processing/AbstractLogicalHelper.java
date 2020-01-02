@@ -99,10 +99,9 @@ public abstract class AbstractLogicalHelper extends AbstractStackHelper {
 			Object left = decoupleAtomic(atomicLeft, id);
 			List<Atomic> atomicList = ((Operation) expression).getRight();
 			
-			Atomic atomicRight = null;
-			if(atomicList != null && atomicList.size() > 0) {
-				atomicRight = atomicList.get(0);			
-			
+			if(atomicList.size() > 0) {
+				Atomic atomicRight = atomicList.get(0);			
+
 				Object right = decoupleAtomic(atomicRight, id);
 				String operator = ((Operation) expression).getOperator().get(0);
 				

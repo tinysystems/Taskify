@@ -170,7 +170,8 @@ VariableDeclerationExpression:
 ;
 
 VariableSymbol:
-	VariableDeclerationExpression | ConstantVariableExpression
+	VariableDeclerationExpression | 
+	ConstantVariableExpression
 ;
 
 Atomic:
@@ -178,7 +179,7 @@ Atomic:
 	{DoubleReference} value = DOUBLE |
 	{StringReference} value = STRING |
 	{BooleanReference} value = BOOLEAN |
-	{ArrayReference} variableReference = [VariableSymbol] (index = ArrayDimension) |
+	{ArrayReference} arrayReference = [VariableSymbol] (index = ArrayDimension) |
  	{VariableReference} variableReference = [VariableSymbol]
 ;
 

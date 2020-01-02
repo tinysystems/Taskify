@@ -132,14 +132,14 @@ public abstract class AbstractStackHelper {
 		CallStackItem item = lookupStackItem(id);
 		CallStack.getCallStack().remove(item);
 	}
-
-	protected void updateCallStackByAtomic(Atomic atomic, Object value, String id) {
-		Symbol sm = lookupSymbolByAtomic(atomic, id);
-		sm.setVariableValue((Object) value);
-	}
 	
 	protected void updateCallStackBySymbol(Symbol symbol, Object value) {
 		symbol.setVariableValue(value);
+	}
+	
+	protected void updateCallStackByAtomic(Atomic atomic, Object value, String id) {
+		Symbol symbol = lookupSymbolByAtomic(atomic, id);
+		updateCallStackBySymbol(symbol, value);
 	}
 	
 	protected void updateCallStackBySymbol(Symbol symbol, Object[] values) {
@@ -148,10 +148,10 @@ public abstract class AbstractStackHelper {
 			if (oldValues.length == values.length) {
 				symbol.setVariableValue(values);
 			} else {
-				System.out.println("Array values are out of index.");
+				System.out.println("Array values are out of index for variable " + symbol.getName());
 			}
 		} else {
-			System.out.println("Symbol is not an array instance.");
+			System.out.println("Symbol " + symbol.getName() + " is not an array instance.");
 		}
 	}
 
@@ -195,7 +195,7 @@ public abstract class AbstractStackHelper {
 	
 	protected void updateCallStackByArray(ArrayReference array, Object value, String callerId) {
 		int index = array.getIndex().getSize();
-		String target = ((VariableDeclerationExpression) array.getVariableReference()).getName();
+		String target = ((VariableDeclerationExpression) array.getArrayReference()).getName();
 		CallStackItem callStackItem = lookupStackItem(callerId);
 		
 		boolean found = updateCallStackByArray(target, index, callStackItem, value);
@@ -213,7 +213,7 @@ public abstract class AbstractStackHelper {
 		if(atomic instanceof VariableReference) {
 			atomicName = getVariableSymbolName(((VariableReference) atomic).getVariableReference());
 		} else if(atomic instanceof ArrayReference) {
-			atomicName = getVariableSymbolName(((ArrayReference) atomic).getVariableReference());
+			atomicName = getVariableSymbolName(((ArrayReference) atomic).getArrayReference());
 		}
 		return atomicName;
 	}
