@@ -4,11 +4,24 @@ generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
+
 InkApp:
 	globals += GlobalVariableExpression*
 	constants += ConstantVariableExpression*
 	tasks+=Task*
 	entry = EntryTask
+;
+
+terminal DOUBLE returns ecore::EDouble:
+	INT '.' INT
+;
+	
+terminal BOOLEAN returns ecore::EBoolean:
+	'true' | 'false'
+;
+
+BuiltinFunctions:
+	'print'
 ;
 
 LogicalOperator:
@@ -30,12 +43,7 @@ ArithmeticOperator:
 Operator:
 	ArithmeticOperator | 
 	ComparisionOperator | 
-	LogicalOperator | 
-	AssignmentOperator
-;
-
-BuiltinFunctions:
-	'print'
+	LogicalOperator
 ;
 
 BreakExpression:
@@ -43,49 +51,83 @@ BreakExpression:
 	break = 'break'
 ;
 
-terminal DOUBLE returns ecore::EDouble:
-	INT '.' INT
-;
-	
-terminal BOOLEAN returns ecore::EBoolean:
-	'true' | 'false'
-;
-
 VariableType:
 	{VariableType} 
 	type = ('string' | 'integer' |  'boolean')
+;
+
+
+ArrayDimension:
+	{ArrayDimension}
+	'[' (index = [VariableSymbol] | size = INT) ']'
+;
+
+VariableSymbol:
+	VariableDeclerationExpression | 
+	ConstantVariableExpression
+;
+
+Variable:
+	{ArrayReference} arrayReference = [VariableSymbol] (index = ArrayDimension) |
+ 	{VariableReference} variableReference = [VariableSymbol]
+;
+
+Atomic:
+	{IntegerReference} value = INT |
+	{DoubleReference} value = DOUBLE |
+	{StringReference} value = STRING |
+	{BooleanReference} value = BOOLEAN |
+	Variable
+;
+
+BuiltinFunctionCallExpression:
+	{BuiltinFunctionCallExpression}
+	function = BuiltinFunctions '(' (parameters += Atomic (',' parameters += Atomic)*)? ')'
 ;
 
 ArrayAssignment:
 	'[' variable += Atomic (',' variable += Atomic)* ']'
 ;
 
+
+/********************* Operation expressions ************************/
+OperationExpression:
+	Operation
+;
+
+Operation returns OperationExpression:
+	Atomic ({Operation.left = current} (operator += Operator right += Atomic)*)
+;
+
+
+/********************* Assignment and Variable Declaration expressions ************************/
 VariableAssignment:
 	{VariableAssignment} 
-	expression = (OperationExpression | ArrayAssignment)
+	operator = AssignmentOperator expression = (OperationExpression | ArrayAssignment)
+;
+
+VariableAssignmentExpression:
+	{VariableAssignmentExpression}
+	variable = Variable assignment = VariableAssignment
+;
+
+VariableDeclerationExpression:
+	{VariableDeclerationExpression}
+	type = VariableType name = ID (dimension = ArrayDimension)? (assignment = VariableAssignment)?
 ;
 
 GlobalVariableExpression:
 	{GlobalVariableExpression}
-	'GLOBAL' variable = VariableDeclerationExpression
+	'GLOBAL' declarationExpression = VariableDeclerationExpression
 ;
 
 ConstantVariableExpression:
 	{ConstantVariableExpression}
-	'CONSTANT' type = VariableType name = ID (dimension = ArrayDimension)? operator = AssignmentOperator value = VariableAssignment
+	'CONSTANT' type = VariableType name = ID (dimension = ArrayDimension)? assignment = VariableAssignment
 ;
 
-EntryTask:
-	'entry' task = Task
-;
 
-Task:
-	{Task}
-	'task' name = ID '{'
-		taskbody = TaskBody
-	'}'
-;
-
+/********************* Loop expressions ************************/
 IfExpression:
 	{IfExpression}
 	'if' '(' ifcondition = OperationExpression ')' '{'
@@ -113,11 +155,29 @@ WhileExpression:
 	'}' 
 ;
 
-BuiltinFunctionCallExpression:
-	{BuiltinFunctionCallExpression}
-	function = BuiltinFunctions '(' (parameters += Atomic (',' parameters += Atomic)*)? ')'
+
+/********************* Task expressions ************************/
+EntryTask:
+	'entry' task = Task
 ;
 
+Task:
+	{Task}
+	'task' name = ID '{'
+		taskbody = TaskBody
+	'}'
+;
+
+BlockExpressions:
+	VariableAssignmentExpression |
+	IfExpression |
+	ForExpression |
+	WhileExpression |
+	BuiltinFunctionCallExpression
+;
+
+
+/********************* Body expressions ************************/
 TaskBody:
 	{TaskBody}
 	body += VariableDeclerationExpression*
@@ -131,13 +191,7 @@ StatementBody:
 	(body += BreakExpression)?
 ;
 
-BlockExpressions:
-	OperationExpression |
-	IfExpression |
-	ForExpression |
-	WhileExpression |
-	BuiltinFunctionCallExpression
-;
+
 
 Expression:
 	BreakExpression |
@@ -147,40 +201,13 @@ Expression:
 	GlobalVariableExpression|
 	IfExpression |
 	OperationExpression |
+	VariableAssignmentExpression |
 	VariableDeclerationExpression |
 	WhileExpression
 ;
 
-OperationExpression:
-	Operation
-;
 
-Operation returns OperationExpression:
-	Atomic ({Operation.left = current} (operator += Operator right += Atomic)*)
-;
 
-ArrayDimension:
-	{ArrayDimension}
-	'[' (index = [VariableSymbol] | size = INT) ']'
-;
 
-VariableDeclerationExpression:
-	{VariableDeclerationExpression}
-	type = VariableType name = ID (dimension = ArrayDimension)? (operator = AssignmentOperator value = VariableAssignment)?
-;
-
-VariableSymbol:
-	VariableDeclerationExpression | 
-	ConstantVariableExpression
-;
-
-Atomic:
-	{IntegerReference} value = INT |
-	{DoubleReference} value = DOUBLE |
-	{StringReference} value = STRING |
-	{BooleanReference} value = BOOLEAN |
-	{ArrayReference} arrayReference = [VariableSymbol] (index = ArrayDimension) |
- 	{VariableReference} variableReference = [VariableSymbol]
-;
 
 

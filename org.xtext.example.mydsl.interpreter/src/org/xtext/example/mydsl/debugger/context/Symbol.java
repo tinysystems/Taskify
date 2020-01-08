@@ -17,6 +17,14 @@ public class Symbol {
 		this.type = type;
 		this.scope = scope;
 	}
+	
+	public Symbol(String name, String type, Object variableValue, String scope) {
+		this.name = name;
+		this.type = type;
+		this.variableValue = variableValue;
+		this.scope = scope;
+	}
+	
 	public Symbol() {}
 
 	public String getType() {

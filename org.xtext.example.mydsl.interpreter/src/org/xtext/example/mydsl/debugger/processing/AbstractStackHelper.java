@@ -23,7 +23,7 @@ public abstract class AbstractStackHelper {
 	static boolean isReturn = false;
 	static Object lastFunctionReturn = null;
 	
-	protected CallStackItem lookupStackItem(String id) {
+	protected static CallStackItem lookupStackItem(String id) {
 //		System.out.println("lookupStackItem: id: " + id);
 		Iterator<CallStackItem> callStackIterator = CallStack.getCallStack().iterator();
 		
@@ -38,7 +38,12 @@ public abstract class AbstractStackHelper {
 		return null;
 	}
 	
-	protected Symbol lookupSymbolByAtomic(Atomic atomic, String id) {		
+	protected static String getParentId() {
+		CallStackItem item = CallStack.getCallStack().getLast();
+		return item.getId();
+	}
+	
+	protected static Symbol lookupSymbolByAtomic(Atomic atomic, String id) {		
 //		if Atomic is StringReference or IntegerReference or DoubleReference or BooleanReference, 
 //		the value is not inside call stack. So make dummy symbol and return it.
 //		System.out.println("lookupSymbolByAtomic: atomic: " + atomic.toString() + " id: " + id);
@@ -53,7 +58,7 @@ public abstract class AbstractStackHelper {
 		return symbol;
 	}
 	
-	protected Symbol lookupSymbolByString(String variableName, String id) {
+	protected static Symbol lookupSymbolByString(String variableName, String id) {
 		Symbol symbol = null;
 		
 		symbol = searchByString(variableName, id);
@@ -70,7 +75,7 @@ public abstract class AbstractStackHelper {
 		return symbol;
 	}
 	
-	private Symbol searchByString(String variableName, String id) {
+	private static Symbol searchByString(String variableName, String id) {
 		Symbol symbol = null;
 		CallStackItem callStackItem = lookupStackItem(id);
 		Iterator<Symbol> iterator = callStackItem.getSymbolTable().getSymbolTable().iterator();
@@ -85,7 +90,7 @@ public abstract class AbstractStackHelper {
 		return null;
 	}
 	
-	private Symbol dummySymbol(Atomic atomic) {
+	private static Symbol dummySymbol(Atomic atomic) {
 		Object value = null;
 		String type = null;
 		
@@ -108,7 +113,7 @@ public abstract class AbstractStackHelper {
 		return dummySymbol;
 	}
 	
-	private boolean isDummy(Atomic atomic) {
+	private static boolean isDummy(Atomic atomic) {
 		boolean result = false;
 		
 		if(atomic instanceof StringReference) {
@@ -124,25 +129,25 @@ public abstract class AbstractStackHelper {
 		return result;
 	}
 	
-	protected void pushCallStackItem(String id) {
+	protected static void pushCallStackItem(String id) {
 		CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
 	}
 
-	protected void popCallStackItem(String id) {
+	protected static void popCallStackItem(String id) {
 		CallStackItem item = lookupStackItem(id);
 		CallStack.getCallStack().remove(item);
 	}
 	
-	protected void updateCallStackBySymbol(Symbol symbol, Object value) {
+	protected static void updateCallStackBySymbol(Symbol symbol, Object value) {
 		symbol.setVariableValue(value);
 	}
 	
-	protected void updateCallStackByAtomic(Atomic atomic, Object value, String id) {
+	protected static void updateCallStackByAtomic(Atomic atomic, Object value, String id) {
 		Symbol symbol = lookupSymbolByAtomic(atomic, id);
 		updateCallStackBySymbol(symbol, value);
 	}
 	
-	protected void updateCallStackBySymbol(Symbol symbol, Object[] values) {
+	protected static void updateCallStackBySymbol(Symbol symbol, Object[] values) {
 		if (symbol.getVariableValue() instanceof Object[]) {
 			Object[] oldValues = (Object[]) symbol.getVariableValue();
 			if (oldValues.length == values.length) {
@@ -155,12 +160,12 @@ public abstract class AbstractStackHelper {
 		}
 	}
 
-	protected void addCallStackBySymbol(Symbol symbol, String id) {
+	protected static void addCallStackBySymbol(Symbol symbol, String id) {
 		CallStackItem item = lookupStackItem(id);
 		item.getSymbolTable().getSymbolTable().add(symbol);
 	}
 	
-	protected Object decoupleAtomic(Atomic atomic, String id) {
+	protected static Object decoupleAtomic(Atomic atomic, String id) {
 		Object m_return = null; 
 		
 		if(atomic instanceof StringReference) {
@@ -181,7 +186,7 @@ public abstract class AbstractStackHelper {
 		return m_return;
 	}
 	
-	private boolean updateCallStackByArray(String target, int index, CallStackItem callStackItem, Object value) {		
+	private static boolean updateCallStackByArray(String target, int index, CallStackItem callStackItem, Object value) {		
 		for(Symbol symbol: callStackItem.getSymbolTable().getSymbolTable()) {
 			if(target.equals(symbol.getName())) {
 				Object[] values = (Object[]) symbol.getVariableValue();
@@ -193,7 +198,7 @@ public abstract class AbstractStackHelper {
 		return false;
 	}
 	
-	protected void updateCallStackByArray(ArrayReference array, Object value, String callerId) {
+	protected static void updateCallStackByArray(ArrayReference array, Object value, String callerId) {
 		int index = array.getIndex().getSize();
 		String target = ((VariableDeclerationExpression) array.getArrayReference()).getName();
 		CallStackItem callStackItem = lookupStackItem(callerId);
@@ -207,7 +212,7 @@ public abstract class AbstractStackHelper {
 		}
 	}
 	
-	private String getAtomicName(Atomic atomic) {
+	private static String getAtomicName(Atomic atomic) {
 		String atomicName = "";
 		
 		if(atomic instanceof VariableReference) {
@@ -218,7 +223,7 @@ public abstract class AbstractStackHelper {
 		return atomicName;
 	}
 	
-	private String getVariableSymbolName(VariableSymbol variableSymbol) {
+	private static String getVariableSymbolName(VariableSymbol variableSymbol) {
 		String symbolName = "";
 		
 		if (variableSymbol instanceof VariableDeclerationExpression) {
@@ -229,7 +234,26 @@ public abstract class AbstractStackHelper {
 		return symbolName;
 	}
 	
-	protected void setArrayValue(Symbol symbol, int size) {
+	protected static Object[] generateArrayValue(String type, int size) {
+		Object array[] = null;
+		switch (type) {
+			case "integer":
+				array = new Integer[size]; 
+				break;
+			case "double":
+				array = new Double[size];
+				break;
+			case "string":
+				array = new String[size];
+				break;
+			case "boolean":
+				array = new Boolean[size];
+				break;
+		}
+		return array;
+	}
+	
+	protected static void setArrayValue(Symbol symbol, int size) {
 		Object array[] = null;
 		switch (symbol.getType()) {
 			case "integer":
@@ -248,12 +272,17 @@ public abstract class AbstractStackHelper {
 		symbol.setVariableValue(array);
 	}
 
-	protected void addToSymbolTable(Symbol symbol, String id) {
+	protected static void addToSymbolTable(Symbol symbol, String id) {
 		CallStackItem item = lookupStackItem(id);
 		
 		if (item != null) {
 			SymbolTable symbolTable = item.getSymbolTable();
 			symbolTable.getSymbolTable().add(symbol);
 		}
+	}
+	
+	public void stopExecution(String reason) {
+		System.err.println("Error while processing, reason: " + reason);
+		System.exit(0);
 	}
 }
