@@ -3,6 +3,12 @@
  */
 package org.xtext.example.mydsl.validation
 
+import org.eclipse.xtext.validation.Check
+import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression
+import org.xtext.example.mydsl.myDsl.MyDslPackage
+import org.xtext.example.mydsl.myDsl.VariableReference
+import org.xtext.example.mydsl.myDsl.impl.VariableDeclerationExpressionImpl
+import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
 
 /**
  * This class contains custom validation rules. 
@@ -21,5 +27,18 @@ class MyDslValidator extends AbstractMyDslValidator {
 //					INVALID_NAME)
 //		}
 //	}
+
+//	@Check
+//	def checkOperationDataType(VariableAssignmentExpression expression) {
+//		var assigneeType = expression.variable;
+////		var assigneeType = expression.variable.variableReference;
+//		if (assigneeType === null) {
+//			error("Assignee cannot be empty.", MyDslPackage.Literals.VARIABLE_ASSIGNMENT_EXPRESSION__VARIABLE)
+//		}
+//	}
 	
+//	def getType(VariableReference reference) {
+//		return ((VariableDeclerationExpression) reference.variableReference).type.type
+//	}
+
 }
