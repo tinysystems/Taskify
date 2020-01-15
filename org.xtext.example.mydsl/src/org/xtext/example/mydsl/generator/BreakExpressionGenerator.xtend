@@ -4,13 +4,15 @@ import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.BreakExpression
 
 class BreakExpressionGenerator implements IExpressionGenerator {
-	var BreakExpression expression
+	BreakExpression expression
+	GeneratorSwitcher generator
 	
-	new (BreakExpression expression) {
+	new (BreakExpression expression, GeneratorSwitcher generator) {
 		this.expression = expression
+		this.generator = generator
 	}
 	
 	override String generate() {
-		return ""
+		return "break;"
 	}
 }

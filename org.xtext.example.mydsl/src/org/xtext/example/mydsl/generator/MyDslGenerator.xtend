@@ -28,19 +28,33 @@ class MyDslGenerator extends AbstractGenerator {
 		if (model !== null) {
 			fsa.generateFile(APPINIT, appinit())
 			
+			var String threadContent = ""
 			val GeneratorSwitcher generator = new GeneratorSwitcher()
 			
-			for (GlobalVariableExpression global: model.globals) {
-//				val String scope = SymbolTable.GLOBAL
-//				val String name = global.declarationExpression.name
-//				val String type = global.declarationExpression.type.type
-//				SymbolTable.addSymbol(name, type, scope)
-				
-				val aa = generator.generate(global)
-				
-			}
+			var String includeContent = ""
+			var String globalContent = ""
+			var String constantContent = ""
+			var String tasksContent = ""
 			
-			println(SymbolTable.toStringg())
+			
+			try {
+				for (GlobalVariableExpression global: model.globals) {
+	//				val String scope = SymbolTable.GLOBAL
+	//				val String name = global.declarationExpression.name
+	//				val String type = global.declarationExpression.type.type
+	//				SymbolTable.addSymbol(name, type, scope)
+					
+					val aa = generator.generate(global)
+					println(aa)
+					
+				}
+				
+//				println(SymbolTable.toStringg())
+			
+			
+			} catch (Exception e) {
+				e.printStackTrace()
+			}
 			
 			
 		}

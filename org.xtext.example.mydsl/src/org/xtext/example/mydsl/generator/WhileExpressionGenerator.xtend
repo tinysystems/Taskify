@@ -5,12 +5,14 @@ import org.xtext.example.mydsl.myDsl.WhileExpression
 
 class WhileExpressionGenerator implements IExpressionGenerator {
 	WhileExpression expression
+	GeneratorSwitcher generator
 	
-	new (WhileExpression expression)  {
+	new (WhileExpression expression, GeneratorSwitcher generator)  {
 		this.expression = expression
+		this.generator = generator
 	}
 	
 	override String generate() {
-		return ""
+		return this.class.name
 	}
 }

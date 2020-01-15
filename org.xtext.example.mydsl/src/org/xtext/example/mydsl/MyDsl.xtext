@@ -77,7 +77,9 @@ Atomic:
 	{DoubleReference} value = DOUBLE |
 	{StringReference} value = STRING |
 	{BooleanReference} value = BOOLEAN |
-	Variable
+//	{VariableReference} value = [VariableSymbol] |
+//	{ArrayReference} value = (= [VariableSymbol] (index = ArrayDimension))
+	{Variable} value = Variable
 ;
 
 BuiltinFunctionCallExpression:

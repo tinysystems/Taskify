@@ -4,16 +4,23 @@ import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
 
 class GlobalVariableExpressionGenerator implements IExpressionGenerator {
-	GlobalVariableExpression expression;
+	GlobalVariableExpression expression
+	GeneratorSwitcher generator
 	
-	new (GlobalVariableExpression expression) {
+	new (GlobalVariableExpression expression, GeneratorSwitcher generator) {
 		this.expression = expression
+		this.generator = generator
 	}
 	override String generate() {
 		val String scope = SymbolTable.GLOBAL
 		val String name = this.expression.declarationExpression.name
 		val String type = this.expression.declarationExpression.type.type
 		SymbolTable.addSymbol(name, type, scope)
-		return ""
+		
+		var result = this.class.name + ": "
+
+		result += " " + this.generator.generate(this.expression.declarationExpression)
+		
+		return result
 	}
 }

@@ -5,12 +5,14 @@ import org.xtext.example.mydsl.myDsl.IfExpression
 
 class IfExpressionGenerator implements IExpressionGenerator {
 	IfExpression expression
+	GeneratorSwitcher generator
 	
-	new (IfExpression expression) {
+	new (IfExpression expression, GeneratorSwitcher generator) {
 		this.expression = expression
+		this.generator = generator
 	}
 	
 	override String generate() {
-		return ""
+		return this.class.name
 	}
 }
