@@ -31,7 +31,7 @@ class MyDslGenerator extends AbstractGenerator {
 			var String threadContent = ""
 			val GeneratorSwitcher generator = new GeneratorSwitcher()
 			
-			var String includeContent = ""
+			var String includeContent = IncludeTemplates.inkLibaray
 			var String globalContent = ""
 			var String constantContent = ""
 			var String tasksContent = ""

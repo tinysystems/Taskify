@@ -1,27 +1,27 @@
 package org.xtext.example.mydsl.generator
 
 import java.util.HashSet
+import java.util.Set
 
 class IncludeTable {
-	var includes = new HashSet<String>
+	var static Set<String> includes = new HashSet<String>
 	
+	def static add(String include) {
+		includes.add(include)
+	}
 	
-	
-	
-	
-//	def getStandardLibrary {
-//		val lib = '''
-//		#include <stdio.h>
-//		'''
-//		return lib
-//	}
-//	
-	def getink() {
-	val lib = '''
-	#include "ink.h"
-	'''
-	
-	return lib
-	
+	def static remove(String include) {
+		if (includes.contains(include)) {
+			includes.remove(include)
+		}
+	}
+
+	def static generate() {
+		var String result = ""
+		for (String include: includes) {
+			result += include
+		}
+		
+		return result
 	}
 }
