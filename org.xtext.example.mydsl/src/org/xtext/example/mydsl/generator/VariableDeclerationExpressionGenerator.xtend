@@ -4,15 +4,13 @@ import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
 import org.xtext.example.mydsl.myDsl.ArrayAssignment
 import org.xtext.example.mydsl.myDsl.Operation
-import org.xtext.example.mydsl.myDsl.Atomic
+
 
 class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
 	VariableDeclerationExpression expression
-	GeneratorSwitcher generator
 	
 	new (VariableDeclerationExpression expression, GeneratorSwitcher generator) {
 		this.expression = expression
-		this.generator = generator
 	}
 	
 	override String generate() {
@@ -23,7 +21,7 @@ class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
 //		Generate variable type and name
 		result += CommonGenerator.getVariableTypeName(this.expression.type.type, this.expression.name)
 		if (isArray) {
-			result += CommonGenerator.getDimension(this.expression.dimension)
+			result += CommonGenerator.getDimension(this.expression.dimension, -1)
 		} 
 		
 //		Generate right side of definition
@@ -35,7 +33,7 @@ class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
 			}
 		}
 		
-		result += ";"
+		result += ";" + CommonGenerator.newLine
 //		println(result)
 		return result
 	}

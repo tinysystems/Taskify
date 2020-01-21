@@ -7,7 +7,7 @@ class IncludeTemplates {
 	def static String include()
 	'''«prefix»'''
 	
-	def static String inkLibaray() '''
+	def static String inkLibrary() '''
 	«include» "ink.h"
 	'''
 	
@@ -16,7 +16,12 @@ class IncludeTemplates {
 	'''
 	
 	def static String standardLibrary()'''
-	«include» "stdio.h"
+	«include» <stdio.h>
+	«include» <stdlib.h>
+	'''
+	
+	def static String standardBoolLibrary()'''
+	«include» <stdbool.h>
 	'''
 	
 }

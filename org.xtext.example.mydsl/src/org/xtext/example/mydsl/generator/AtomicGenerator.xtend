@@ -2,9 +2,6 @@ package org.xtext.example.mydsl.generator
 
 import org.xtext.example.mydsl.myDsl.Atomic
 import org.xtext.example.mydsl.myDsl.VariableSymbol
-import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
-import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
-import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
 import org.xtext.example.mydsl.myDsl.IntegerReference
 import org.xtext.example.mydsl.myDsl.DoubleReference
 import org.xtext.example.mydsl.myDsl.StringReference
@@ -48,16 +45,16 @@ class AtomicGenerator {
 		var String result = ""
 		
 		if (atomicVar instanceof ArrayReference) {
-			val VariableSymbol symbol = (atomicVar as ArrayReference).arrayReference
-			result = CommonGenerator.getVariableSymbol(symbol)
+			var VariableSymbol symbol = (atomicVar as ArrayReference).arrayReference
+			result = CommonGenerator.getVariableSymbol(symbol, atomicVar.index.size)
 		} else if (atomicVar instanceof VariableReference) {
 			val VariableSymbol symbol = (atomicVar as VariableReference).variableReference
-			result = CommonGenerator.getVariableSymbol(symbol)
+			result = CommonGenerator.getVariableSymbol(symbol, -1)
 		}
 		return result
 	}
 	
-//	Most general function to get target code
+	// Most general function to get target code
 	def private static String getAtomic(Atomic atomic) {
 		var String result = ""
 		

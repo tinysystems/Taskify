@@ -32,8 +32,8 @@ class OperationGenerator {
 		
 		for (var int i = 0; i < operation.operator.size; i++) {
 			val Atomic right = operation.right.get(i)
-			result += operation.operator.get(i)
-			result += AtomicGenerator.generate(right)
+			result += " " + operation.operator.get(i)
+			result += " " + AtomicGenerator.generate(right)
 		}
 		
 		return result

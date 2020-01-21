@@ -11,7 +11,6 @@ import org.xtext.example.mydsl.myDsl.InkApp
 import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
 import org.xtext.example.mydsl.myDsl.EntryTask
-import org.xtext.example.mydsl.myDsl.TaskBody
 import org.xtext.example.mydsl.myDsl.Task
 import org.eclipse.emf.ecore.EObject
 
@@ -92,7 +91,7 @@ class MyDslGenerator extends AbstractGenerator {
 		var String threadContent = ""
 		val GeneratorSwitcher generator = new GeneratorSwitcher()
 		
-		var String includeContent = IncludeTemplates.inkLibaray
+		var String includeContent = ""
 		var String globalContent = ""
 		var String constantContent = ""
 		var String taskDeclerationContent = ""
@@ -100,14 +99,16 @@ class MyDslGenerator extends AbstractGenerator {
 		
 		
 		try {
+			IncludeTable.add(IncludeTemplates.inkLibrary)
+			
 			globalContent = "__shared(" + "\n"
 			for (GlobalVariableExpression global: model.globals) {				
-				globalContent += CommonGenerator.tab + generator.generate(global) + CommonGenerator.newLine
+				globalContent += CommonGenerator.tab + generator.generate(global)
 			}
 			globalContent += ")"
 			
 			for (ConstantVariableExpression constant: model.constants) {
-				constantContent += generator.generate(constant) + CommonGenerator.newLine
+				constantContent += generator.generate(constant)
 			}
 			
 			
@@ -118,26 +119,27 @@ class MyDslGenerator extends AbstractGenerator {
 				taskTable.add(task.name)
 				
 				
-				var String temp = ""
+				var String taskBody = ""
 				for (EObject bodyElement: task.taskbody.body){
-					temp += generator.generate(bodyElement)
+					taskBody += generator.generate(bodyElement)
 				}
 				
 				var nextTask = task.taskbody.nexttask
 				while (nextTask !== null) {
-					tasksContent += taskTable.generateTask(task.name, temp, nextTask.name) + CommonGenerator.newLine
+					tasksContent += taskTable.generateTask(task.name, taskBody, nextTask.name) + CommonGenerator.newLine
+					taskBody = ""
 					task = nextTask
 					nextTask = null
 					
 					taskTable.add(task.name)
 					
 					for (EObject bodyElement: task.taskbody.body){
-						temp += generator.generate(bodyElement)
+						taskBody += generator.generate(bodyElement)
 					}
 					nextTask = task.taskbody.nexttask
 				}
 				
-				tasksContent += taskTable.generateTask(task.name, temp, null) + CommonGenerator.newLine
+				tasksContent += taskTable.generateTask(task.name, taskBody, null) + CommonGenerator.newLine
 			}
 			
 			
@@ -147,6 +149,8 @@ class MyDslGenerator extends AbstractGenerator {
 			
 			
 			// println(SymbolTable.toStringg())
+			includeContent = IncludeTable.generate
+			taskDeclerationContent = taskTable.generate
 
 			threadContent = HeaderComment.headerThread
 			threadContent += includeContent + CommonGenerator.doubleNewLine
@@ -158,7 +162,7 @@ class MyDslGenerator extends AbstractGenerator {
 			threadContent += constantContent + CommonGenerator.doubleNewLine
 			
 			threadContent += HeaderComment.headerTaskDecleration
-			threadContent += taskTable.generate + CommonGenerator.doubleNewLine
+			threadContent += taskDeclerationContent + CommonGenerator.doubleNewLine
 			
 			threadContent += HeaderComment.headerTaskDefinition
 			threadContent += tasksContent + CommonGenerator.newLine + CommonGenerator.doubleNewLine

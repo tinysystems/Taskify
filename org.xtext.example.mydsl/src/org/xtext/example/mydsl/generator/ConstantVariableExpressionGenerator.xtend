@@ -7,11 +7,9 @@ import org.xtext.example.mydsl.myDsl.Operation
 
 class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 	ConstantVariableExpression expression
-	GeneratorSwitcher generator
 	
 	new (ConstantVariableExpression expression, GeneratorSwitcher generator) {
 		this.expression = expression
-		this.generator = generator
 	}
 	
 	override String generate() {
@@ -28,7 +26,7 @@ class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 //		Generate variable type and name
 		result += CommonGenerator.getVariableTypeName(type, name)
 		if (isArray) {
-			result += CommonGenerator.getDimension(this.expression.dimension)
+			result += CommonGenerator.getDimension(this.expression.dimension, -1)
 		} 
 		
 //		Generate right side of definition if exists

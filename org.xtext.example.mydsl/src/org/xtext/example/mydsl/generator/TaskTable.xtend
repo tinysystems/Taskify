@@ -70,8 +70,12 @@ class TaskTable {
 	def String generateRegularTask(String taskName, String body, String nextTaskName) {
 		'''
 		TASK(«taskName») {
-		   «body»
-		    «nextTask(nextTaskName)»
+		    «body»
+		    «IF nextTaskName === null»
+		        «nextTask()»
+		    «ELSE»
+		        «nextTask(nextTaskName)»
+		    «ENDIF»
 		}
 		'''
 	}

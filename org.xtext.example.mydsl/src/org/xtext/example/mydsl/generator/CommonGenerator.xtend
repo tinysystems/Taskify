@@ -10,6 +10,7 @@ class CommonGenerator {
 	static String INT = "uint32_t"
 	static String FLOAT = "float"
 	static String STRING = "char"
+	static String BOOL = "bool"
 	
 	def static String getCType(String type) {
 		var String result
@@ -20,6 +21,8 @@ class CommonGenerator {
 			result = FLOAT
 		} else if (type == "string") {
 			result = STRING
+		} else if (type == "boolean") {
+			result = BOOL
 		} else {
 			result = null
 		}
@@ -39,6 +42,10 @@ class CommonGenerator {
 		var String result = ""
 		val String type = getCType(DslType)
 
+		if (type == BOOL) {
+			IncludeTable.add(IncludeTemplates.standardBoolLibrary)	
+		}
+		
 		result += type
 		result += " " + name
 		
@@ -48,32 +55,36 @@ class CommonGenerator {
 		return result
 	}
 	
-		def static String dimension(int index)
+	def static String dimension(int index)
 	'''[«index»]'''
 	
-	def static String dimension(VariableSymbol index)
-	'''[«getVariableSymbol(index)»]'''
+	def static String dimension(VariableSymbol symbolIndex, int index)
+	'''[«getVariableSymbol(symbolIndex, index)»]'''
 	
-	def static String getDimension(ArrayDimension dimension) {
+	def static String getDimension(ArrayDimension dimension, int index) {
 		var String result = ""
-		val Object index = dimension.size
-		if (index instanceof VariableSymbol) {
-			result = dimension(index as VariableSymbol)
-		} else if (index instanceof Integer) {
+		val Object objIndex = dimension.size
+		if (index >= 0) {
 			result = dimension(index)
+		} else {
+			if (objIndex instanceof VariableSymbol) {
+				result = dimension(objIndex as VariableSymbol, -1)
+			} else if (objIndex instanceof Integer) {
+				result = dimension(objIndex)
+			}
 		}
 		
 		return result
 	}
 		
-	def static String getVariableSymbol(VariableSymbol symbol) {
+	def static String getVariableSymbol(VariableSymbol symbol, int index) {
 		var String result = ""
 		if (symbol instanceof VariableDeclerationExpression) {
 			result = (symbol as VariableDeclerationExpression).name
-			result += symbol.dimension !== null ? getDimension(symbol.dimension) : ""
+			result += symbol.dimension !== null ? getDimension(symbol.dimension, index) : ""
 		} else if (symbol instanceof ConstantVariableExpression) {
 			result = (symbol as ConstantVariableExpression).name
-			result += symbol.dimension !== null ? getDimension(symbol.dimension) : ""
+			result += symbol.dimension !== null ? getDimension(symbol.dimension, index) : ""
 		} else if (symbol instanceof GlobalVariableExpression) {
 			
 		}
