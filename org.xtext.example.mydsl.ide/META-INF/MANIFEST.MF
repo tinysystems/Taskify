@@ -13,4 +13,4 @@ Require-Bundle: org.xtext.example.mydsl,
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.xtext.example.mydsl.ide,
  org.xtext.example.mydsl.ide.contentassist.antlr,
- org.xtext.example.mydsl.ide.contentassist.antlr.internal
+ org.xtext.example.mydsl.ide.contentassist.antlr.internal;x-internal:=true

@@ -8,9 +8,12 @@ import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.xtext.example.mydsl.myDsl.InkApp
-import java.util.HashSet
 import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
-import java.util.HashMap
+import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
+import org.xtext.example.mydsl.myDsl.EntryTask
+import org.xtext.example.mydsl.myDsl.TaskBody
+import org.xtext.example.mydsl.myDsl.Task
+import org.eclipse.emf.ecore.EObject
 
 /**
  * Generates code from your model files on save.
@@ -18,63 +21,24 @@ import java.util.HashMap
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
 class MyDslGenerator extends AbstractGenerator {
-	private final static String APPINIT = "appinit.c"
-	private final static String THREAD = "thread1.c"
+	val static String APPINIT = "appinit.c"
+	val static String THREAD = "thread1.c"
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		initialize(fsa)
 		var model = resource.contents.head as InkApp
 		
-		if (model !== null) {
-			fsa.generateFile(APPINIT, appinit())
-			
-			var String threadContent = ""
-			val GeneratorSwitcher generator = new GeneratorSwitcher()
-			
-			var String includeContent = IncludeTemplates.inkLibaray
-			var String globalContent = ""
-			var String constantContent = ""
-			var String tasksContent = ""
-			
-			
-			try {
-				for (GlobalVariableExpression global: model.globals) {
-	//				val String scope = SymbolTable.GLOBAL
-	//				val String name = global.declarationExpression.name
-	//				val String type = global.declarationExpression.type.type
-	//				SymbolTable.addSymbol(name, type, scope)
-					
-					val aa = generator.generate(global)
-					println(aa)
-					
-				}
-				
-//				println(SymbolTable.toStringg())
-			
-			
-			} catch (Exception e) {
-				e.printStackTrace()
+		try {
+			if (model !== null) {
+				fsa.generateFile(APPINIT, appinit())
+				fsa.generateFile(THREAD, thread1(model, fsa))			
 			}
-			
-			
+		} catch (RuntimeException e) {
+			e.printStackTrace
+		} catch (Exception e) {
+			e.printStackTrace()
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 //		fsa.generateFile('greetings.txt', 'People to greet: ' + 
 //			resource.allContents
@@ -84,21 +48,125 @@ class MyDslGenerator extends AbstractGenerator {
 
 	}
 	
+	
 	def void initialize(IFileSystemAccess2 fsa) {
-		fsa.deleteFile(APPINIT)
-		
-		SymbolTable.resetTable()
+		try {
+			TaskTable.resetTaskTable()
+			SymbolTable.resetTable()
+			fsa.deleteFile(APPINIT)
+			fsa.deleteFile(THREAD)
+			
+		} catch (RuntimeException e) {
+			throw e
+		}
 	}
 	
 	def appinit() {
-		val init = '''
+		'''
 		extern void thread1_init();
-		
+			
 		// this is the function that will be called only at initial boot by the runtime.
 		void __app_init(){
 		    thread1_init();
 		}
+		
+		
 		'''
-		return init
-	}	
+	}
+	
+	def thread1_init (String t_init) {
+		'''
+		void thread1_init(){
+		    // create a thread with priority 15 and entry task «t_init»
+		    __CREATE(15, «t_init»);
+		    __SIGNAL(15);
+		}
+		
+		
+		'''
+	}
+	
+	
+	
+	def thread1(InkApp model, IFileSystemAccess2 fsa) {
+		var String threadContent = ""
+		val GeneratorSwitcher generator = new GeneratorSwitcher()
+		
+		var String includeContent = IncludeTemplates.inkLibaray
+		var String globalContent = ""
+		var String constantContent = ""
+		var String taskDeclerationContent = ""
+		var String tasksContent = ""
+		
+		
+		try {
+			globalContent = "__shared(" + "\n"
+			for (GlobalVariableExpression global: model.globals) {				
+				globalContent += CommonGenerator.tab + generator.generate(global) + CommonGenerator.newLine
+			}
+			globalContent += ")"
+			
+			for (ConstantVariableExpression constant: model.constants) {
+				constantContent += generator.generate(constant) + CommonGenerator.newLine
+			}
+			
+			
+			val TaskTable taskTable = TaskTable.taskTable
+			val EntryTask entry = model.entry
+			if (entry !== null) {
+				var Task task = entry.task
+				taskTable.add(task.name)
+				
+				
+				var String temp = ""
+				for (EObject bodyElement: task.taskbody.body){
+					temp += generator.generate(bodyElement)
+				}
+				
+				var nextTask = task.taskbody.nexttask
+				while (nextTask !== null) {
+					tasksContent += taskTable.generateTask(task.name, temp, nextTask.name) + CommonGenerator.newLine
+					task = nextTask
+					nextTask = null
+					
+					taskTable.add(task.name)
+					
+					for (EObject bodyElement: task.taskbody.body){
+						temp += generator.generate(bodyElement)
+					}
+					nextTask = task.taskbody.nexttask
+				}
+				
+				tasksContent += taskTable.generateTask(task.name, temp, null) + CommonGenerator.newLine
+			}
+			
+			
+			
+			
+			
+			
+			
+			// println(SymbolTable.toStringg())
+
+			threadContent = HeaderComment.headerThread
+			threadContent += includeContent + CommonGenerator.doubleNewLine
+			
+			threadContent += HeaderComment.headerGlobal
+			threadContent += globalContent + CommonGenerator.doubleNewLine
+			
+			threadContent += HeaderComment.headerConstant
+			threadContent += constantContent + CommonGenerator.doubleNewLine
+			
+			threadContent += HeaderComment.headerTaskDecleration
+			threadContent += taskTable.generate + CommonGenerator.doubleNewLine
+			
+			threadContent += HeaderComment.headerTaskDefinition
+			threadContent += tasksContent + CommonGenerator.newLine + CommonGenerator.doubleNewLine
+		
+		} catch (Exception e) {
+			throw e
+		}
+		return threadContent
+	}
+	
 }

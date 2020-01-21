@@ -17,10 +17,10 @@ class GlobalVariableExpressionGenerator implements IExpressionGenerator {
 		val String type = this.expression.declarationExpression.type.type
 		SymbolTable.addSymbol(name, type, scope)
 		
-		var result = this.class.name + ": "
-
-		result += " " + this.generator.generate(this.expression.declarationExpression)
+		// By-pass it to VariableDeclerationExpressionGenerator
+		val String result = this.generator.generate(this.expression.declarationExpression)
 		
 		return result
 	}
+	
 }

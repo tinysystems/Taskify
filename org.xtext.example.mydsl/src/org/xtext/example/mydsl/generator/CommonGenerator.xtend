@@ -7,7 +7,7 @@ import org.xtext.example.mydsl.myDsl.ArrayDimension
 import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
 
 class CommonGenerator {
-	static String INT = "int"
+	static String INT = "uint32_t"
 	static String FLOAT = "float"
 	static String STRING = "char"
 	
@@ -79,4 +79,18 @@ class CommonGenerator {
 		}
 		return result
 	}
+	
+	
+	def static newLine() {
+		return "\n"
+	}
+	
+	def static doubleNewLine() {
+		return newLine + newLine
+	}
+	
+	def static tab() {
+		return "    "		
+	}
+	
 }
