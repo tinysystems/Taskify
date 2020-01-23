@@ -25,13 +25,23 @@ class TaskTable {
 	}
 	
 	def add(String taskName) {
-		tasks.add(taskName)
+		if (!isAdded(taskName)) {
+			tasks.add(taskName)
+		}
 	}
 	
 	def remove(String taskName) {
-		if (tasks.contains(taskName)) {
+		if (isAdded(taskName)) {
 			tasks.remove(taskName)
 		}
+	}
+	
+	def isAdded(String taskName) {
+		return tasks.contains(taskName)
+	}
+	
+	def getEntry() {
+		return tasks.get(0)
 	}
 	
 	def String generate() {
@@ -45,7 +55,7 @@ class TaskTable {
 	
 	def String generateTask(String taskName, String taskBody, String nextTaskName) {
 		var String result = null
-		if (tasks.contains(taskName)) {
+		if (isAdded(taskName)) {
 			if (tasks.indexOf(taskName) == 0) {
 				result = generateEntryTask(taskName, taskBody, nextTaskName)
 			} else {

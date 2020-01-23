@@ -8,9 +8,11 @@ import org.xtext.example.mydsl.myDsl.Operation
 
 class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
 	VariableDeclerationExpression expression
+	GeneratorSwitcher generator
 	
 	new (VariableDeclerationExpression expression, GeneratorSwitcher generator) {
 		this.expression = expression
+		this.generator = generator
 	}
 	
 	override String generate() {
@@ -27,14 +29,13 @@ class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
 //		Generate right side of definition
 		if (this.expression.assignment !== null) {
 			if (isArray) {
-				result += OperationGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)	
+				result += " = " + OperationExpressionGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)	
 			} else {
-				result += OperationGenerator.getAssignment(this.expression.assignment.expression as Operation)
+				result += " = " + generator.generate(this.expression.assignment.expression as Operation)
 			}
 		}
 		
 		result += ";" + CommonGenerator.newLine
-//		println(result)
 		return result
 	}
 	

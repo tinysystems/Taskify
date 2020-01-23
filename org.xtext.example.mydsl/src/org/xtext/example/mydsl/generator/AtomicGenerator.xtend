@@ -1,23 +1,17 @@
 package org.xtext.example.mydsl.generator
 
 import org.xtext.example.mydsl.myDsl.Atomic
-import org.xtext.example.mydsl.myDsl.VariableSymbol
 import org.xtext.example.mydsl.myDsl.IntegerReference
 import org.xtext.example.mydsl.myDsl.DoubleReference
 import org.xtext.example.mydsl.myDsl.StringReference
 import org.xtext.example.mydsl.myDsl.BooleanReference
 import org.xtext.example.mydsl.myDsl.Variable
-import org.xtext.example.mydsl.myDsl.ArrayReference
-import org.xtext.example.mydsl.myDsl.VariableReference
+
 
 class AtomicGenerator {
 	def static String generate(Atomic atomic) {
 		return getAtomic(atomic)
 	}
-	
-	
-	
-
 	
 	/*
 	 * Get target code of primitive INT, DOUBLE, STRING, BOOLEAN
@@ -37,34 +31,18 @@ class AtomicGenerator {
 		return result
 	}
 	
-	/*
-	 * Get target of variable name 
-	 * returns: value | value[0]
-	 */
-	def private static String getVariable(Variable atomicVar) {
-		var String result = ""
-		
-		if (atomicVar instanceof ArrayReference) {
-			var VariableSymbol symbol = (atomicVar as ArrayReference).arrayReference
-			result = CommonGenerator.getVariableSymbol(symbol, atomicVar.index.size)
-		} else if (atomicVar instanceof VariableReference) {
-			val VariableSymbol symbol = (atomicVar as VariableReference).variableReference
-			result = CommonGenerator.getVariableSymbol(symbol, -1)
-		}
-		return result
-	}
-	
 	// Most general function to get target code
 	def private static String getAtomic(Atomic atomic) {
 		var String result = ""
 		
 		if (atomic instanceof Variable) {
-			result = getVariable((atomic as Variable).value)
+			result = VariableGenerator.generate((atomic as Variable).value)
 		} else {
 			result = getTypedVariable(atomic)
 		}
 		return result
 	}
+	
 	
 	
 	

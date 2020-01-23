@@ -29,7 +29,7 @@ class MyDslGenerator extends AbstractGenerator {
 		
 		try {
 			if (model !== null) {
-				fsa.generateFile(APPINIT, appinit())
+				fsa.generateFile(APPINIT, CommonGenerator.appinit())
 				fsa.generateFile(THREAD, thread1(model, fsa))			
 			}
 		} catch (RuntimeException e) {
@@ -60,33 +60,6 @@ class MyDslGenerator extends AbstractGenerator {
 		}
 	}
 	
-	def appinit() {
-		'''
-		extern void thread1_init();
-			
-		// this is the function that will be called only at initial boot by the runtime.
-		void __app_init(){
-		    thread1_init();
-		}
-		
-		
-		'''
-	}
-	
-	def thread1_init (String t_init) {
-		'''
-		void thread1_init(){
-		    // create a thread with priority 15 and entry task «t_init»
-		    __CREATE(15, «t_init»);
-		    __SIGNAL(15);
-		}
-		
-		
-		'''
-	}
-	
-	
-	
 	def thread1(InkApp model, IFileSystemAccess2 fsa) {
 		var String threadContent = ""
 		val GeneratorSwitcher generator = new GeneratorSwitcher()
@@ -105,7 +78,7 @@ class MyDslGenerator extends AbstractGenerator {
 			for (GlobalVariableExpression global: model.globals) {				
 				globalContent += CommonGenerator.tab + generator.generate(global)
 			}
-			globalContent += ")"
+			globalContent += ")" + CommonGenerator.newLine
 			
 			for (ConstantVariableExpression constant: model.constants) {
 				constantContent += generator.generate(constant)
@@ -126,15 +99,17 @@ class MyDslGenerator extends AbstractGenerator {
 				
 				var nextTask = task.taskbody.nexttask
 				while (nextTask !== null) {
-					tasksContent += taskTable.generateTask(task.name, taskBody, nextTask.name) + CommonGenerator.newLine
-					taskBody = ""
-					task = nextTask
-					nextTask = null
-					
-					taskTable.add(task.name)
-					
-					for (EObject bodyElement: task.taskbody.body){
-						taskBody += generator.generate(bodyElement)
+					if (!taskTable.isAdded(nextTask.name)) {
+						tasksContent += taskTable.generateTask(task.name, taskBody, nextTask.name) + CommonGenerator.newLine
+						taskBody = ""
+						task = nextTask
+						nextTask = null
+						
+						taskTable.add(task.name)
+						
+						for (EObject bodyElement: task.taskbody.body){
+							taskBody += generator.generate(bodyElement)
+						}
 					}
 					nextTask = task.taskbody.nexttask
 				}
@@ -163,6 +138,9 @@ class MyDslGenerator extends AbstractGenerator {
 			
 			threadContent += HeaderComment.headerTaskDecleration
 			threadContent += taskDeclerationContent + CommonGenerator.doubleNewLine
+			
+			threadContent += HeaderComment.headerThreadInit
+			threadContent += CommonGenerator.thread1_init(taskTable.entry)			
 			
 			threadContent += HeaderComment.headerTaskDefinition
 			threadContent += tasksContent + CommonGenerator.newLine + CommonGenerator.doubleNewLine

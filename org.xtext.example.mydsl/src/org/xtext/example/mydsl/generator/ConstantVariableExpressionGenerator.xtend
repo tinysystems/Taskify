@@ -7,9 +7,11 @@ import org.xtext.example.mydsl.myDsl.Operation
 
 class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 	ConstantVariableExpression expression
+	GeneratorSwitcher generator
 	
 	new (ConstantVariableExpression expression, GeneratorSwitcher generator) {
 		this.expression = expression
+		this.generator = generator
 	}
 	
 	override String generate() {
@@ -32,13 +34,13 @@ class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 //		Generate right side of definition if exists
 		if (this.expression.assignment !== null) {
 			if (isArray) {
-				result += OperationGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)	
+				result += " = " + OperationExpressionGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)	
 			} else {
-				result += OperationGenerator.getAssignment(this.expression.assignment.expression as Operation)
+				result += " = " + generator.generate(this.expression.assignment.expression as Operation)
 			}
 		}
 		
-		result += ";"		
+		result += ";" + CommonGenerator.newLine	
 		return result
 	}
 	

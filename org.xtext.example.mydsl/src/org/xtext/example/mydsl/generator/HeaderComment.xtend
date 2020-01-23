@@ -43,6 +43,12 @@ class HeaderComment {
 		'''
 	}
 	
+	def static String headerThreadInit() {
+		'''
+		// Called at the very first boot
+		'''
+	}
+	
 	def static String headerTaskDefinition() {
 		'''
 		// Implementation of all tasks that are declared above

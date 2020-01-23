@@ -92,16 +92,41 @@ class CommonGenerator {
 	}
 	
 	
-	def static newLine() {
+	def static String newLine() {
 		return "\n"
 	}
 	
-	def static doubleNewLine() {
+	def static String doubleNewLine() {
 		return newLine + newLine
 	}
 	
-	def static tab() {
-		return "    "		
+	def static String tab() {
+		'''    '''		
+	}
+	
+	def static String appinit() {
+		'''
+		extern void thread1_init();
+			
+		// this is the function that will be called only at initial boot by the runtime.
+		void __app_init(){
+		    thread1_init();
+		}
+		
+		
+		'''
+	}
+	
+	def static String thread1_init (String t_init) {
+		'''
+		void thread1_init(){
+		    // create a thread with priority 15 and entry task «t_init»
+		    __CREATE(15, «t_init»);
+		    __SIGNAL(15);
+		}
+		
+		
+		'''
 	}
 	
 }
