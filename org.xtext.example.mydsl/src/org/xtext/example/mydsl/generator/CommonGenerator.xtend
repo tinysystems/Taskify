@@ -86,7 +86,8 @@ class CommonGenerator {
 			result = (symbol as ConstantVariableExpression).name
 			result += symbol.dimension !== null ? getDimension(symbol.dimension, index) : ""
 		} else if (symbol instanceof GlobalVariableExpression) {
-			
+			result = (symbol as GlobalVariableExpression).name
+			result += symbol.dimension !== null ? getDimension(symbol.dimension, index) : ""
 		}
 		return result
 	}

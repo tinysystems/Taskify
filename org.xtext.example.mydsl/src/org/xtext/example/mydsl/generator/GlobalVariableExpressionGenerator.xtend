@@ -5,20 +5,28 @@ import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
 
 class GlobalVariableExpressionGenerator implements IExpressionGenerator {
 	GlobalVariableExpression expression
-	GeneratorSwitcher generator
 	
 	new (GlobalVariableExpression expression, GeneratorSwitcher generator) {
 		this.expression = expression
-		this.generator = generator
 	}
 	override String generate() {
 		val String scope = SymbolTable.GLOBAL
-		val String name = this.expression.declarationExpression.name
-		val String type = this.expression.declarationExpression.type.type
+		val String name = this.expression.name
+		val String type = this.expression.type.type
 		SymbolTable.addSymbol(name, type, scope)
 		
 		// By-pass it to VariableDeclerationExpressionGenerator
-		val String result = this.generator.generate(this.expression.declarationExpression)
+		var String result = ""
+		
+		val boolean isArray = this.expression.dimension !== null
+		
+//		Generate variable type and name
+		result += CommonGenerator.getVariableTypeName(this.expression.type.type, this.expression.name)
+		if (isArray) {
+			result += CommonGenerator.getDimension(this.expression.dimension, -1)
+		} 
+		
+		result += ";" + CommonGenerator.newLine
 		
 		return result
 	}

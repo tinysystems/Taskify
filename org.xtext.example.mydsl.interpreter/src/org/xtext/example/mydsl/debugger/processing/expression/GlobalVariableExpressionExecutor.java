@@ -4,7 +4,6 @@ import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
-import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 
 
 public class GlobalVariableExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
@@ -18,8 +17,20 @@ public class GlobalVariableExpressionExecutor extends AbstractStackHelper implem
 
 	@Override
 	public void execute(String id) {
-		VariableDeclerationExpression variableDeclerationExpression = this.expression.getDeclarationExpression();
-		Symbol symbol = VariableDeclerationExpressionExecutor.executeVariableDeclarationExpression(variableDeclerationExpression, id);
+		String name = expression.getName();
+		String type = expression.getType().getType();
+		String scope = id;
+		Object value = null;
+		int size = 0;
+		if (expression.getDimension() != null && expression.getDimension().getSize() > 0) {
+			size = expression.getDimension().getSize();
+			Object array[] = generateArrayValue(type, size);
+			value = array;
+		} else {
+			value = new Object();
+		}
+		
+		Symbol symbol = new Symbol(name, type, value, scope);
 		addCallStackBySymbol(symbol, id);
 	}
 	

@@ -64,7 +64,8 @@ ArrayDimension:
 
 VariableSymbol:
 	VariableDeclerationExpression | 
-	ConstantVariableExpression
+	ConstantVariableExpression |
+	GlobalVariableExpression
 ;
 
 Variable:
@@ -120,7 +121,7 @@ VariableDeclerationExpression:
 
 GlobalVariableExpression:
 	{GlobalVariableExpression}
-	'GLOBAL' declarationExpression = VariableDeclerationExpression
+	'GLOBAL' type = VariableType name = ID (dimension = ArrayDimension)?
 ;
 
 ConstantVariableExpression:
