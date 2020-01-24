@@ -67,13 +67,13 @@ class TaskTable {
 	
 	def String nextTask(String nextTaskName) {
 		'''
-		    return «nextTaskName»;
+		return «nextTaskName»;
 		'''
 	}
 	
 	def String nextTask() {
 		'''
-		    return NULL;
+		return NULL;
 		'''
 	}
 	

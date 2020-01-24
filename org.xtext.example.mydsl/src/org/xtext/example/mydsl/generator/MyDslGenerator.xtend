@@ -143,7 +143,7 @@ class MyDslGenerator extends AbstractGenerator {
 			threadContent += CommonGenerator.thread1_init(taskTable.entry)			
 			
 			threadContent += HeaderComment.headerTaskDefinition
-			threadContent += tasksContent + CommonGenerator.newLine + CommonGenerator.doubleNewLine
+			threadContent += tasksContent
 		
 		} catch (Exception e) {
 			throw e

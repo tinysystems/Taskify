@@ -6,7 +6,7 @@ import org.xtext.example.mydsl.myDsl.DoubleReference
 import org.xtext.example.mydsl.myDsl.StringReference
 import org.xtext.example.mydsl.myDsl.BooleanReference
 import org.xtext.example.mydsl.myDsl.Variable
-
+import org.xtext.example.mydsl.myDsl.ArrayReference
 
 class AtomicGenerator {
 	def static String generate(Atomic atomic) {
@@ -37,11 +37,25 @@ class AtomicGenerator {
 		
 		if (atomic instanceof Variable) {
 			result = VariableGenerator.generate((atomic as Variable).value)
+			
+			// __GET function call is required to get value of global variables
+			var String variableName = result
+			if (atomic instanceof ArrayReference) {
+				variableName = variableName.substring(0, variableName.length - 3)
+			}
+
+			if (SymbolTable.getScope(variableName) == SymbolTable.GLOBAL) {
+				result = globalGetCall(result)
+			} 
 		} else {
 			result = getTypedVariable(atomic)
 		}
 		return result
 	}
+	
+	def private static String globalGetCall(String variable) {
+		'''__GET(«variable»)'''
+	} 
 	
 	
 	

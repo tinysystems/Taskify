@@ -22,6 +22,7 @@ class WhileExpressionGenerator implements IExpressionGenerator {
 	
 	def static String template(GeneratorSwitcher generator, OperationExpression test, EList<EObject> content) {
 		'''
+		
 		while(«generator.generate(test)») {
 			«FOR bodyElement: content»
 				«generator.generate(bodyElement)»

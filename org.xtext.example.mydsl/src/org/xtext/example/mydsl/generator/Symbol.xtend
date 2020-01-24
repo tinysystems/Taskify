@@ -15,6 +15,10 @@ class Symbol {
 		return this.type
 	}
 	
+	def String getScope() {
+		return this.scope
+	}
+	
 	override String toString() {
 		var String result = "{"
 		

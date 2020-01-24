@@ -27,12 +27,24 @@ class SymbolTable {
 		return symbol
 	}
 	
+	/* Returns integer | float | SymbolTable.LOCAL */
 	def static String getType(String name) {
 		var String type = null
 		
 		if (variables.containsKey(name)) {
 			val Symbol symbol = variables.get(name)
-			type = symbol.getType()
+			type = symbol.type
+		}
+		return type;
+	}
+	
+	/* Returns SymbolTable.GLOBAL | SymbolTable.CONSTANT | SymbolTable.LOCAL */
+	def static String getScope(String name) {
+		var String type = null
+		
+		if (variables.containsKey(name)) {
+			val Symbol symbol = variables.get(name)
+			type = symbol.scope
 		}
 		return type;
 	}
