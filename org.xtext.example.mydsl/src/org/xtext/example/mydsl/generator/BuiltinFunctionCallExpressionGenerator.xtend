@@ -5,12 +5,16 @@ import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression
 
 
 class BuiltinFunctionCallExpressionGenerator implements IExpressionGenerator {
+	BuiltinFunctionCallExpression expression
 	
 	new (BuiltinFunctionCallExpression expression, GeneratorSwitcher generator) {
+		this.expression = expression
 	}
 	
 //	Do nothing since there will not be print functionality in target language
 	override String generate() {
-		return ""
+		'''
+		/* Built-in function call for «this.expression.function»(), fo nothing for the moment */
+		'''
 	}
 }
