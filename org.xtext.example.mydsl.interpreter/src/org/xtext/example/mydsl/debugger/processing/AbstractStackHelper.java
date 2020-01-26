@@ -11,8 +11,10 @@ import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BooleanReference;
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
+import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
+import org.xtext.example.mydsl.myDsl.Variable;
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 import org.xtext.example.mydsl.myDsl.VariableReference;
 import org.xtext.example.mydsl.myDsl.VariableSymbol;
@@ -174,14 +176,17 @@ public abstract class AbstractStackHelper {
 			m_return = ((BooleanReference) atomic).isValue();
 		} else if(atomic instanceof IntegerReference) {
 			m_return = ((IntegerReference) atomic).getValue();
-		} else if(atomic instanceof ArrayReference) {
-			Symbol symbol = lookupSymbolByAtomic(atomic, id);
-			Object[] arrayValues = (Object[]) symbol.getVariableValue();
-			int index = ((ArrayReference) atomic).getIndex().getSize();
-			m_return = arrayValues[index];		
-		} else if(atomic instanceof VariableReference) {
-			Symbol symbol = lookupSymbolByAtomic(atomic, id);
-			m_return = symbol.getVariableValue();
+		} else if(atomic instanceof Variable) {
+			Variable atomicVar = ((Variable) atomic).getValue();
+			if (atomicVar instanceof ArrayReference) {
+				Symbol symbol = lookupSymbolByAtomic(atomicVar, id);
+				Object[] arrayValues = (Object[]) symbol.getVariableValue();
+				int index = ((ArrayReference) atomicVar).getIndex().getSize();
+				m_return = arrayValues[index];
+			} else if (atomicVar instanceof VariableReference) {
+				Symbol symbol = lookupSymbolByAtomic(atomicVar, id);
+				m_return = symbol.getVariableValue();
+			}
 		}
 		return m_return;
 	}
@@ -198,9 +203,21 @@ public abstract class AbstractStackHelper {
 		return false;
 	}
 	
+	private static String getArrayReferenceName(VariableSymbol array) {
+		String name = null;
+		if (array instanceof GlobalVariableExpression) {
+			name = ((GlobalVariableExpression) array).getName();
+		} else if (array instanceof ConstantVariableExpression) {
+			name = ((ConstantVariableExpression) array).getName();
+		} else if (array instanceof VariableDeclerationExpression) {
+			name = ((VariableDeclerationExpression) array).getName();
+		}
+		return name;
+	}
+	
 	protected static void updateCallStackByArray(ArrayReference array, Object value, String callerId) {
 		int index = array.getIndex().getSize();
-		String target = ((VariableDeclerationExpression) array.getArrayReference()).getName();
+		String target = getArrayReferenceName(array.getArrayReference());
 		CallStackItem callStackItem = lookupStackItem(callerId);
 		
 		boolean found = updateCallStackByArray(target, index, callStackItem, value);
@@ -215,11 +232,14 @@ public abstract class AbstractStackHelper {
 	private static String getAtomicName(Atomic atomic) {
 		String atomicName = "";
 		
-		if(atomic instanceof VariableReference) {
-			atomicName = getVariableSymbolName(((VariableReference) atomic).getVariableReference());
-		} else if(atomic instanceof ArrayReference) {
-			atomicName = getVariableSymbolName(((ArrayReference) atomic).getArrayReference());
+		if (atomic instanceof Variable) {
+			if(atomic instanceof VariableReference) {
+				atomicName = getVariableSymbolName(((VariableReference) atomic).getVariableReference());
+			} else if(atomic instanceof ArrayReference) {
+				atomicName = getVariableSymbolName(((ArrayReference) atomic).getArrayReference());
+			}
 		}
+		
 		return atomicName;
 	}
 	
@@ -230,6 +250,8 @@ public abstract class AbstractStackHelper {
 			symbolName = ((VariableDeclerationExpression) variableSymbol).getName();
 		} else if (variableSymbol instanceof ConstantVariableExpression) {
 			symbolName = ((ConstantVariableExpression) variableSymbol).getName();
+		} else if (variableSymbol instanceof GlobalVariableExpression) {
+			symbolName = ((GlobalVariableExpression) variableSymbol).getName();	
 		}
 		return symbolName;
 	}

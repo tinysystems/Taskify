@@ -10,6 +10,7 @@ import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression;
 import org.xtext.example.mydsl.myDsl.StringReference;
+import org.xtext.example.mydsl.myDsl.Variable;
 import org.xtext.example.mydsl.myDsl.VariableReference;
 
 
@@ -48,30 +49,33 @@ public class BuiltinFunctionCallExpressionExecutor extends AbstractStackHelper i
 			if(atomic instanceof StringReference) {
 				System.out.print(((StringReference) atomic).getValue().toString());
 			} else {
-				symbol = lookupSymbolByAtomic(atomic, id);
+				if (atomic instanceof Variable) {
+					Variable atomicVar = ((Variable) atomic).getValue();
+					symbol = lookupSymbolByAtomic(atomicVar, id);
 				
-				if (symbol != null) {			
-					Object value = symbol.getVariableValue();
-					
-					if (value != null) {
-						if (atomic instanceof VariableReference) {
-							if (value instanceof Object[]) {
-								// Print an entire array
-								output = Arrays.toString((Object[]) value);
-							} else {
-								// Print a variable
-								output = value.toString();
-							}
-						} else if (atomic instanceof ArrayReference) {
-							// Print an element of an array
-							int index = ((ArrayReference) atomic).getIndex().getSize();
-							Object values[] = (Object[]) value;
-							output = values[index].toString();
-						}						
-					} else {
-						output = "Variable is not defined.";
+					if (symbol != null) {			
+						Object value = symbol.getVariableValue();
+						
+						if (value != null) {
+							if (atomicVar instanceof VariableReference) {
+								if (value instanceof Object[]) {
+									// Print an entire array
+									output = Arrays.toString((Object[]) value);
+								} else {
+									// Print a variable
+									output = value.toString();
+								}
+							} else if (atomicVar instanceof ArrayReference) {
+								// Print an element of an array
+								int index = ((ArrayReference) atomicVar).getIndex().getSize();
+								Object values[] = (Object[]) value;
+								output = values[index].toString();
+							}						
+						} else {
+							output = "Variable is not defined.";
+						}
+						System.out.print(output);
 					}
-					System.out.print(output);
 				}
 			}
 		}
