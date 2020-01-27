@@ -36,7 +36,7 @@ public class VariableDeclerationExpressionExecutor extends AbstractStackHelper i
 			Object array[] = generateArrayValue(type, size);
 			value = array;
 		} else {
-			value = new Object();
+			value = generateValue(type);
 		}
 		
 		if (expression.getAssignment() != null) {

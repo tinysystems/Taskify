@@ -27,7 +27,7 @@ public class GlobalVariableExpressionExecutor extends AbstractStackHelper implem
 			Object array[] = generateArrayValue(type, size);
 			value = array;
 		} else {
-			value = new Object();
+			value = generateValue(type);
 		}
 		
 		Symbol symbol = new Symbol(name, type, value, scope);

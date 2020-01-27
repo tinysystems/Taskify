@@ -32,7 +32,7 @@ public class ConstantVariableExpressionExecutor extends AbstractStackHelper impl
 			Object array[] = generateArrayValue(type, size);
 			value = array;
 		} else {
-			value = new Object();
+			value = generateValue(type);
 		}
 		
 		if (expression.getAssignment() != null) {

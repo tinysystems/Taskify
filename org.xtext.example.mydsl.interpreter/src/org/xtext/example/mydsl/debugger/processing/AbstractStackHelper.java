@@ -275,6 +275,26 @@ public abstract class AbstractStackHelper {
 		return array;
 	}
 	
+	/* Create the value of symbol with its default values by its data type */
+	protected static Object generateValue(String type) {
+		Object value = null;
+		switch (type) {
+			case "integer":
+				value = 0; 
+				break;
+			case "double":
+				value = 0.0F;
+				break;
+			case "string":
+				value = null;
+				break;
+			case "boolean":
+				value = false;
+				break;
+		}
+		return value;
+	}
+	
 	protected static void setArrayValue(Symbol symbol, int size) {
 		Object array[] = null;
 		switch (symbol.getType()) {
