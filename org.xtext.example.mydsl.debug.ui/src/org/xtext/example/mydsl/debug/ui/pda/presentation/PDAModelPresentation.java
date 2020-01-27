@@ -32,7 +32,13 @@ public class PDAModelPresentation extends LabelProvider implements IDebugModelPr
 	@Override
 	public String getEditorId(IEditorInput input, Object element) {
 		if (element instanceof IFile || element instanceof ILineBreakpoint) {
-			return "pda.editor";
+			/*
+			 * In order to open default XTextEditor once go to file from breakpoint, 
+			 * return the targetID specified extension point org.eclipse.ui.editorActions in
+			 * /org.xtext.example.mydsl.debug.ui/plugin.xml
+			 * */
+//			return "pda.editor";
+			return "org.xtext.example.mydsl.MyDsl";
 		}
 		return null;
 	}
