@@ -5,13 +5,13 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.debug.ui.actions.IRunToLineTarget;
 import org.eclipse.debug.ui.actions.IToggleBreakpointsTarget;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.xtext.example.mydsl.debug.ui.pda.editor.PDAEditor;
+import org.eclipse.xtext.ui.editor.XtextEditor;
 
 public class PDAEditorAdapterFactory implements IAdapterFactory {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
-		if (adaptableObject instanceof PDAEditor) {
+		if (adaptableObject instanceof XtextEditor) {
 			ITextEditor editorPart = (ITextEditor) adaptableObject;
 			IResource resource = (IResource) editorPart.getEditorInput().getAdapter(IResource.class);
 			if (resource != null) {

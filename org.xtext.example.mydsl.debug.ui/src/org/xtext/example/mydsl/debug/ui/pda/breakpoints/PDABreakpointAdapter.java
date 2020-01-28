@@ -41,7 +41,6 @@ public class PDABreakpointAdapter implements IToggleBreakpointsTarget {
 			IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(DebugCorePlugin.ID_PDA_DEBUG_MODEL);
 			for (int i = 0; i < breakpoints.length; i++) {
 				IBreakpoint breakpoint = breakpoints[i];
-//				TODO check casting to Object inside equals 
 				if (breakpoint instanceof ILineBreakpoint && resource.equals((Object) breakpoint.getMarker().getResource())) {
 					if (((ILineBreakpoint)breakpoint).getLineNumber() == (lineNumber + 1)) {
 						// remove

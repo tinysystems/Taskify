@@ -339,6 +339,7 @@ public class PDADebugTarget extends PDADebugElement implements IDebugTarget, IBr
 	}
 	
 	/**
+	 * Synchronizing with the interpreter at startup
 	 * Install breakpoints that are already registered with the breakpoint
 	 * manager.
 	 */

@@ -10,6 +10,7 @@
             id="pda.tabGroup"/>
 	</extension>
 	
+	
 	<!-- to associate an image with a launch configuration type. -->
    	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       	<launchConfigurationTypeImage
@@ -17,6 +18,7 @@
             configTypeID="pda.launchType"
             id="pda.typeImage"/>
    	</extension>
+   	
    	
    	<!-- support for selection sensitive launching. -->
    	<extension point="org.eclipse.debug.ui.launchShortcuts">
@@ -43,7 +45,8 @@
       	</shortcut>
    	</extension>
   
-  	<!--
+  
+	<!--
   		tools to handle the presentation aspects of a debug model. 
   		A debug model presentation is responsible for providing labels, images, and editors for elements in a specific debug model.
   	-->
@@ -53,7 +56,9 @@
             id="pda.debugModel"/>
    	</extension>
   
-  	<!-- to add editors to the workbench. -->
+  
+	<!-- to add editors to the workbench. -->
+   	<!-- remove InK editor
    	<extension point="org.eclipse.ui.editors">
       	<editor
             filenames="*.mydsl"
@@ -66,6 +71,8 @@
             extensions="mydsl"
         />
    	</extension>
+   	-->
+
 
   	<!-- 
   		To add actions to the menu and toolbar for editors 
@@ -88,6 +95,7 @@
       	</editorContribution>
    	</extension>
    
+   
    	<!-- to declare contexts and associated elements. -->
     <extension point="org.eclipse.ui.contexts">
         <context
@@ -100,11 +108,9 @@
 	
 	<!-- a mechanism for specifying a context that should be associated with the given debug model. -->
 	<extension point="org.eclipse.debug.ui.debugModelContextBindings">
-		<modelContextBinding
-			contextId="pda.debugging"
-           	debugModelId="pda.debugModel"
-        />
+		<modelContextBinding contextId="pda.debugging" debugModelId="pda.debugModel"/>
 	</extension>
+
 
 	<!--
 		to add new actions to context menus
@@ -125,23 +131,26 @@
       	</viewerContribution>
    	</extension>
    
-   	<!-- below to declaratively register adapter factories. -->
+   
+   	<!-- below to declaratively register adapter factories. 
+		adaptableType="org.xtext.example.mydsl.debug.ui.pda.editor.PDAEditor"
+   	-->
    	<extension point="org.eclipse.core.runtime.adapters">
-      	<factory
-			class="org.xtext.example.mydsl.debug.ui.pda.breakpoints.PDAEditorAdapterFactory"
-            adaptableType="org.xtext.example.mydsl.debug.ui.pda.editor.PDAEditor">
+      	<factory adaptableType="org.eclipse.xtext.ui.editor.XtextEditor"
+			class="org.xtext.example.mydsl.debug.ui.pda.breakpoints.PDAEditorAdapterFactory">
 			<adapter type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget"/>
       	</factory>
    	</extension>
     
+    
     <!--below for run-to-line activation -->
    	<extension point="org.eclipse.core.runtime.adapters">
-      	<factory
-            class="org.xtext.example.mydsl.debug.ui.pda.breakpoints.PDAEditorAdapterFactory"
-            adaptableType="org.xtext.example.mydsl.debug.ui.pda.editor.PDAEditor">
+      	<factory adaptableType="org.eclipse.xtext.ui.editor.XtextEditor"
+            class="org.xtext.example.mydsl.debug.ui.pda.breakpoints.PDAEditorAdapterFactory">
 			<adapter type="org.eclipse.debug.ui.actions.IRunToLineTarget"/>
       	</factory>
    	</extension>
+   
    
    	<!--below for Debugging perspective -->
     <extension point="org.eclipse.ui.perspectiveExtensions">
