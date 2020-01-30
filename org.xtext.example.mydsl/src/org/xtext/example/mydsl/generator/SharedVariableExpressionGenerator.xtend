@@ -1,16 +1,16 @@
 package org.xtext.example.mydsl.generator
 
 import org.xtext.example.mydsl.generator.IExpressionGenerator
-import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
+import org.xtext.example.mydsl.myDsl.SharedVariableExpression
 
-class GlobalVariableExpressionGenerator implements IExpressionGenerator {
-	GlobalVariableExpression expression
+class SharedVariableExpressionGenerator implements IExpressionGenerator {
+	SharedVariableExpression expression
 	
-	new (GlobalVariableExpression expression, GeneratorSwitcher generator) {
+	new (SharedVariableExpression expression, GeneratorSwitcher generator) {
 		this.expression = expression
 	}
 	override String generate() {
-		val String scope = SymbolTable.GLOBAL
+		val String scope = SymbolTable.SHARED
 		val String name = this.expression.name
 		val String type = this.expression.type.type
 		SymbolTable.addSymbol(name, type, scope)

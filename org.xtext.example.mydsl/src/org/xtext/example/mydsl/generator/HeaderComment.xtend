@@ -25,7 +25,7 @@ class HeaderComment {
 		'''
 	}
 	
-	def static String headerGlobal() {
+	def static String headerShared() {
 		'''
 		// Define task-shared persistent variables.
 		'''

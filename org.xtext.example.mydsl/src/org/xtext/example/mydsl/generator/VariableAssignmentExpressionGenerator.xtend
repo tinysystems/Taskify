@@ -35,8 +35,8 @@ class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
 
 			if (scope == SymbolTable.CONSTANT) {
 				throw new Exception("Assigning to constant variable " + variableName + " is not possible.");
-			} else if (scope == SymbolTable.GLOBAL) {
-				result = generateGlobalAssignment(result, right)
+			} else if (scope == SymbolTable.SHARED) {
+				result = generateSharedAssignment(result, right)
 			} else {
 				result += " = " + right
 			}
@@ -57,7 +57,7 @@ class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
 		return result
 	}
 	
-	def static String generateGlobalAssignment(String variable, String value) {
+	def static String generateSharedAssignment(String variable, String value) {
 		'''__SET(«variable», «value»)'''
 	}
 }

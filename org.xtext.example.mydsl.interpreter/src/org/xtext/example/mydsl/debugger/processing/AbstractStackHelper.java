@@ -11,7 +11,7 @@ import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BooleanReference;
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
-import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
+import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
 import org.xtext.example.mydsl.myDsl.Variable;
@@ -66,8 +66,8 @@ public abstract class AbstractStackHelper {
 		symbol = searchByString(variableName, id);
 		
 		if (symbol == null) {
-			// Look for GLOBAL variables
-			symbol = searchByString(variableName, "global");
+			// Look for SHARED variables
+			symbol = searchByString(variableName, "shared");
 		}
 		
 		if (symbol == null) {
@@ -205,8 +205,8 @@ public abstract class AbstractStackHelper {
 	
 	private static String getArrayReferenceName(VariableSymbol array) {
 		String name = null;
-		if (array instanceof GlobalVariableExpression) {
-			name = ((GlobalVariableExpression) array).getName();
+		if (array instanceof SharedVariableExpression) {
+			name = ((SharedVariableExpression) array).getName();
 		} else if (array instanceof ConstantVariableExpression) {
 			name = ((ConstantVariableExpression) array).getName();
 		} else if (array instanceof VariableDeclerationExpression) {
@@ -222,9 +222,9 @@ public abstract class AbstractStackHelper {
 		
 		boolean found = updateCallStackByArray(target, index, callStackItem, value);
 		
-//		Update global, in case of non-local
+//		Update shared, in case of non-local
 		if (!found) {
-			callStackItem = lookupStackItem("global");
+			callStackItem = lookupStackItem("shared");
 			updateCallStackByArray(target, index, callStackItem, value);
 		}
 	}
@@ -250,8 +250,8 @@ public abstract class AbstractStackHelper {
 			symbolName = ((VariableDeclerationExpression) variableSymbol).getName();
 		} else if (variableSymbol instanceof ConstantVariableExpression) {
 			symbolName = ((ConstantVariableExpression) variableSymbol).getName();
-		} else if (variableSymbol instanceof GlobalVariableExpression) {
-			symbolName = ((GlobalVariableExpression) variableSymbol).getName();	
+		} else if (variableSymbol instanceof SharedVariableExpression) {
+			symbolName = ((SharedVariableExpression) variableSymbol).getName();	
 		}
 		return symbolName;
 	}

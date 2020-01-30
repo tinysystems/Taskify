@@ -38,14 +38,14 @@ class AtomicGenerator {
 		if (atomic instanceof Variable) {
 			result = VariableGenerator.generate((atomic as Variable).value)
 			
-			// __GET function call is required to get value of global variables
+			// __GET function call is required to get value of shared variables
 			var String variableName = result
 			if (atomic instanceof ArrayReference) {
 				variableName = variableName.substring(0, variableName.length - 3)
 			}
 
-			if (SymbolTable.getScope(variableName) == SymbolTable.GLOBAL) {
-				result = globalGetCall(result)
+			if (SymbolTable.getScope(variableName) == SymbolTable.SHARED) {
+				result = sharedGetCall(result)
 			} 
 		} else {
 			result = getTypedVariable(atomic)
@@ -53,7 +53,7 @@ class AtomicGenerator {
 		return result
 	}
 	
-	def private static String globalGetCall(String variable) {
+	def private static String sharedGetCall(String variable) {
 		'''__GET(«variable»)'''
 	} 
 	

@@ -4,7 +4,7 @@ import java.util.HashMap
 
 
 class SymbolTable {
-	val public static GLOBAL = "global"
+	val public static SHARED = "shared"
 	val public static CONSTANT = "constant"
 	val public static LOCAL = "local"
 	var static HashMap<String, Symbol> variables = null
@@ -38,7 +38,7 @@ class SymbolTable {
 		return type;
 	}
 	
-	/* Returns SymbolTable.GLOBAL | SymbolTable.CONSTANT | SymbolTable.LOCAL */
+	/* Returns SymbolTable.SHARED | SymbolTable.CONSTANT | SymbolTable.LOCAL */
 	def static String getScope(String name) {
 		var String type = null
 		

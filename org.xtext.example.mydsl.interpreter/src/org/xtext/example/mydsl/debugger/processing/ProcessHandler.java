@@ -10,8 +10,8 @@ import org.xtext.example.mydsl.debugger.event.EventStateHandler;
 
 public abstract class ProcessHandler extends ThreadLauncher {
 
-	protected void ThreadStateForDebugging(EObject bodyOrGlobal) {
-		waitOrResumeExpression(bodyOrGlobal);
+	protected void ThreadStateForDebugging(EObject bodyOrShared) {
+		waitOrResumeExpression(bodyOrShared);
 		
 		try {
 			Thread.sleep(1);
@@ -32,8 +32,8 @@ public abstract class ProcessHandler extends ThreadLauncher {
 		}
 	}
 	
-	protected void waitOrResumeExpression(EObject bodyOrGlobal) {
-		INode node = (INode) NodeModelUtils.getNode(bodyOrGlobal);
+	protected void waitOrResumeExpression(EObject bodyOrShared) {
+		INode node = (INode) NodeModelUtils.getNode(bodyOrShared);
 		StateContext.setSrcline(node.getStartLine());
 		
 		if (!isResumeStepping()) {

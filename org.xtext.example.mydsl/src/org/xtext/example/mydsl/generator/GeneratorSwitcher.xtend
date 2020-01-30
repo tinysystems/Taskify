@@ -5,7 +5,7 @@ import org.xtext.example.mydsl.myDsl.BreakExpression
 import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
 import org.xtext.example.mydsl.myDsl.ForExpression
-import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
+import org.xtext.example.mydsl.myDsl.SharedVariableExpression
 import org.xtext.example.mydsl.myDsl.OperationExpression
 import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
@@ -26,8 +26,8 @@ class GeneratorSwitcher {
 			generator = new ConstantVariableExpressionGenerator(expression as ConstantVariableExpression, this) as IExpressionGenerator
 		} else if (expression instanceof ForExpression) {
 			generator = new ForExpressionGenerator(expression as ForExpression, this) as IExpressionGenerator
-		} else if (expression instanceof GlobalVariableExpression) {
-			generator = new GlobalVariableExpressionGenerator(expression as GlobalVariableExpression, this) as IExpressionGenerator
+		} else if (expression instanceof SharedVariableExpression) {
+			generator = new SharedVariableExpressionGenerator(expression as SharedVariableExpression, this) as IExpressionGenerator
 		} else if (expression instanceof IfExpression) {
 			generator = new IfExpressionGenerator(expression as IfExpression, this) as IExpressionGenerator
 		} else if (expression instanceof OperationExpression) {

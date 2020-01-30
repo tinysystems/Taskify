@@ -5,7 +5,7 @@ public class Symbol {
 	private String name;
 	private String type; // int | string | double | boolean
 	private Object variableValue; // value of the variable
-	private String scope; // global | local
+	private String scope; // shared | local
 	
 	public Symbol(String name, String type) {
 		this.name = name;

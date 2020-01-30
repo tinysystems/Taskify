@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.EntryTask;
 import org.xtext.example.mydsl.myDsl.Expression;
-import org.xtext.example.mydsl.myDsl.GlobalVariableExpression;
+import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
 import org.xtext.example.mydsl.myDsl.InkApp;
 import org.xtext.example.mydsl.myDsl.Task;
 import org.xtext.example.mydsl.myDsl.TaskBody;
@@ -35,9 +35,9 @@ public class Debugger extends ExpressionSwitcher {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
-		EList<GlobalVariableExpression> globalVariables = app.getGlobals();
-		if (globalVariables.size() > 0) {
-			this.execute((EList<Expression>)(EList<?>) globalVariables, "global");
+		EList<SharedVariableExpression> sharedVariables = app.getShareds();
+		if (sharedVariables.size() > 0) {
+			this.execute((EList<Expression>)(EList<?>) sharedVariables, "shared");
 		}
 		
 		EList<ConstantVariableExpression> constantVariables = app.getConstants();

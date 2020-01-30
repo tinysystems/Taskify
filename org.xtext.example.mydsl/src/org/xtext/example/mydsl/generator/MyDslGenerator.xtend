@@ -8,7 +8,7 @@ import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.xtext.example.mydsl.myDsl.InkApp
-import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
+import org.xtext.example.mydsl.myDsl.SharedVariableExpression
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
 import org.xtext.example.mydsl.myDsl.EntryTask
 import org.xtext.example.mydsl.myDsl.Task
@@ -65,7 +65,7 @@ class MyDslGenerator extends AbstractGenerator {
 		val GeneratorSwitcher generator = new GeneratorSwitcher()
 		
 		var String includeContent = ""
-		var String globalContent = ""
+		var String sharedContent = ""
 		var String constantContent = ""
 		var String taskDeclerationContent = ""
 		var String tasksContent = ""
@@ -74,11 +74,11 @@ class MyDslGenerator extends AbstractGenerator {
 		try {
 			IncludeTable.add(IncludeTemplates.inkLibrary)
 			
-			globalContent = "__shared(" + "\n"
-			for (GlobalVariableExpression global: model.globals) {				
-				globalContent += CommonGenerator.tab + generator.generate(global)
+			sharedContent = "__shared(" + "\n"
+			for (SharedVariableExpression shared: model.shareds) {				
+				sharedContent += CommonGenerator.tab + generator.generate(shared)
 			}
-			globalContent += ")" + CommonGenerator.newLine
+			sharedContent += ")" + CommonGenerator.newLine
 			
 			for (ConstantVariableExpression constant: model.constants) {
 				constantContent += generator.generate(constant)
@@ -130,8 +130,8 @@ class MyDslGenerator extends AbstractGenerator {
 			threadContent = HeaderComment.headerThread
 			threadContent += includeContent + CommonGenerator.doubleNewLine
 			
-			threadContent += HeaderComment.headerGlobal
-			threadContent += globalContent + CommonGenerator.doubleNewLine
+			threadContent += HeaderComment.headerShared
+			threadContent += sharedContent + CommonGenerator.doubleNewLine
 			
 			threadContent += HeaderComment.headerConstant
 			threadContent += constantContent + CommonGenerator.doubleNewLine

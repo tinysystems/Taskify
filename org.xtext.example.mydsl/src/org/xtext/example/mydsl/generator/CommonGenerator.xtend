@@ -4,7 +4,7 @@ import org.xtext.example.mydsl.myDsl.VariableSymbol
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
 import org.xtext.example.mydsl.myDsl.ArrayDimension
-import org.xtext.example.mydsl.myDsl.GlobalVariableExpression
+import org.xtext.example.mydsl.myDsl.SharedVariableExpression
 
 class CommonGenerator {
 	static String INT = "uint32_t"
@@ -85,8 +85,8 @@ class CommonGenerator {
 		} else if (symbol instanceof ConstantVariableExpression) {
 			result = (symbol as ConstantVariableExpression).name
 			result += symbol.dimension !== null ? getDimension(symbol.dimension, index) : ""
-		} else if (symbol instanceof GlobalVariableExpression) {
-			result = (symbol as GlobalVariableExpression).name
+		} else if (symbol instanceof SharedVariableExpression) {
+			result = (symbol as SharedVariableExpression).name
 			result += symbol.dimension !== null ? getDimension(symbol.dimension, index) : ""
 		}
 		return result
