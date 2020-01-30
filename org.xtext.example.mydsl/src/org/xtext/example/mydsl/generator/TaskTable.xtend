@@ -53,46 +53,29 @@ class TaskTable {
 		return result
 	}
 	
-	def String generateTask(String taskName, String taskBody, String nextTaskName) {
+	def String generateTask(String taskName, String taskBody) {
 		var String result = null
 		if (isAdded(taskName)) {
 			if (tasks.indexOf(taskName) == 0) {
-				result = generateEntryTask(taskName, taskBody, nextTaskName)
+				result = generateEntryTask(taskName, taskBody)
 			} else {
-				result = generateRegularTask(taskName, taskBody, nextTaskName)
+				result = generateRegularTask(taskName, taskBody)
 			}
 		}
 		return result
 	}
 	
-	def String nextTask(String nextTaskName) {
-		'''
-		return «nextTaskName»;
-		'''
-	}
-	
-	def String nextTask() {
-		'''
-		return NULL;
-		'''
-	}
-	
-	def String generateRegularTask(String taskName, String body, String nextTaskName) {
+	def String generateRegularTask(String taskName, String body) {
 		'''
 		TASK(«taskName») {
 		    «body»
-		    «IF nextTaskName === null»
-		        «nextTask()»
-		    «ELSE»
-		        «nextTask(nextTaskName)»
-		    «ENDIF»
 		}
 		'''
 	}
 	
-	def String generateEntryTask(String taskName, String body, String nextTaskName) {
+	def String generateEntryTask(String taskName, String body) {
 		'''
-		ENTRY_«generateRegularTask(taskName, body, nextTaskName)»
+		ENTRY_«generateRegularTask(taskName, body)»
 		'''
 	}
 	

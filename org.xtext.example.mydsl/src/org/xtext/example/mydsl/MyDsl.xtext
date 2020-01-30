@@ -181,15 +181,26 @@ BlockExpressions:
 
 
 /********************* Body expressions ************************/
+NextTaskExpression:
+	('next' nexttask = [Task] | endtask = 'end')
+;
+
 TaskBody:
 	{TaskBody}
 	body += VariableDeclerationExpression*
 	body += BlockExpressions*
-	('next' nexttask = [Task] | endtask = 'end')
+	(body += NextTaskExpression)?
 ;
 
 StatementBody:
 	{StatementBody} 
+	body += BlockExpressions*
+	(body += BreakExpression)?
+	(body += NextTaskExpression)?
+;
+
+LoopBody:
+	{LoopBody}
 	body += BlockExpressions*
 	(body += BreakExpression)?
 ;
@@ -206,7 +217,8 @@ Expression:
 	OperationExpression |
 	VariableAssignmentExpression |
 	VariableDeclerationExpression |
-	WhileExpression
+	WhileExpression |
+	NextTaskExpression
 ;
 
 

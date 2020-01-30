@@ -13,6 +13,10 @@ class BuiltinFunctionCallExpressionGenerator implements IExpressionGenerator {
 	
 //	Do nothing since there will not be print functionality in target language
 	override String generate() {
+		""
+	}
+	
+	def template() {
 		'''
 		/* Built-in function call for «this.expression.function»(), fo nothing for the moment */
 		'''

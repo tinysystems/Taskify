@@ -11,7 +11,7 @@ import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
 import org.xtext.example.mydsl.myDsl.WhileExpression
 import org.xtext.example.mydsl.myDsl.IfExpression
-
+import org.xtext.example.mydsl.myDsl.NextTaskExpression
 
 class GeneratorSwitcher {
 	
@@ -26,12 +26,14 @@ class GeneratorSwitcher {
 			generator = new ConstantVariableExpressionGenerator(expression as ConstantVariableExpression, this) as IExpressionGenerator
 		} else if (expression instanceof ForExpression) {
 			generator = new ForExpressionGenerator(expression as ForExpression, this) as IExpressionGenerator
-		} else if (expression instanceof SharedVariableExpression) {
-			generator = new SharedVariableExpressionGenerator(expression as SharedVariableExpression, this) as IExpressionGenerator
 		} else if (expression instanceof IfExpression) {
 			generator = new IfExpressionGenerator(expression as IfExpression, this) as IExpressionGenerator
+		} else if (expression instanceof NextTaskExpression) {
+			generator = new NextTaskExpressionGenerator(expression as NextTaskExpression, this) as IExpressionGenerator
 		} else if (expression instanceof OperationExpression) {
 			generator = new OperationExpressionGenerator(expression as OperationExpression, this) as IExpressionGenerator
+		} else if (expression instanceof SharedVariableExpression) {
+			generator = new SharedVariableExpressionGenerator(expression as SharedVariableExpression, this) as IExpressionGenerator
 		} else if (expression instanceof VariableAssignmentExpression) {
 			generator = new VariableAssignmentExpressionGenerator(expression as VariableAssignmentExpression, this) as IExpressionGenerator
 		} else if (expression instanceof VariableDeclerationExpression) {

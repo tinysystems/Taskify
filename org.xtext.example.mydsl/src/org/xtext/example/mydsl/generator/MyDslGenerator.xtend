@@ -13,6 +13,7 @@ import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
 import org.xtext.example.mydsl.myDsl.EntryTask
 import org.xtext.example.mydsl.myDsl.Task
 import org.eclipse.emf.ecore.EObject
+import java.util.List
 
 /**
  * Generates code from your model files on save.
@@ -88,16 +89,33 @@ class MyDslGenerator extends AbstractGenerator {
 			val TaskTable taskTable = TaskTable.taskTable
 			val EntryTask entry = model.entry
 			if (entry !== null) {
-				var Task task = entry.task
-				taskTable.add(task.name)
-				
-				
 				var String taskBody = ""
-				for (EObject bodyElement: task.taskbody.body){
+				val Task entryTask = entry.task			
+				
+				// Generate entry task
+				for (EObject bodyElement: entryTask.taskbody.body){
 					taskBody += generator.generate(bodyElement)
 				}
+				taskTable.add(entryTask.name)
+				tasksContent += taskTable.generateTask(entryTask.name, taskBody) + CommonGenerator.newLine
 				
-				var nextTask = task.taskbody.nexttask
+				// Generate next tasks
+				val List<Task> tasks = model.tasks
+				for (Task task: tasks) {
+					if (!taskTable.isAdded(task.name)) {
+						taskBody = ""
+						
+						for (EObject bodyElement: task.taskbody.body){
+							taskBody += generator.generate(bodyElement)
+						}
+						taskTable.add(task.name)
+						tasksContent += taskTable.generateTask(task.name, taskBody) + CommonGenerator.newLine
+					}
+				}
+				
+				
+				
+				/*var nextTask = task.taskbody.nexttask
 				while (nextTask !== null) {
 					if (!taskTable.isAdded(nextTask.name)) {
 						tasksContent += taskTable.generateTask(task.name, taskBody, nextTask.name) + CommonGenerator.newLine
@@ -112,9 +130,9 @@ class MyDslGenerator extends AbstractGenerator {
 						}
 					}
 					nextTask = task.taskbody.nexttask
-				}
+				}*/
 				
-				tasksContent += taskTable.generateTask(task.name, taskBody, null) + CommonGenerator.newLine
+				//tasksContent += taskTable.generateTask(entryTsk.name, taskBody, null) + CommonGenerator.newLine
 			}
 			
 			
