@@ -13,6 +13,7 @@ import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
+import org.xtext.example.mydsl.myDsl.PrimitiveReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
 import org.xtext.example.mydsl.myDsl.Variable;
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
@@ -167,26 +168,40 @@ public abstract class AbstractStackHelper {
 		item.getSymbolTable().getSymbolTable().add(symbol);
 	}
 	
-	protected static Object decoupleAtomic(Atomic atomic, String id) {
-		Object m_return = null; 
-		
+	private static Object decouplePrimitiveAtomic(Atomic atomic) {
+		Object m_return = null;
 		if(atomic instanceof StringReference) {
 			m_return = ((StringReference) atomic).getValue();
 		} else if(atomic instanceof BooleanReference) {
 			m_return = ((BooleanReference) atomic).isValue();
 		} else if(atomic instanceof IntegerReference) {
 			m_return = ((IntegerReference) atomic).getValue();
+		} else if(atomic instanceof DoubleReference) {
+			m_return = ((DoubleReference) atomic).getValue();
+		}
+		return m_return;
+	}
+	
+	private static Object decoupleVariableAtomic(Atomic atomic, String id) {
+		Object m_return = null;
+		if (atomic instanceof ArrayReference) {
+			Symbol symbol = lookupSymbolByAtomic(atomic, id);
+			Object[] arrayValues = (Object[]) symbol.getVariableValue();
+			int index = ((ArrayReference) atomic).getIndex().getSize();
+			m_return = arrayValues[index];
+		} else if (atomic instanceof VariableReference) {
+			Symbol symbol = lookupSymbolByAtomic(atomic, id);
+			m_return = symbol.getVariableValue();
+		}
+		return m_return;
+	}
+	
+	protected static Object decoupleAtomic(Atomic atomic, String id) {
+		Object m_return = null; 
+		if (atomic instanceof PrimitiveReference) {
+			m_return = decouplePrimitiveAtomic(atomic);
 		} else if(atomic instanceof Variable) {
-			Variable atomicVar = ((Variable) atomic).getValue();
-			if (atomicVar instanceof ArrayReference) {
-				Symbol symbol = lookupSymbolByAtomic(atomicVar, id);
-				Object[] arrayValues = (Object[]) symbol.getVariableValue();
-				int index = ((ArrayReference) atomicVar).getIndex().getSize();
-				m_return = arrayValues[index];
-			} else if (atomicVar instanceof VariableReference) {
-				Symbol symbol = lookupSymbolByAtomic(atomicVar, id);
-				m_return = symbol.getVariableValue();
-			}
+			m_return = decoupleVariableAtomic(atomic, id);
 		}
 		return m_return;
 	}

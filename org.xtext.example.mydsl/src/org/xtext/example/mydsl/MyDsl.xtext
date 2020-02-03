@@ -73,14 +73,15 @@ Variable:
  	{VariableReference} variableReference = [VariableSymbol]
 ;
 
-Atomic:
-	{IntegerReference} value = INT |
+PrimitiveReference:
+	{IntegerReference} value =  INT |
 	{DoubleReference} value = DOUBLE |
 	{StringReference} value = STRING |
-	{BooleanReference} value = BOOLEAN |
-//	{VariableReference} value = [VariableSymbol] |
-//	{ArrayReference} value = (= [VariableSymbol] (index = ArrayDimension))
-	{Variable} value = Variable
+	{BooleanReference} value = BOOLEAN
+;
+
+Atomic:
+	PrimitiveReference | Variable
 ;
 
 BuiltinFunctionCallExpression:

@@ -8,7 +8,11 @@ import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
+import org.xtext.example.mydsl.myDsl.BooleanReference;
 import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression;
+import org.xtext.example.mydsl.myDsl.DoubleReference;
+import org.xtext.example.mydsl.myDsl.IntegerReference;
+import org.xtext.example.mydsl.myDsl.PrimitiveReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
 import org.xtext.example.mydsl.myDsl.Variable;
 import org.xtext.example.mydsl.myDsl.VariableReference;
@@ -46,36 +50,44 @@ public class BuiltinFunctionCallExpressionExecutor extends AbstractStackHelper i
 		
 		for (int i = 0; i < parameterCount; i++) {
 			Atomic atomic = parameters.get(i);
-			if(atomic instanceof StringReference) {
-				System.out.print(((StringReference) atomic).getValue().toString());
-			} else {
-				if (atomic instanceof Variable) {
-					Variable atomicVar = ((Variable) atomic).getValue();
-					symbol = lookupSymbolByAtomic(atomicVar, id);
-				
-					if (symbol != null) {			
-						Object value = symbol.getVariableValue();
-						
-						if (value != null) {
-							if (atomicVar instanceof VariableReference) {
-								if (value instanceof Object[]) {
-									// Print an entire array
-									output = Arrays.toString((Object[]) value);
-								} else {
-									// Print a variable
-									output = value.toString();
-								}
-							} else if (atomicVar instanceof ArrayReference) {
-								// Print an element of an array
-								int index = ((ArrayReference) atomicVar).getIndex().getSize();
-								Object values[] = (Object[]) value;
-								output = values[index].toString();
-							}						
-						} else {
-							output = "Variable is not defined.";
-						}
-						System.out.print(output);
+			if(atomic instanceof PrimitiveReference) {
+				String value = "";
+				if(atomic instanceof StringReference) {
+					value = String.valueOf(((StringReference) atomic).getValue());
+				} else if (atomic instanceof IntegerReference) {
+					value = String.valueOf(((IntegerReference) atomic).getValue());
+				} else if (atomic instanceof DoubleReference) {
+					value = String.valueOf(((DoubleReference) atomic).getValue());
+				} else if (atomic instanceof BooleanReference) {
+					value = String.valueOf(((BooleanReference) atomic).isValue());
+				}
+				System.out.print(value);
+			} else if (atomic instanceof Variable) {
+				Variable atomicVar = (Variable) atomic;
+				symbol = lookupSymbolByAtomic(atomicVar, id);
+			
+				if (symbol != null) {			
+					Object value = symbol.getVariableValue();
+					
+					if (value != null) {
+						if (atomicVar instanceof VariableReference) {
+							if (value instanceof Object[]) {
+								// Print an entire array
+								output = Arrays.toString((Object[]) value);
+							} else {
+								// Print a variable
+								output = value.toString();
+							}
+						} else if (atomicVar instanceof ArrayReference) {
+							// Print an element of an array
+							int index = ((ArrayReference) atomicVar).getIndex().getSize();
+							Object values[] = (Object[]) value;
+							output = values[index].toString();
+						}						
+					} else {
+						output = "Variable is not defined.";
 					}
+					System.out.print(output);
 				}
 			}
 		}
