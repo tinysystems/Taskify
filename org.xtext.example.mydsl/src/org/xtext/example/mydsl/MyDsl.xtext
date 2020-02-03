@@ -147,14 +147,14 @@ IfExpression:
 ForExpression:
 	{ForExpression}
 	'for' '(' initial = OperationExpression ';' test = OperationExpression ';' update = OperationExpression ')' '{'
-		body = StatementBody
+		body = LoopBody
 	'}' 
 ;
 
 WhileExpression:
 	{WhileExpression}
 	'while' '(' test = OperationExpression ')' '{'
-		body = StatementBody
+		body = LoopBody
 	'}' 
 ;
 

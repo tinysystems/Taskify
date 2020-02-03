@@ -9,12 +9,12 @@ import org.xtext.example.mydsl.myDsl.EntryTask;
 import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
 import org.xtext.example.mydsl.myDsl.InkApp;
-import org.xtext.example.mydsl.myDsl.Task;
 import org.xtext.example.mydsl.myDsl.TaskBody;
 import org.xtext.example.mydsl.debugger.context.CallStack;
 import org.xtext.example.mydsl.debugger.context.CallStackItem;
 import org.xtext.example.mydsl.debugger.context.SymbolTable;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
+import org.xtext.example.mydsl.debugger.processing.expression.NextTaskExpressionExecutor;
 
 
 public class Debugger extends ExpressionSwitcher {
@@ -46,34 +46,18 @@ public class Debugger extends ExpressionSwitcher {
 		}
 		
 		EntryTask entryTask = app.getEntry();
-		if (entryTask != null) {
-			boolean endTaskFound = false;
-		
+		if (entryTask != null) {			
 			TaskBody taskBody = entryTask.getTask().getTaskbody();
 			System.out.println("Entry task '" + entryTask.getTask().getName() + "' is being executed.");
 			this.execute(taskBody, entryTask.getTask().getName());
 			
-			Task task = taskBody.getNexttask();
-			while(task != null) {
-				taskBody = task.getTaskbody();
-				String end = taskBody.getEndtask();
-				System.out.println("Task '" + task.getName() + "' is being executed.");
-				this.execute(taskBody, task.getName());
-				
-				if (end != null) {
-					endTaskFound = true;
-				}
-				
-				task = taskBody.getNexttask();
-			}
-			
-			if (endTaskFound) {
-				System.out.println("Execution is finished.");
+			if (!NextTaskExpressionExecutor.isEndTaskExist()) {
+				System.err.println("No end task found, at least one is required");
 			} else {
-				System.out.println("No end task found, exactly one is expected.");
+				System.out.println("Execution finished.");
 			}
 		} else {
-			System.out.println("No entry task found.");
+			System.err.println("No entry task found.");
 		}
 		System.exit(0);
 	}
