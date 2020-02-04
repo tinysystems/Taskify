@@ -1,10 +1,10 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.expression
 
-import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.IfExpression
 import org.xtext.example.mydsl.myDsl.OperationExpression
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
+import org.xtext.example.mydsl.generator.GeneratorSwitcher
 
 class IfExpressionGenerator implements IExpressionGenerator {
 	IfExpression expression;

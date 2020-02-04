@@ -1,10 +1,10 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.expression
 
-import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.WhileExpression
 import org.xtext.example.mydsl.myDsl.OperationExpression
 import org.eclipse.emf.common.util.EList
 import org.xtext.example.mydsl.myDsl.BlockExpressions
+import org.xtext.example.mydsl.generator.GeneratorSwitcher
 
 class WhileExpressionGenerator implements IExpressionGenerator {
 	WhileExpression expression

@@ -1,10 +1,13 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.expression
 
-import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression
 import org.eclipse.emf.ecore.EObject
 import org.xtext.example.mydsl.myDsl.Variable
 import org.xtext.example.mydsl.myDsl.ArrayReference
+import org.xtext.example.mydsl.generator.GeneratorSwitcher
+import org.xtext.example.mydsl.generator.common.VariableGenerator
+import org.xtext.example.mydsl.generator.common.SymbolTable
+import org.xtext.example.mydsl.generator.common.CommonGenerator
 
 class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
 	VariableAssignmentExpression expression

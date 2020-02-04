@@ -1,7 +1,7 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.expression
 
-import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.NextTaskExpression
+import org.xtext.example.mydsl.generator.GeneratorSwitcher
 
 class NextTaskExpressionGenerator implements IExpressionGenerator {
 	NextTaskExpression expression

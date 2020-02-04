@@ -1,9 +1,11 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.expression
 
-import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
 import org.xtext.example.mydsl.myDsl.ArrayAssignment
 import org.xtext.example.mydsl.myDsl.Operation
+import org.xtext.example.mydsl.generator.GeneratorSwitcher
+import org.xtext.example.mydsl.generator.common.SymbolTable
+import org.xtext.example.mydsl.generator.common.CommonGenerator
 
 class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 	ConstantVariableExpression expression
@@ -22,7 +24,6 @@ class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 
 		var String result = "__nv "
 		
-		
 		val boolean isArray = this.expression.dimension !== null
 		
 //		Generate variable type and name
@@ -36,7 +37,7 @@ class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 			if (isArray) {
 				result += " = " + OperationExpressionGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)	
 			} else {
-				result += " = " + generator.generate(this.expression.assignment.expression as Operation)
+				result += " = " + this.generator.generate(this.expression.assignment.expression as Operation)
 			}
 		}
 		

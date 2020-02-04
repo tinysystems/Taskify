@@ -1,6 +1,7 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.expression
 
 import org.xtext.example.mydsl.myDsl.ForExpression
+import org.xtext.example.mydsl.generator.GeneratorSwitcher
 
 class ForExpressionGenerator implements IExpressionGenerator {
 	

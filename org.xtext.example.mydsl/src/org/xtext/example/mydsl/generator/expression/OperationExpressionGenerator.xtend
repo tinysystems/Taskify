@@ -1,10 +1,11 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.expression
 
-import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.OperationExpression
 import org.xtext.example.mydsl.myDsl.Operation
 import org.xtext.example.mydsl.myDsl.Atomic
 import org.xtext.example.mydsl.myDsl.ArrayAssignment
+import org.xtext.example.mydsl.generator.GeneratorSwitcher
+import org.xtext.example.mydsl.generator.common.AtomicGenerator
 
 class OperationExpressionGenerator implements IExpressionGenerator {
 	OperationExpression expression;

@@ -1,4 +1,4 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.common
 
 class HeaderComment {
 	

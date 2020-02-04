@@ -1,7 +1,7 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.expression
 
-import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.BreakExpression
+import org.xtext.example.mydsl.generator.GeneratorSwitcher
 
 class BreakExpressionGenerator implements IExpressionGenerator {
 	

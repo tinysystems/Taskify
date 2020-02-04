@@ -14,6 +14,12 @@ import org.xtext.example.mydsl.myDsl.EntryTask
 import org.xtext.example.mydsl.myDsl.Task
 import org.eclipse.emf.ecore.EObject
 import java.util.List
+import org.xtext.example.mydsl.generator.common.CommonGenerator
+import org.xtext.example.mydsl.generator.common.TaskTable
+import org.xtext.example.mydsl.generator.common.SymbolTable
+import org.xtext.example.mydsl.generator.common.IncludeTable
+import org.xtext.example.mydsl.generator.common.IncludeTemplates
+import org.xtext.example.mydsl.generator.common.HeaderComment
 
 /**
  * Generates code from your model files on save.
@@ -38,14 +44,6 @@ class MyDslGenerator extends AbstractGenerator {
 		} catch (Exception e) {
 			e.printStackTrace()
 		}
-
-		
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(InkApp)
-//				.map[name]
-//				.join(', '))
-
 	}
 	
 	
@@ -70,7 +68,6 @@ class MyDslGenerator extends AbstractGenerator {
 		var String constantContent = ""
 		var String taskDeclerationContent = ""
 		var String tasksContent = ""
-		
 		
 		try {
 			IncludeTable.add(IncludeTemplates.inkLibrary)
@@ -112,36 +109,8 @@ class MyDslGenerator extends AbstractGenerator {
 						tasksContent += taskTable.generateTask(task.name, taskBody) + CommonGenerator.newLine
 					}
 				}
-				
-				
-				
-				/*var nextTask = task.taskbody.nexttask
-				while (nextTask !== null) {
-					if (!taskTable.isAdded(nextTask.name)) {
-						tasksContent += taskTable.generateTask(task.name, taskBody, nextTask.name) + CommonGenerator.newLine
-						taskBody = ""
-						task = nextTask
-						nextTask = null
-						
-						taskTable.add(task.name)
-						
-						for (EObject bodyElement: task.taskbody.body){
-							taskBody += generator.generate(bodyElement)
-						}
-					}
-					nextTask = task.taskbody.nexttask
-				}*/
-				
-				//tasksContent += taskTable.generateTask(entryTsk.name, taskBody, null) + CommonGenerator.newLine
 			}
 			
-			
-			
-			
-			
-			
-			
-			// println(SymbolTable.toStringg())
 			includeContent = IncludeTable.generate
 			taskDeclerationContent = taskTable.generate
 

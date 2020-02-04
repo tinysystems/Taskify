@@ -1,4 +1,4 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.common
 
 import org.xtext.example.mydsl.myDsl.Atomic
 import org.xtext.example.mydsl.myDsl.IntegerReference

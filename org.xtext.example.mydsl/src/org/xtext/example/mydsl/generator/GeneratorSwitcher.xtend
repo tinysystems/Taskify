@@ -12,6 +12,18 @@ import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
 import org.xtext.example.mydsl.myDsl.WhileExpression
 import org.xtext.example.mydsl.myDsl.IfExpression
 import org.xtext.example.mydsl.myDsl.NextTaskExpression
+import org.xtext.example.mydsl.generator.expression.ForExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.IExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.BreakExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.BuiltinFunctionCallExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.ConstantVariableExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.IfExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.NextTaskExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.OperationExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.SharedVariableExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.VariableAssignmentExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.VariableDeclerationExpressionGenerator
+import org.xtext.example.mydsl.generator.expression.WhileExpressionGenerator
 
 class GeneratorSwitcher {
 	

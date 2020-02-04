@@ -1,7 +1,9 @@
-package org.xtext.example.mydsl.generator
+package org.xtext.example.mydsl.generator.expression
 
-import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression
+import org.xtext.example.mydsl.generator.GeneratorSwitcher
+import org.xtext.example.mydsl.generator.common.SymbolTable
+import org.xtext.example.mydsl.generator.common.CommonGenerator
 
 class SharedVariableExpressionGenerator implements IExpressionGenerator {
 	SharedVariableExpression expression
