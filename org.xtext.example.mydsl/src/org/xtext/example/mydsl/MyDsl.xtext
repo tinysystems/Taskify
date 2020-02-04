@@ -84,9 +84,23 @@ Atomic:
 	PrimitiveReference | Variable
 ;
 
+FunctionParameters:
+	parameter += Atomic (',' parameter += Atomic)*
+;
+
+BuiltinPrintFunction:
+	{BuiltinPrintFunction}
+	'print' '(' parameters = FunctionParameters ')'
+;
+
+BuiltinRandomFunction:
+	{BuiltinRandomFunction}
+	'random' '(' ')'
+;
+
 BuiltinFunctionCallExpression:
-	{BuiltinFunctionCallExpression}
-	function = BuiltinFunctions '(' (parameters += Atomic (',' parameters += Atomic)*)? ')'
+	BuiltinPrintFunction |
+	BuiltinRandomFunction
 ;
 
 ArrayAssignment:
@@ -107,7 +121,7 @@ Operation returns OperationExpression:
 /********************* Assignment and Variable Declaration expressions ************************/
 VariableAssignment:
 	{VariableAssignment} 
-	operator = AssignmentOperator expression = (OperationExpression | ArrayAssignment)
+	operator = AssignmentOperator expression = (OperationExpression | ArrayAssignment | BuiltinRandomFunction)
 ;
 
 VariableAssignmentExpression:
@@ -203,7 +217,6 @@ StatementBody:
 LoopBody:
 	{LoopBody}
 	body += BlockExpressions*
-	(body += BreakExpression)?
 ;
 
 

@@ -7,6 +7,7 @@ import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayAssignment;
 import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
+import org.xtext.example.mydsl.myDsl.BuiltinRandomFunction;
 import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.Variable;
 import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression;
@@ -31,7 +32,13 @@ public class VariableAssignmentExpressionExecutor extends AbstractStackHelper im
 			if (expression.getAssignment() != null) {
 				EObject assignmentExpression = expression.getAssignment().getExpression();
 				if (assignmentExpression != null) {
-					value = evaluateValue((Operation) assignmentExpression, id, value, type);
+					if (assignmentExpression instanceof Operation) {
+						value = evaluateValue((Operation) assignmentExpression, id, value, type);
+						
+					} else if (assignmentExpression instanceof BuiltinRandomFunction) {
+						value = BuiltinFunctionCallExpressionExecutor.builtinRandomFunction();
+					}
+					
 					if (variable instanceof ArrayReference) {
 						updateCallStackByArray((ArrayReference) variable, value, getParentId());
 					} else {

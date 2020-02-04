@@ -23,6 +23,7 @@ import org.xtext.example.mydsl.myDsl.VariableSymbol;
 
 public abstract class AbstractStackHelper {
 	protected static boolean isBreak = false;
+	protected static final int RAND_MAX = 32767;
 	static boolean isReturn = false;
 	static Object lastFunctionReturn = null;
 	

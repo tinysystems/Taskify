@@ -1,8 +1,8 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
 import java.util.Arrays;
+import java.util.Random;
 
-import org.eclipse.emf.common.util.EList;
 import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
@@ -10,7 +10,10 @@ import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BooleanReference;
 import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression;
+import org.xtext.example.mydsl.myDsl.BuiltinPrintFunction;
+import org.xtext.example.mydsl.myDsl.BuiltinRandomFunction;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
+import org.xtext.example.mydsl.myDsl.FunctionParameters;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
 import org.xtext.example.mydsl.myDsl.PrimitiveReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
@@ -28,45 +31,36 @@ public class BuiltinFunctionCallExpressionExecutor extends AbstractStackHelper i
 	}
 	@Override
 	public void execute(String id) {
-		if (expression instanceof BuiltinFunctionCallExpression) {
-			builtinFunctionExecutor(expression, id);
+		if (this.expression instanceof BuiltinPrintFunction) {
+			builtinPrintFunction((BuiltinPrintFunction) this.expression, id);
+		} else if (this.expression instanceof BuiltinRandomFunction) {
+			//builtinRandomFunction((BuiltinRandomFunction) this.expression, id);
 		}
 	}
-	
-	private void builtinFunctionExecutor(BuiltinFunctionCallExpression expression, String id) {
-		String functionName = expression.getFunction();
-		
-		switch (functionName) {
-			case "print":
-				print(expression.getParameters(), id);
-				break;
-		}
-	}
-	
-	private void print(EList<Atomic> parameters, String id) {
-		Symbol symbol = null;;
-		String output = null;
-		int parameterCount = parameters.size();
+
+	private void builtinPrintFunction(BuiltinPrintFunction function, String id) {
+		FunctionParameters parameters = function.getParameters();
+		int parameterCount = parameters.getParameter().size();
 		
 		for (int i = 0; i < parameterCount; i++) {
-			Atomic atomic = parameters.get(i);
+			Symbol symbol = null;;
+			String output = null;
+			Atomic atomic = parameters.getParameter().get(i);
 			if(atomic instanceof PrimitiveReference) {
-				String value = "";
 				if(atomic instanceof StringReference) {
-					value = String.valueOf(((StringReference) atomic).getValue());
+					output = String.valueOf(((StringReference) atomic).getValue());
 				} else if (atomic instanceof IntegerReference) {
-					value = String.valueOf(((IntegerReference) atomic).getValue());
+					output = String.valueOf(((IntegerReference) atomic).getValue());
 				} else if (atomic instanceof DoubleReference) {
-					value = String.valueOf(((DoubleReference) atomic).getValue());
+					output = String.valueOf(((DoubleReference) atomic).getValue());
 				} else if (atomic instanceof BooleanReference) {
-					value = String.valueOf(((BooleanReference) atomic).isValue());
+					output = String.valueOf(((BooleanReference) atomic).isValue());
 				}
-				System.out.print(value);
 			} else if (atomic instanceof Variable) {
 				Variable atomicVar = (Variable) atomic;
 				symbol = lookupSymbolByAtomic(atomicVar, id);
 			
-				if (symbol != null) {			
+				if (symbol != null) {		
 					Object value = symbol.getVariableValue();
 					
 					if (value != null) {
@@ -84,14 +78,17 @@ public class BuiltinFunctionCallExpressionExecutor extends AbstractStackHelper i
 							Object values[] = (Object[]) value;
 							output = values[index].toString();
 						}						
-					} else {
-						output = "Variable is not defined.";
 					}
-					System.out.print(output);
 				}
 			}
+			System.out.print(output);
 		}
 		System.out.println();
 	}
-
+	
+	public static int builtinRandomFunction() {
+		Random random=new Random();
+		int value = random.nextInt(RAND_MAX);
+		return value;
+	}
 }

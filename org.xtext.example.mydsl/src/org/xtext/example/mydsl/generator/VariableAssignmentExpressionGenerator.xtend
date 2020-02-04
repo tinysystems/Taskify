@@ -2,7 +2,6 @@ package org.xtext.example.mydsl.generator
 
 import org.xtext.example.mydsl.generator.IExpressionGenerator
 import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression
-import org.xtext.example.mydsl.myDsl.Operation
 import org.eclipse.emf.ecore.EObject
 import org.xtext.example.mydsl.myDsl.Variable
 import org.xtext.example.mydsl.myDsl.ArrayReference
@@ -47,14 +46,8 @@ class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
 	}
 	
 	def String generateRightOperation() {
-		var String result = ""
-		
 		val EObject rightExpression = this.expression.assignment.expression
-		if (rightExpression instanceof Operation) {
-			result += this.generator.generate(this.expression.assignment.expression as Operation)
-		}
-		
-		return result
+		return this.generator.generate(rightExpression)		
 	}
 	
 	def static String generateSharedAssignment(String variable, String value) {
