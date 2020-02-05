@@ -3,16 +3,15 @@ package org.xtext.example.mydsl.debugger.processing.expression;
 import java.util.Stack;
 
 import org.eclipse.emf.common.util.EList;
-import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.Calculator;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayAssignment;
-import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.OperationExpression;
-
+//import org.xtext.example.mydsl.debugger.context.Symbol;
+//import org.xtext.example.mydsl.myDsl.ArrayReference;
 
 public class OperationExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
 	OperationExpression expression;
@@ -25,54 +24,10 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 		this.executor = executor;
 	}
 	
-//	private boolean isArithmetic(String operator) {
-//		final List<String> list = Arrays.asList(OperationExpressionExecutor.arithmeticOperators);
-//		return list.contains(operator);
-//	}
-	
-//	public int arithmeticCalculate(int left, String operator, int right) {
-//		int result = 0;
-//
-//		switch(operator) {
-//			case "+":
-//				result = left + right;
-//				break;
-//			case "-":
-//				result = left - right;
-//				break;
-//			case "*":
-//				result = left * right;
-//				break;
-//			case "/":
-//				result = left / right;
-//				break;
-//		}
-//		return result;
-//	}
-//	
-//	public double arithmeticCalculate(double left, String operator, double right) {
-//		double result = 0.00;
-//		
-//		switch(operator) {
-//			case "+":
-//				result = left + right;
-//				break;
-//			case "-":
-//				result = left - right;
-//				break;
-//			case "*":
-//				result = left * right;
-//				break;
-//			case "/":
-//				result = left / right;
-//				break;
-//		}
-//		return result;
-//	}
-	
 	@Override
 	public void execute(String id) {
-		if (expression instanceof Operation) {
+		/* Never called for the moemnt since evaluateOperationExpression() is public */
+		/*if (expression instanceof Operation) {
 			Object value = null;
 			Object rightVal = null;
 			Atomic variable = ((Operation) expression).getLeft();
@@ -85,7 +40,6 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 //				value = evaluateOperationExpression(((Operation) expression).getRight(), id, symbol.getType());
 			}
 			
-//			TODO: Add operator priority 8+3*5 is calculated wrong as 55 instead of 23
 			for (String operator: ((Operation) expression).getOperator()) {
 				int operatorIndex = ((Operation) expression).getOperator().indexOf(operator);
 				Atomic atomicValue = ((Operation) expression).getRight().get(operatorIndex);
@@ -111,9 +65,10 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 			} else {
 				updateCallStackByAtomic(variable, value, getParentId());
 			}
-		}
+		}*/
 	}
 	
+	public static int BINARY_P = 6;
 	public static int SQRT_P = 5;
 	public static int OPEN_BRACKETS_P = 4;
 	public static int CLOSE_BRACKETS_P = 3;
@@ -124,19 +79,22 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 	public static int precedence(String operator) {
 		int precedence;
 		switch(operator) {
-			case "^":
+			case Calculator.BITWISE_AND: case Calculator.BITWISE_OR: case Calculator.SHIFT_LEFT: case Calculator.SHIFT_RIGHT:
+				precedence = BINARY_P;
+				break;
+			case Calculator.SQUARE:
 				precedence = SQRT_P;
 				break;
-			case "(":
+			case Calculator.OPEN_BRACKET:
 				precedence = OPEN_BRACKETS_P;
 				break;
-			case ")":
+			case Calculator.CLOSE_BRACKET:
 				precedence = CLOSE_BRACKETS_P;
 				break;
-			case "*": case "/":
+			case Calculator.MULT: case Calculator.DIV:
 				precedence = MULT_DIV_P;
 				break;
-			case "+": case "-":
+			case Calculator.PLUS: case Calculator.MINUS:
 				precedence = SUM_SUB_P;
 				break;
 			default:
@@ -223,33 +181,25 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 	}
 	
 	private static Object evaluatePostfix(Stack<Object> stack, String type) {
-		Object leftVal = null, rightVal = null;
+		Object leftValue = null, rightValue = null;
 		Stack<Object> results = new Stack<>();
 		
 		for (int i = 0; i < stack.size(); i++) {
 			Object item = stack.get(i);
 			if (item instanceof String) {
-//				Operator
-				rightVal =  results.pop();
-				leftVal = results.pop();
-				
 				String operator = (String) item;
+				rightValue =  results.pop();
+				leftValue = results.pop();
 				
-				switch (type) {
-					case "integer":
-						leftVal = Calculator.arithmeticCalculate((int) leftVal, operator, (int) rightVal);
-						break;
-					case "double":
-						leftVal = Calculator.arithmeticCalculate((double) leftVal, operator, (double) rightVal);
-						break;
-				}
-				results.push(leftVal);						
+				leftValue = Calculator.calculate(leftValue, operator, rightValue, type);
+				
+				results.push(leftValue);						
 			} else {
-//				Int or Double value
+				// Atomic values
 				results.push(item);
 			}
 		}	
-		return leftVal;
+		return leftValue;
 	}
 	
 }

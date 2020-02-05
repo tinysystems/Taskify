@@ -2,11 +2,18 @@
  * This is an example model
  */
 
-GLOBAL string value
+SHARED integer value
+SHARED string value2
+SHARED integer intVal
+//SHARED integer intVal2 = 
+SHARED integer array[3]
 
-/*
+CONSTANT integer constantVar = 8 / 2
+CONSTANT integer constantVar2 = 4
+
+/* 
 CONSTANT {
-	
+
 }
 
 SHARED {
@@ -15,42 +22,80 @@ SHARED {
 */
 
 task abc {
-	boolean bool
-	bool = false
-	if(bool) {
+	boolean boolVar = true
+	boolVar = false
+    print("task abc: start")
+	if(boolVar) {
 		break
-	} else if (bool == false) {
-		bool = true
+	} else if (boolVar == false) {
+		boolVar = true
 		print(value)
 	} else {
-		print(bool)
+		print(boolVar)
 	}
-	print(bool)
+	print(boolVar)
 	
-	while(bool) {
-	    print("girdi")
-	    break
+	while(boolVar) {
+	    print("task abc: while ", true)
+	    boolVar = false
 	}
-	print("bitti")
+	print("task abc: end ", 6.6)
 	end
 }
 
 
 
 entry task aa {
-	integer aab
+    integer randomV
+	integer aab = 3 + constantVar // 4 + 3
+	integer local_array[5] = [4, 5, 6, 7, 7]
+	local_array[3] = 16
+	//print(local_array) // [4, 5, 6, 16, 7]
+	print("aab is ", aab) // 7
+	aab = aab SHIFT_LEFT 2 + 4
+	print("aab after shift left is ", aab)
+	aab = aab - 4 
+	aab = aab SHIFT_RIGHT 2
+    print("aab after shift right is ", aab)
+    
+    if (aab > 0) {
+        print("aa is greater than 0")
+    }
+	//print(array)
+	
+	//print(value)
+	intVal = 8
+    intVal = intVal + 3 // 8 + 3
+    //print(intVal) // 11
+    
+    array[0] = 3
+    array[0] = intVal + 2 // 11 + 2
+	array[1] = array[0] + 1 // 13 + 1 
+	array[2] = 8 // 8
+	//print(array) // [13, 14, 8]
 	aab = 1
-	value = "ali ata bak ulan"
+	
+//	 constantVar = 4
+	
 	while(aab != 14) {
 		aab = aab + 2
-		print("yaram içerdeee")
+		randomV = random()
+		print("entry: Random variable is ", randomV)
 		
 		if(aab > 15) {
-			print("aab is greater than 15", aab)
+			print("entry task: aab is greater than 15 ", aab)
 			break
 		}
 	}
-	print(aab)
+	print(aab) // 17
+	
+	if (true) {
+		next abc
+	} else {
+		end
+	}
+	
+	
 	next abc
+//	end
 }
-

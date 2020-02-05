@@ -25,7 +25,11 @@ BuiltinFunctions:
 ;
 
 LogicalOperator:
-	'AND' | 'OR' | "AND_BITWISE" | "OR_BITWISE"
+	'AND' | 'OR'
+;
+
+BitwiseOperator:
+	"AND_BITWISE" | "OR_BITWISE" | "SHIFT_LEFT" | "SHIFT_RIGHT"
 ;
 
 ComparisionOperator:
@@ -43,7 +47,8 @@ ArithmeticOperator:
 Operator:
 	ArithmeticOperator | 
 	ComparisionOperator | 
-	LogicalOperator
+	LogicalOperator |
+	BitwiseOperator
 ;
 
 BreakExpression:

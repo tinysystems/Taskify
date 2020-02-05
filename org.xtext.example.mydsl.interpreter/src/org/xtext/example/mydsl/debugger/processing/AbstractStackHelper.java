@@ -339,7 +339,7 @@ public abstract class AbstractStackHelper {
 		}
 	}
 	
-	public void stopExecution(String reason) {
+	public static void stopExecution(String reason) {
 		System.err.println("Error while processing, reason: " + reason);
 		System.exit(0);
 	}
