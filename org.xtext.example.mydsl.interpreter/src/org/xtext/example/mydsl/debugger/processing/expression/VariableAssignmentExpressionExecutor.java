@@ -8,6 +8,7 @@ import org.xtext.example.mydsl.myDsl.ArrayAssignment;
 import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BuiltinRandomFunction;
+import org.xtext.example.mydsl.myDsl.ComparisionExpression;
 import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.Variable;
 import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression;
@@ -34,9 +35,10 @@ public class VariableAssignmentExpressionExecutor extends AbstractStackHelper im
 				if (assignmentExpression != null) {
 					if (assignmentExpression instanceof Operation) {
 						value = evaluateValue((Operation) assignmentExpression, id, value, type);
-						
 					} else if (assignmentExpression instanceof BuiltinRandomFunction) {
 						value = BuiltinFunctionCallExpressionExecutor.builtinRandomFunction();
+					} else if (assignmentExpression instanceof ComparisionExpression) {
+						value = checkCondition(assignmentExpression, id);
 					}
 					
 					if (variable instanceof ArrayReference) {

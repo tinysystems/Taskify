@@ -49,6 +49,9 @@ entry task aa {
     integer randomV
 	integer aab = 3 + constantVar // 4 + 3
 	integer local_array[5] = [4, 5, 6, 7, 7]
+	boolean boolVar
+	boolVar = true OR false
+	print("boolvar is: ", boolVar )
 	local_array[3] = 16
 	//print(local_array) // [4, 5, 6, 16, 7]
 	print("aab is ", aab) // 7
@@ -58,7 +61,7 @@ entry task aa {
 	aab = aab SHIFT_RIGHT 2
     print("aab after shift right is ", aab)
     
-    if (aab > 0) {
+    if (aab + 2 > 0) {
         print("aa is greater than 0")
     }
 	//print(array)

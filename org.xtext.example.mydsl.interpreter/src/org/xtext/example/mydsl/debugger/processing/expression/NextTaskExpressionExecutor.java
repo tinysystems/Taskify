@@ -38,6 +38,11 @@ public class NextTaskExpressionExecutor extends AbstractStackHelper implements I
 		
 		for(EObject bodyElement: taskBody.getBody()) {
 			this.executor.execute(bodyElement, id);
+			
+			/* Leave task if execution is jumped to another one */
+			if (bodyElement instanceof NextTaskExpression) {
+				break;
+			}
 		}
 	}
 	

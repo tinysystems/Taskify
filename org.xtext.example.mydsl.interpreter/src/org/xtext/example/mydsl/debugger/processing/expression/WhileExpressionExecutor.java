@@ -1,12 +1,12 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
-import org.xtext.example.mydsl.debugger.processing.AbstractLogicalHelper;
+import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.WhileExpression;
 
 
-public class WhileExpressionExecutor extends AbstractLogicalHelper implements IExpressionExecutor {
+public class WhileExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
 	WhileExpression expression;
 	ExpressionSwitcher executor;
 	

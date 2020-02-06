@@ -4,14 +4,13 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.xtext.example.mydsl.debugger.processing.AbstractLogicalHelper;
+import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.IfExpression;
-import org.xtext.example.mydsl.myDsl.OperationExpression;
 
 
-public class IfExpressionExecutor extends AbstractLogicalHelper implements IExpressionExecutor {
+public class IfExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
 	IfExpression expression;
 	ExpressionSwitcher executor;
 	
@@ -22,7 +21,7 @@ public class IfExpressionExecutor extends AbstractLogicalHelper implements IExpr
 	
 	@Override
 	public void execute(String id) {
-		List<OperationExpression> elseIfConditions = this.expression.getElseifcondition();
+		int elseIfConditionCount = this.expression.getElseifcondition().size();
 		if (checkCondition(this.expression.getIfcondition(), id)) {
 			for (Object body: this.expression.getIfbody().getBody()) {
 				if (isBreak) {
@@ -31,9 +30,10 @@ public class IfExpressionExecutor extends AbstractLogicalHelper implements IExpr
 					executor.execute((Expression) body, id);
 				}
 			}
-		} else if (elseIfConditions.size() > 0) {
-			for (int index = 0; index < elseIfConditions.size(); index++) {
-				OperationExpression exp = elseIfConditions.get(index);
+		} else if (elseIfConditionCount > 0) {
+			List<EObject> elseIfConditions = this.expression.getElseifcondition();
+			for (int index = 0; index < elseIfConditionCount; index++) {
+				EObject exp = elseIfConditions.get(index);
 				
 				if (checkCondition(exp, id)) {
 					EList<EObject> bodyList = this.expression.getElseifbody().get(index).getBody();

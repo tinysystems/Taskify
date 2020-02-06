@@ -46,7 +46,6 @@ ArithmeticOperator:
 
 Operator:
 	ArithmeticOperator | 
-	ComparisionOperator | 
 	LogicalOperator |
 	BitwiseOperator
 ;
@@ -112,6 +111,10 @@ ArrayAssignment:
 	'[' variable += Atomic (',' variable += Atomic)* ']'
 ;
 
+ComparisionExpression:
+	{ComparisionExpression}
+	left = OperationExpression operator = ComparisionOperator right = OperationExpression
+;
 
 /********************* Operation expressions ************************/
 OperationExpression:
@@ -126,7 +129,7 @@ Operation returns OperationExpression:
 /********************* Assignment and Variable Declaration expressions ************************/
 VariableAssignment:
 	{VariableAssignment} 
-	operator = AssignmentOperator expression = (OperationExpression | ArrayAssignment | BuiltinRandomFunction)
+	operator = AssignmentOperator expression = (OperationExpression | ArrayAssignment | BuiltinRandomFunction | ComparisionExpression)
 ;
 
 VariableAssignmentExpression:
@@ -153,10 +156,10 @@ ConstantVariableExpression:
 /********************* Loop expressions ************************/
 IfExpression:
 	{IfExpression}
-	'if' '(' ifcondition = OperationExpression ')' '{'
+	'if' '(' ifcondition = (OperationExpression | ComparisionExpression) ')' '{'
 		ifbody = StatementBody
 	'}' 
-	('else' 'if' '(' elseifcondition += OperationExpression ')' '{'
+	('else' 'if' '(' elseifcondition += (OperationExpression | ComparisionExpression) ')' '{'
 		elseifbody += StatementBody
 	'}')*
 	('else' '{'
@@ -166,14 +169,14 @@ IfExpression:
 
 ForExpression:
 	{ForExpression}
-	'for' '(' initial = OperationExpression ';' test = OperationExpression ';' update = OperationExpression ')' '{'
+	'for' '(' initial = OperationExpression ';' test = (OperationExpression | ComparisionExpression) ';' update = VariableAssignmentExpression ')' '{'
 		body = LoopBody
 	'}' 
 ;
 
 WhileExpression:
 	{WhileExpression}
-	'while' '(' test = OperationExpression ')' '{'
+	'while' '(' test = (OperationExpression | ComparisionExpression) ')' '{'
 		body = LoopBody
 	'}' 
 ;

@@ -1,12 +1,14 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
-import org.xtext.example.mydsl.debugger.processing.AbstractLogicalHelper;
+import org.eclipse.emf.ecore.EObject;
+import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ForExpression;
 import org.xtext.example.mydsl.myDsl.OperationExpression;
+//import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression;
 
 
-public class ForExpressionExecutor extends AbstractLogicalHelper implements IExpressionExecutor {
+public class ForExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
 	ForExpression expression;
 	ExpressionSwitcher executor;
 	
@@ -23,11 +25,11 @@ public class ForExpressionExecutor extends AbstractLogicalHelper implements IExp
 		
 		
 		
-		OperationExpression test = expression.getTest();
+		EObject test = expression.getTest();
 		System.out.println(test.toString());
 		
-		OperationExpression update = expression.getUpdate();
-		this.executor.execute(update, id);
+		// VariableAssignmentExpression update = expression.getUpdate();
+		// this.executor.execute(update, id);
 	}
 	
 //	private Symbol getInitialSymbol(OperationExpression expression, String id) {
