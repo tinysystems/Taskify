@@ -162,11 +162,11 @@ public class Calculator {
 		boolean result = false;
 		if (value != null) {
 			if (value instanceof Integer) {
-				result = ((int) value) > 0;
+				result = (Integer.valueOf(value.toString())) > 0;
 			} else if (value instanceof Double) {
-				result = ((double) value) > 0;
+				result = (Double.valueOf(value.toString())) > 0;
 			} else if (value instanceof Boolean) {
-				result = (boolean) value;
+				result = Boolean.valueOf(value.toString());
 			} else {
 				AbstractStackHelper.stopExecution("Type of '" + value + "' could not be recognized.");
 			}
@@ -237,7 +237,7 @@ public class Calculator {
 		if (isArithmetic(operator)) {
 			switch (type) {
 			case "integer":
-				result = arithmeticCalculate((int) leftValue, operator, (int) rightValue);
+				result = arithmeticCalculate(Integer.valueOf(leftValue.toString()), operator, Integer.valueOf(rightValue.toString()));
 				break;
 			case "double":
 				result = arithmeticCalculate(Double.valueOf(leftValue.toString()), operator,
@@ -248,14 +248,14 @@ public class Calculator {
 			}
 		} else if (isBinary(operator)) {
 			if (type.equals("integer")) {
-				result = bitwiseCalculate((int) leftValue, operator, (int) rightValue);
+				result = bitwiseCalculate(Integer.valueOf(leftValue.toString()), operator, Integer.valueOf(rightValue.toString()));
 			} else {
 				AbstractStackHelper
 						.stopExecution("Type '" + type + "' is not applicable to calculate binary. Must be integer.");
 			}
 		} else if (isLogical(operator)) {
 			if (type.equals("boolean")) {
-				result = logicalCalculate((boolean) leftValue, operator, (boolean) rightValue);
+				result = logicalCalculate(Boolean.valueOf(leftValue.toString()), operator, Boolean.valueOf(rightValue.toString()));
 			} else {
 				AbstractStackHelper
 						.stopExecution("Type '" + type + "' is not applicable to calculate boolean. Must be boolean.");

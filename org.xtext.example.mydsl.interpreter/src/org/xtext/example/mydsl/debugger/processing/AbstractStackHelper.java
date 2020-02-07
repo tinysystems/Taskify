@@ -125,16 +125,18 @@ public abstract class AbstractStackHelper {
 	private static boolean isDummy(Atomic atomic) {
 		boolean result = false;
 		
-		if(atomic instanceof StringReference) {
+		if (atomic instanceof PrimitiveReference) {
 			result = true;
-		} else if (atomic instanceof IntegerReference) {
-			result = true;
-		} else if (atomic instanceof DoubleReference) {
-			result = true;
-		} else if (atomic instanceof BooleanReference) {
-			result = true;
-		}		
-		
+		}
+//		if(atomic instanceof StringReference) {
+//			result = true;
+//		} else if (atomic instanceof IntegerReference) {
+//			result = true;
+//		} else if (atomic instanceof DoubleReference) {
+//			result = true;
+//		} else if (atomic instanceof BooleanReference) {
+//			result = true;
+//		}
 		return result;
 	}
 	
@@ -359,13 +361,13 @@ public abstract class AbstractStackHelper {
 				String operator = ((Operation) expression).getOperator().get(0);
 				
 				if (left instanceof Integer) {
-					isApplicable = (Boolean) Calculator.calculate((int) left, operator, (int) right);
+					isApplicable = (Boolean) Calculator.calculate(Integer.valueOf(left.toString()), operator, Integer.valueOf(right.toString()));
 				} else if (left instanceof Double) {
-					isApplicable = (Boolean) Calculator.calculate((double) left, operator, (double) right);
+					isApplicable = (Boolean) Calculator.calculate(Double.valueOf(left.toString()), operator, Double.valueOf(right.toString()));
 				} else if (left instanceof Boolean) {
-					isApplicable = (Boolean) Calculator.calculate((boolean) left, operator, (boolean) right);
+					isApplicable = (Boolean) Calculator.calculate(Boolean.valueOf(left.toString()), operator, Boolean.valueOf(right.toString()));
 				}  else {
-					stopExecution("Type of '" + left + "' could not be recognized.");
+					stopExecution("Type of '" + left.getClass().getSimpleName() + "' could not be recognized.");
 				}
 			} else {
 //				ex: if(boolean)
