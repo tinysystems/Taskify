@@ -56,10 +56,10 @@ public abstract class AbstractStackHelper {
 //		if Atomic is StringReference or IntegerReference or DoubleReference or BooleanReference, 
 //		the value is not inside call stack. So make dummy symbol and return it.
 //		System.out.println("lookupSymbolByAtomic: atomic: " + atomic.toString() + " id: " + id);
-		if(isDummy(atomic)) {
-			Symbol dummy = dummySymbol(atomic);
-			return dummy;
-		}
+//		if(isDummy(atomic)) {
+//			Symbol dummy = dummySymbol(atomic);
+//			return dummy;
+//		}
 		
 		String variableName = getAtomicName(atomic);
 		Symbol symbol = lookupSymbolByString(variableName, id);
@@ -99,46 +99,46 @@ public abstract class AbstractStackHelper {
 		return null;
 	}
 	
-	private static Symbol dummySymbol(Atomic atomic) {
-		Object value = null;
-		String type = null;
-		
-		if(atomic instanceof StringReference) {
-			value = (String) ((StringReference) atomic).getValue();
-			type = "string";
-		} else if (atomic instanceof IntegerReference) {
-			value = (int) ((IntegerReference) atomic).getValue();
-			type = "integer";
-		} else if (atomic instanceof DoubleReference) {
-			value = (double) ((DoubleReference) atomic).getValue();
-			type = "double";
-		} else if (atomic instanceof BooleanReference) {
-			value = (boolean) ((BooleanReference) atomic).isValue();
-			type = "boolean";
-		}	
-		
-		Symbol dummySymbol = new Symbol("dummy", type);
-		dummySymbol.setVariableValue(value);
-		return dummySymbol;
-	}
-	
-	private static boolean isDummy(Atomic atomic) {
-		boolean result = false;
-		
-		if (atomic instanceof PrimitiveReference) {
-			result = true;
-		}
+//	private static Symbol dummySymbol(Atomic atomic) {
+//		Object value = null;
+//		String type = null;
+//		
 //		if(atomic instanceof StringReference) {
-//			result = true;
+//			value = (String) ((StringReference) atomic).getValue();
+//			type = "string";
 //		} else if (atomic instanceof IntegerReference) {
-//			result = true;
+//			value = (int) ((IntegerReference) atomic).getValue();
+//			type = "integer";
 //		} else if (atomic instanceof DoubleReference) {
-//			result = true;
+//			value = (double) ((DoubleReference) atomic).getValue();
+//			type = "double";
 //		} else if (atomic instanceof BooleanReference) {
+//			value = (boolean) ((BooleanReference) atomic).isValue();
+//			type = "boolean";
+//		}	
+//		
+//		Symbol dummySymbol = new Symbol("dummy", type);
+//		dummySymbol.setVariableValue(value);
+//		return dummySymbol;
+//	}
+//	
+//	private static boolean isDummy(Atomic atomic) {
+//		boolean result = false;
+//		
+//		if (atomic instanceof PrimitiveReference) {
 //			result = true;
 //		}
-		return result;
-	}
+////		if(atomic instanceof StringReference) {
+////			result = true;
+////		} else if (atomic instanceof IntegerReference) {
+////			result = true;
+////		} else if (atomic instanceof DoubleReference) {
+////			result = true;
+////		} else if (atomic instanceof BooleanReference) {
+////			result = true;
+////		}
+//		return result;
+//	}
 	
 	protected static void pushCallStackItem(String id) {
 		CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
