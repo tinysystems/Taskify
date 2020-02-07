@@ -22,7 +22,8 @@ class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 		val String type = this.expression.type.type
 		SymbolTable.addSymbol(name, type, scope)
 
-		var String result = "__nv "
+		// var String result = "__nv "
+		var String result = ""
 		
 		val boolean isArray = this.expression.dimension !== null
 		
