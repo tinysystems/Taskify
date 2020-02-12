@@ -8,6 +8,7 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 InkApp:
 	shareds += SharedVariableExpression*
 	constants += ConstantVariableExpression*
+	functions += FunctionDefinition*
 	tasks+=Task*
 	entry = EntryTask
 ;
@@ -18,10 +19,6 @@ terminal DOUBLE returns ecore::EDouble:
 	
 terminal BOOLEAN returns ecore::EBoolean:
 	'true' | 'false'
-;
-
-BuiltinFunctions:
-	'print'
 ;
 
 LogicalOperator:
@@ -60,13 +57,13 @@ VariableType:
 	type = ('string' | 'integer' |  'boolean')
 ;
 
-
 ArrayDimension:
 	{ArrayDimension}
 	'[' (index = [VariableSymbol] | size = INT) ']'
 ;
 
 VariableSymbol:
+	FunctionDefinitionParameter |
 	VariableDeclerationExpression | 
 	ConstantVariableExpression |
 	SharedVariableExpression
@@ -88,13 +85,15 @@ Atomic:
 	PrimitiveReference | Variable
 ;
 
-FunctionParameters:
+
+/********************* Function and function call Expressions ************************/
+FunctionCallParameters:
 	parameter += Atomic (',' parameter += Atomic)*
 ;
 
 BuiltinPrintFunction:
 	{BuiltinPrintFunction}
-	'print' '(' parameters = FunctionParameters ')'
+	'print' '(' parameters = FunctionCallParameters ')'
 ;
 
 BuiltinRandomFunction:
@@ -107,6 +106,30 @@ BuiltinFunctionCallExpression:
 	BuiltinRandomFunction
 ;
 
+FunctionDefinitionParameter:
+	{FunctionDefinitionParameter}
+	type = VariableType name = ID
+;
+
+FunctionDefinitionParameters:
+	{FunctionDefinitionParameters}
+	typedVariableList += FunctionDefinitionParameter (',' typedVariableList += FunctionDefinitionParameter)*
+;
+
+FunctionDefinition:
+	{FunctionDefinition}
+	type = VariableType name = ID '(' parameters = FunctionDefinitionParameters ')' '{'
+		body += VariableDeclerationExpression*
+		body += BlockExpressions*
+		'return' return = Atomic 
+	'}'
+;
+
+CustomFunctionCallExpression:
+	{CustomFunctionCallExpression}
+	function = [FunctionDefinition] '(' parameters = FunctionCallParameters ')'
+;
+
 ArrayAssignment:
 	'[' variable += Atomic (',' variable += Atomic)* ']'
 ;
@@ -115,6 +138,7 @@ ComparisionExpression:
 	{ComparisionExpression}
 	left = OperationExpression operator = ComparisionOperator right = OperationExpression
 ;
+
 
 /********************* Operation expressions ************************/
 OperationExpression:
@@ -129,7 +153,7 @@ Operation returns OperationExpression:
 /********************* Assignment and Variable Declaration expressions ************************/
 VariableAssignment:
 	{VariableAssignment} 
-	operator = AssignmentOperator expression = (OperationExpression | ArrayAssignment | BuiltinRandomFunction | ComparisionExpression)
+	operator = AssignmentOperator expression = (OperationExpression | ArrayAssignment | BuiltinRandomFunction | ComparisionExpression | CustomFunctionCallExpression)
 ;
 
 VariableAssignmentExpression:

@@ -13,7 +13,7 @@ import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression;
 import org.xtext.example.mydsl.myDsl.BuiltinPrintFunction;
 import org.xtext.example.mydsl.myDsl.BuiltinRandomFunction;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
-import org.xtext.example.mydsl.myDsl.FunctionParameters;
+import org.xtext.example.mydsl.myDsl.FunctionCallParameters;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
 import org.xtext.example.mydsl.myDsl.PrimitiveReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
@@ -39,7 +39,7 @@ public class BuiltinFunctionCallExpressionExecutor extends AbstractStackHelper i
 	}
 
 	private void builtinPrintFunction(BuiltinPrintFunction function, String id) {
-		FunctionParameters parameters = function.getParameters();
+		FunctionCallParameters parameters = function.getParameters();
 		int parameterCount = parameters.getParameter().size();
 		
 		for (int i = 0; i < parameterCount; i++) {

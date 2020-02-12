@@ -40,7 +40,7 @@ public class ExpressionSwitcher extends ProcessHandler {
 	
 	public void execute(EObject expression, String id) {
 		if (ExpressionSwitcher.MODE == ExpressionSwitcher.MODES.DEBUG) {
-			ThreadStateForDebugging(expression);
+			threadStateForDebugging(expression);
 		}
 
 		IExpressionExecutor executor = null;

@@ -9,7 +9,9 @@ import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BuiltinRandomFunction;
 import org.xtext.example.mydsl.myDsl.ComparisionExpression;
+import org.xtext.example.mydsl.myDsl.CustomFunctionCallExpression;
 import org.xtext.example.mydsl.myDsl.Operation;
+import org.xtext.example.mydsl.myDsl.OperationExpression;
 import org.xtext.example.mydsl.myDsl.Variable;
 import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression;
 
@@ -33,12 +35,19 @@ public class VariableAssignmentExpressionExecutor extends AbstractStackHelper im
 			if (expression.getAssignment() != null) {
 				EObject assignmentExpression = expression.getAssignment().getExpression();
 				if (assignmentExpression != null) {
-					if (assignmentExpression instanceof Operation) {
+					//  expression = (OperationExpression | ArrayAssignment | BuiltinRandomFunction | ComparisionExpression)
+					if (assignmentExpression instanceof OperationExpression) {
 						value = evaluateValue((Operation) assignmentExpression, id, value, type);
 					} else if (assignmentExpression instanceof BuiltinRandomFunction) {
 						value = BuiltinFunctionCallExpressionExecutor.builtinRandomFunction();
 					} else if (assignmentExpression instanceof ComparisionExpression) {
 						value = checkCondition(assignmentExpression, id);
+					} else if (assignmentExpression instanceof CustomFunctionCallExpression) {
+						if (CustomFunctionCallExpressionExecutor.validateParameters((CustomFunctionCallExpression) assignmentExpression, id)) {
+							value = CustomFunctionCallExpressionExecutor.call((CustomFunctionCallExpression) assignmentExpression, executor, id);
+						}
+					} else {
+						stopExecution("Assignment expression to variable '" + symbol.getName() + "' is not possible");
 					}
 					
 					if (variable instanceof ArrayReference) {
