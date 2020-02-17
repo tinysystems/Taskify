@@ -11,40 +11,6 @@ SHARED integer array[3]
 CONSTANT integer constantVar = 8 / 2
 CONSTANT integer constantVar2 = 4
 
-/* 
-CONSTANT {
-
-}
-
-SHARED {
-	
-}
-*/
-
-task abc {
-	boolean boolVar = true
-	boolVar = false
-    print("task abc: start")
-	if(boolVar) {
-		break
-	} else if (boolVar == false) {
-		boolVar = true
-		print(value)
-	} else {
-		print(boolVar)
-	}
-	print(boolVar)
-	
-	while(boolVar) {
-	    print("task abc: while ", true)
-	    boolVar = false
-	}
-	print("task abc: end ", 6.6)
-	end
-}
-
-
-
 entry task aa {
     integer randomV
 	integer aab = 3 + constantVar // 4 + 3
@@ -101,4 +67,26 @@ entry task aa {
 	
 	next abc
 //	end
+}
+
+task abc {
+	boolean boolVar = true
+	boolVar = false
+    print("task abc: start")
+	if(boolVar) {
+		break
+	} else if (boolVar == false) {
+		boolVar = true
+		print(value)
+	} else {
+		print(boolVar)
+	}
+	print(boolVar)
+	
+	while(boolVar) {
+	    print("task abc: while ", true)
+	    boolVar = false
+	}
+	print("task abc: end ", 6.6)
+	end
 }

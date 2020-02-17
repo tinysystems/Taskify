@@ -11,38 +11,6 @@ GLOBAL integer array[3] = [3, 5, 7]
 
 CONSTANT integer constant = 5
 
-/*
-CONSTANT {
-	
-}
-
-SHARED {
-	
-}
-*/
-
-task abc {
-	boolean bool = true
-	bool = false
-	if(bool) {
-		break
-	} else if (bool == false) {
-		bool = true
-		print(value)
-	} else {
-		print(bool)
-	}
-	print(bool)
-	
-	while(bool) {
-	    print("task abc: girdi")
-	    break
-	}
-	
-	print("task abc: bitti")
-	end
-}
-
 entry task aa {
 	integer aab = 3 + array[1]
 	string str = "ali ata bak"
@@ -83,3 +51,26 @@ entry task aa {
 	next abc
 //	end
 }
+
+task abc {
+	boolean bool = true
+	bool = false
+	if(bool) {
+		break
+	} else if (bool == false) {
+		bool = true
+		print(value)
+	} else {
+		print(bool)
+	}
+	print(bool)
+	
+	while(bool) {
+	    print("task abc: girdi")
+	    break
+	}
+	
+	print("task abc: bitti")
+	end
+}
+

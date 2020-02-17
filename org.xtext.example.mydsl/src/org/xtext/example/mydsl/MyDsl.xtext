@@ -9,8 +9,8 @@ InkApp:
 	shareds += SharedVariableExpression*
 	constants += ConstantVariableExpression*
 	functions += FunctionDefinition*
-	tasks+=Task*
 	entry = EntryTask
+	tasks+=Task*
 ;
 
 terminal DOUBLE returns ecore::EDouble:
