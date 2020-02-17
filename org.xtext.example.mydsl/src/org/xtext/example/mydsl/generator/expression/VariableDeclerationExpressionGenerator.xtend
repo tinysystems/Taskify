@@ -2,9 +2,9 @@ package org.xtext.example.mydsl.generator.expression
 
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
 import org.xtext.example.mydsl.myDsl.ArrayAssignment
-import org.xtext.example.mydsl.myDsl.Operation
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
 import org.xtext.example.mydsl.generator.common.CommonGenerator
+import org.xtext.example.mydsl.myDsl.OperationExpression
 
 class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
 	VariableDeclerationExpression expression
@@ -21,7 +21,7 @@ class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
 		val boolean isArray = this.expression.dimension !== null
 		
 //		Generate variable type and name
-		result += CommonGenerator.getVariableTypeName(this.expression.type.type, this.expression.name)
+		result += CommonGenerator.getVariableTypeName(this.expression.type, this.expression.name)
 		if (isArray) {
 			result += CommonGenerator.getDimension(this.expression.dimension, -1)
 		} 
@@ -31,7 +31,7 @@ class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
 			if (isArray) {
 				result += " = " + OperationExpressionGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)	
 			} else {
-				result += " = " + generator.generate(this.expression.assignment.expression as Operation)
+				result += " = " + generator.generate(this.expression.assignment.expression as OperationExpression)
 			}
 		}
 		

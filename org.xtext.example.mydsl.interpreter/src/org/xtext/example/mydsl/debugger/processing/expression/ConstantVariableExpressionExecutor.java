@@ -21,7 +21,7 @@ public class ConstantVariableExpressionExecutor extends AbstractStackHelper impl
 	@Override
 	public void execute(String id) {
 		String name = expression.getName();
-		String type = expression.getType().getType();
+		String type = expression.getType();
 //		scope: constant
 		String scope = id; 
 		

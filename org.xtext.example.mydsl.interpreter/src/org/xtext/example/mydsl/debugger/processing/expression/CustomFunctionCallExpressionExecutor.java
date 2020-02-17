@@ -57,7 +57,7 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper im
 		
 		for (int i = 0; i < definitionParametersCount; i++) {
 			String name = functionDefinitionTypedParameters.getTypedVariableList().get(i).getName();
-			String type = functionDefinitionTypedParameters.getTypedVariableList().get(i).getType().getType();
+			String type = functionDefinitionTypedParameters.getTypedVariableList().get(i).getType();
 			Symbol callSymbol = lookupSymbolByAtomic((Atomic) callParameters.get(i), callerId); 
 			Object value = callSymbol.getVariableValue();
 			Symbol symbol = new Symbol(name, type, value, id);
@@ -86,7 +86,7 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper im
 		
 		if (callParameters.size() == definitionParametersCount) {
 			for (int i = 0; i < definitionParametersCount; i++) {
-				String definitionType = functionDefinitionTypedParameters.getTypedVariableList().get(i).getType().getType();
+				String definitionType = functionDefinitionTypedParameters.getTypedVariableList().get(i).getType();
 				Symbol symbol = lookupSymbolByAtomic((Atomic) callParameters.get(i), id);
 				
 				if (!definitionType.equals(symbol.getType())) {

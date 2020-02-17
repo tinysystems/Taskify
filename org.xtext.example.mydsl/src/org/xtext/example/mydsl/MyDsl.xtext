@@ -53,8 +53,7 @@ BreakExpression:
 ;
 
 VariableType:
-	{VariableType} 
-	type = ('string' | 'integer' |  'boolean')
+	'string' | 'integer' |  'boolean'
 ;
 
 ArrayDimension:

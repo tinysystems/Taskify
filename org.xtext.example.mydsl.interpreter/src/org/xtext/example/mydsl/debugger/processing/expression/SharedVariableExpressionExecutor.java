@@ -18,7 +18,7 @@ public class SharedVariableExpressionExecutor extends AbstractStackHelper implem
 	@Override
 	public void execute(String id) {
 		String name = expression.getName();
-		String type = expression.getType().getType();
+		String type = expression.getType();
 		String scope = id;
 		Object value = null;
 		int size = 0;

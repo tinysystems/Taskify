@@ -14,7 +14,7 @@ class SharedVariableExpressionGenerator implements IExpressionGenerator {
 	override String generate() {
 		val String scope = SymbolTable.SHARED
 		val String name = this.expression.name
-		val String type = this.expression.type.type
+		val String type = this.expression.type
 		SymbolTable.addSymbol(name, type, scope)
 		
 		// By-pass it to VariableDeclerationExpressionGenerator
@@ -23,7 +23,7 @@ class SharedVariableExpressionGenerator implements IExpressionGenerator {
 		val boolean isArray = this.expression.dimension !== null
 		
 //		Generate variable type and name
-		result += CommonGenerator.getVariableTypeName(this.expression.type.type, this.expression.name)
+		result += CommonGenerator.getVariableTypeName(this.expression.type, this.expression.name)
 		if (isArray) {
 			result += CommonGenerator.getDimension(this.expression.dimension, -1)
 		} 

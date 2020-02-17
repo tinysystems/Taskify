@@ -2,10 +2,10 @@ package org.xtext.example.mydsl.generator.expression
 
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
 import org.xtext.example.mydsl.myDsl.ArrayAssignment
-import org.xtext.example.mydsl.myDsl.Operation
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
 import org.xtext.example.mydsl.generator.common.SymbolTable
 import org.xtext.example.mydsl.generator.common.CommonGenerator
+import org.xtext.example.mydsl.myDsl.OperationExpression
 
 class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 	ConstantVariableExpression expression
@@ -19,7 +19,7 @@ class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 	override String generate() {
 		val String scope = SymbolTable.CONSTANT
 		val String name = this.expression.name
-		val String type = this.expression.type.type
+		val String type = this.expression.type
 		SymbolTable.addSymbol(name, type, scope)
 
 		// var String result = "__nv "
@@ -38,7 +38,7 @@ class ConstantVariableExpressionGenerator implements IExpressionGenerator {
 			if (isArray) {
 				result += " = " + OperationExpressionGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)	
 			} else {
-				result += " = " + this.generator.generate(this.expression.assignment.expression as Operation)
+				result += " = " + this.generator.generate(this.expression.assignment.expression as OperationExpression)
 			}
 		}
 		

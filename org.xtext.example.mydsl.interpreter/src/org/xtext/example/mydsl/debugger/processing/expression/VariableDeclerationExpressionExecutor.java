@@ -27,7 +27,7 @@ public class VariableDeclerationExpressionExecutor extends AbstractStackHelper i
 	
 	public static Symbol executeVariableDeclarationExpression(VariableDeclerationExpression expression, String id) {
 		String name = expression.getName();
-		String type = expression.getType().getType();
+		String type = expression.getType();
 		String scope = id;
 		Object value = null;
 		int size = 0;
