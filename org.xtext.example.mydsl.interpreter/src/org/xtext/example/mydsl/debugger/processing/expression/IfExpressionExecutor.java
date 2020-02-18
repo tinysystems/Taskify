@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
+import org.xtext.example.mydsl.myDsl.ComparisionExpression;
 import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.IfExpression;
 
@@ -31,7 +32,8 @@ public class IfExpressionExecutor extends AbstractStackHelper implements IExpres
 				}
 			}
 		} else if (elseIfConditionCount > 0) {
-			List<EObject> elseIfConditions = this.expression.getElseifcondition();
+			// TODO
+			List<ComparisionExpression> elseIfConditions = this.expression.getElseifcondition();
 			for (int index = 0; index < elseIfConditionCount; index++) {
 				EObject exp = elseIfConditions.get(index);
 				

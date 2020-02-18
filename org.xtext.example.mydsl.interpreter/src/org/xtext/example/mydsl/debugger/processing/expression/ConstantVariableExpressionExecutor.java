@@ -7,6 +7,7 @@ import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayAssignment;
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.Operation;
+import org.xtext.example.mydsl.myDsl.OperationExpression;
 
 
 public class ConstantVariableExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
@@ -38,7 +39,7 @@ public class ConstantVariableExpressionExecutor extends AbstractStackHelper impl
 		if (expression.getAssignment() != null) {
 			EObject assignmentExpression = expression.getAssignment().getExpression();
 			if (assignmentExpression != null) {
-				if (assignmentExpression instanceof Operation) {
+				if (assignmentExpression instanceof OperationExpression) {
 					value = VariableAssignmentExpressionExecutor.evaluateValue((Operation) assignmentExpression, id, value, type);
 				} else if (assignmentExpression instanceof ArrayAssignment){					
 					value = VariableAssignmentExpressionExecutor.evaluateValue((ArrayAssignment) assignmentExpression, id, (Object[]) value, size, type);

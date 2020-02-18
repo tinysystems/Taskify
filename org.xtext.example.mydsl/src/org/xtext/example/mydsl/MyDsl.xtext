@@ -144,16 +144,17 @@ OperationExpression:
 	Operation
 ;
 
-Operation returns OperationExpression:
-	left = PrimaryOperation ({OperationExpression.left=current} operator += Operator right += PrimaryOperation)*
+Operation returns Operation:
+	left = PrimaryOperation ({Operation.left=current} operator += Operator right += PrimaryOperation)*
 ;
 
-PrimaryOperation returns OperationExpression:
+PrimaryOperation returns Operation:
 	InParanthesisOperation | Atomic
 ;
 
-InParanthesisOperation returns OperationExpression:
-	'(' OperationExpression ')'
+InParanthesisOperation returns Operation:
+	{InParanthesisOperation}
+	'(' operation = Operation ')'
 ;
 
 

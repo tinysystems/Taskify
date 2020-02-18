@@ -67,12 +67,14 @@ public class VariableAssignmentExpressionExecutor extends AbstractStackHelper im
 	
 	public static Object evaluateValue(Operation expression, String id, Object value, String type) {
 		if (expression != null) {
-			Atomic atomicValue = expression.getLeft();
-			value = decoupleAtomic(atomicValue, id);
-			
-			if (expression.getOperator().size() > 0) {
-				value = OperationExpressionExecutor.evaluateOperationExpression(expression, id, type);
-			}
+			// TODO
+//			Atomic atomicValue = expression.getLeft();
+//			value = decoupleAtomic(atomicValue, id);
+//			
+//			if (expression.getOperator().size() > 0) {
+//				value = OperationExpressionExecutor.evaluateOperationExpression(expression, id, type);
+//			}
+			value = OperationExpressionExecutor.evaluateOperationExpression(expression, id, type);
 		}
 		return value;
 	}

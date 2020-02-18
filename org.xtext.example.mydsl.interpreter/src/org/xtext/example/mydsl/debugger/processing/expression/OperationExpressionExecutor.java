@@ -1,14 +1,22 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.nodemodel.INode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.Calculator;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayAssignment;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.ComparisionExpression;
+import org.xtext.example.mydsl.myDsl.InParanthesisOperation;
 import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.OperationExpression;
 //import org.xtext.example.mydsl.debugger.context.Symbol;
@@ -59,45 +67,48 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 
 	public final static int BINARY_P = 6;
 	public final static int SQRT_P = 5;
-	public final static int OPEN_BRACKETS_P = 4;
-	public final static int CLOSE_BRACKETS_P = 3;
-	public final static int MULT_DIV_P = 2;
-	public final static int SUM_SUB_P = 1;
-	public final static int LOGICAL_P = 1;
+	public final static int MULT_DIV_P = 4;
+	public final static int SUM_SUB_P = 3;
+	public final static int LOGICAL_P = 3;
+	public final static int CLOSE_BRACKETS_P = 2;
+	public final static int OPEN_BRACKETS_P = 1;
 	public final static int INVALID_P = -1;
 
-	public static int precedence(String operator) {
-		int precedence;
-		switch (operator) {
-		case Calculator.BITWISE_AND:
-		case Calculator.BITWISE_OR:
-		case Calculator.SHIFT_LEFT:
-		case Calculator.SHIFT_RIGHT:
-			precedence = BINARY_P;
-			break;
-		case Calculator.SQUARE:
-			precedence = SQRT_P;
-			break;
-		case Calculator.OPEN_BRACKET:
-			precedence = OPEN_BRACKETS_P;
-			break;
-		case Calculator.CLOSE_BRACKET:
-			precedence = CLOSE_BRACKETS_P;
-			break;
-		case Calculator.MULT:
-		case Calculator.DIV:
-			precedence = MULT_DIV_P;
-			break;
-		case Calculator.PLUS:
-		case Calculator.MINUS:
-			precedence = SUM_SUB_P;
-			break;
-		case Calculator.AND:
-		case Calculator.OR:
-			precedence = LOGICAL_P;
-			break;
-		default:
-			precedence = INVALID_P;
+	public static int getPrecedence(Object item) {
+		int precedence = INVALID_P;
+		if (item instanceof String) {
+			String operator = (String) item;
+			switch (operator) {
+				case Calculator.BITWISE_AND:
+				case Calculator.BITWISE_OR:
+				case Calculator.SHIFT_LEFT:
+				case Calculator.SHIFT_RIGHT:
+					precedence = BINARY_P;
+					break;
+				case Calculator.SQUARE:
+					precedence = SQRT_P;
+					break;
+				case Calculator.OPEN_BRACKET:
+					precedence = OPEN_BRACKETS_P;
+					break;
+				case Calculator.CLOSE_BRACKET:
+					precedence = CLOSE_BRACKETS_P;
+					break;
+				case Calculator.MULT:
+				case Calculator.DIV:
+					precedence = MULT_DIV_P;
+					break;
+				case Calculator.PLUS:
+				case Calculator.MINUS:
+					precedence = SUM_SUB_P;
+					break;
+				case Calculator.AND:
+				case Calculator.OR:
+					precedence = LOGICAL_P;
+					break;
+				default:
+					precedence = INVALID_P;
+			}
 		}
 		return precedence;
 	}
@@ -144,61 +155,86 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 	public static Object evaluateOperationExpression(Operation expression, String id, String type) {
 		Object result = null;
 		if (expression != null) {
-			Atomic atomicValue = expression.getLeft();
-			result = decoupleAtomic(atomicValue, id);
-
-			if (expression.getOperator().size() > 0) {
-				Stack<Object> stack = new Stack<>();
-				stack = infixToPostfix(expression, id);
-
-				if (!stack.isEmpty()) {
-					result = evaluatePostfix(stack, type);
-				}
-			}
+			Stack<Object> stack = new Stack<>();
+			stack = infixToPostfix(expression, id);
+			result = evaluatePostfix(stack, type);
 		}
 		return result;
 	}
-
-	private static Stack<Object> infixToPostfix(Operation expression, String id) {
-		Object leftVal = null;
-		Object rightVal = null;
-		Stack<String> operatorStack = new Stack<>();
-		Stack<Object> stack = new Stack<>();
-		Atomic atomicValue = expression.getLeft();
-		EList<String> operators = expression.getOperator();
-
-		leftVal = decoupleAtomic(atomicValue, id);
-		stack.push(leftVal);
-
-		for (int operatorIndex = 0; operatorIndex < operators.size(); operatorIndex++) {
-			String operator = operators.get(operatorIndex);
-			int precedence = precedence(operator);
-
-			if (precedence > 0) {
-				atomicValue = expression.getRight().get(operatorIndex);
-				rightVal = decoupleAtomic(atomicValue, id);
-
-				if (precedence == OPEN_BRACKETS_P) {
-					operatorStack.push(operator);
-				} else if (precedence == CLOSE_BRACKETS_P) {
-					String op = operatorStack.pop();
-					while (op != "(") {
-						stack.push(op);
-						op = operatorStack.pop();
-					}
-				} else {
-					while (!operatorStack.isEmpty() && precedence(operatorStack.peek()) >= precedence) {
-						stack.push(operatorStack.pop());
-					}
-					operatorStack.push(operator);
-				}
-				stack.push(rightVal);
+	
+	private static void addObjectToList(List<Object> list, Operation item, String id) {
+		if (item instanceof Atomic) {
+			// list.add(left);
+			list.add(decoupleAtomic((Atomic) item, id));
+		} else if (item instanceof InParanthesisOperation) {
+			list.add("(");
+			list.addAll( getObjectListFromOperation(((InParanthesisOperation) item).getOperation(), id) );
+			list.add(")");
+		} else if (item instanceof Operation) {
+			list.addAll( getObjectListFromOperation((Operation) item, id) );
+		}
+	}
+	
+	private static List<Object> getObjectListFromOperation(Operation operation, String id) {
+		boolean rightRequired = false;
+		List<Object> list = new ArrayList<>();
+		Operation left = operation.getLeft();
+		
+		if (left != null) {
+			addObjectToList(list, left, id);
+		}
+		
+		EList<String> operators = operation.getOperator();
+		if (operators.size() == 1) {
+			list.add(operators.get(0));
+			rightRequired = true;
+		}
+		
+		EList<Operation> rights = operation.getRight();
+		if (rights.size() > 0) {
+			for (int i = 0; i < rights.size(); i++) {
+				Operation right = rights.get(i);
+				addObjectToList(list, right, id);
+			}
+		} else {
+			if (rightRequired) {
+				stopExecution("Missing operand at expression: " + list.stream().map(Object::toString).collect(Collectors.joining(" ")) + " at line #" + getLineNumber(operation));
 			}
 		}
-		if (operatorStack.size() > 0) {
-			for (int i = 0; i <= operatorStack.size(); i++) {
-				stack.push(operatorStack.pop());
+		return list;
+	}
+
+	private static Stack<Object> infixToPostfix(Operation expression, String id) {
+		Stack<String> operatorStack = new Stack<>();
+		Stack<Object> stack = new Stack<>();
+		List<Object> tokens = getObjectListFromOperation(expression, id);
+		
+		for (int i = 0; i < tokens.size(); i++) {
+			Object item = tokens.get(i);
+			int precedence = getPrecedence(item);
+			
+			if (precedence == OPEN_BRACKETS_P) {
+				operatorStack.push((String) item);
+			} else if (precedence == CLOSE_BRACKETS_P) {
+				String operator = operatorStack.pop();
+				while (getPrecedence(operator) != OPEN_BRACKETS_P) {
+					stack.push(operator);
+					operator = operatorStack.pop();
+				}
+			} else if (precedence > INVALID_P) {
+				// item is an operator
+				while (!operatorStack.isEmpty() && getPrecedence(operatorStack.peek()) >= precedence) {
+					stack.push(operatorStack.pop());
+				}
+				operatorStack.push((String) item);
+			} else {
+				// item is an operand
+				stack.push(item);
 			}
+		}
+		
+		while (!operatorStack.isEmpty()) {
+			stack.push(operatorStack.pop());
 		}
 		return stack;
 	}
@@ -209,21 +245,19 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 
 		for (int i = 0; i < stack.size(); i++) {
 			Object item = stack.get(i);
-			/* If item is an operator(String) */
+			
 			if (item instanceof String) {
 				String operator = (String) item;
 				rightValue = results.pop();
 				leftValue = results.pop();
 
-				leftValue = Calculator.calculate(leftValue, operator, rightValue, type);
-
-				results.push(leftValue);
+				results.push( Calculator.calculate(leftValue, operator, rightValue, type) );
 			} else {
 				// Atomic values
 				results.push(item);
 			}
 		}
-		return leftValue;
+		return results.pop();
 	}
 
 }

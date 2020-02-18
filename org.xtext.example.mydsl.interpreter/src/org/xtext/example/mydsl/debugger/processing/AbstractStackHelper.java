@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.nodemodel.INode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.xtext.example.mydsl.debugger.context.CallStack;
 import org.xtext.example.mydsl.debugger.context.CallStackItem;
 import org.xtext.example.mydsl.debugger.context.Symbol;
@@ -360,35 +362,35 @@ public abstract class AbstractStackHelper {
 	
 	protected static boolean checkCondition(EObject expression, String id) {
 		boolean isApplicable = false;
-		
-		if(expression instanceof Operation) {
-			Atomic atomicLeft = (Atomic) ((Operation) expression).getLeft();
-			Object left = decoupleAtomic(atomicLeft, id);
-			List<Atomic> atomicList = ((Operation) expression).getRight();
-			
-			if(atomicList.size() > 0) {
-				Atomic atomicRight = atomicList.get(0);			
-
-				Object right = decoupleAtomic(atomicRight, id);
-				String operator = ((Operation) expression).getOperator().get(0);
-				
-				if (left instanceof Integer) {
-					isApplicable = (Boolean) Calculator.calculate(Integer.valueOf(left.toString()), operator, Integer.valueOf(right.toString()));
-				} else if (left instanceof Double) {
-					isApplicable = (Boolean) Calculator.calculate(Double.valueOf(left.toString()), operator, Double.valueOf(right.toString()));
-				} else if (left instanceof Boolean) {
-					isApplicable = (Boolean) Calculator.calculate(Boolean.valueOf(left.toString()), operator, Boolean.valueOf(right.toString()));
-				}  else {
-					stopExecution("Type of '" + left.getClass().getSimpleName() + "' could not be recognized.");
-				}
-			} else {
-//				ex: if(boolean)
-				isApplicable = Calculator.booleanCalculate(left);
-			}
-			
-		} else if (expression instanceof ComparisionExpression) {
-			isApplicable = OperationExpressionExecutor.evaluateComparisionExpression((ComparisionExpression) expression, id, "double");
-		}
+		// TODO
+//		if(expression instanceof Operation) {
+//			Atomic atomicLeft = (Atomic) ((Operation) expression).getLeft();
+//			Object left = decoupleAtomic(atomicLeft, id);
+//			List<Atomic> atomicList = ((Operation) expression).getRight();
+//			
+//			if(atomicList.size() > 0) {
+//				Atomic atomicRight = atomicList.get(0);			
+//
+//				Object right = decoupleAtomic(atomicRight, id);
+//				String operator = ((Operation) expression).getOperator().get(0);
+//				
+//				if (left instanceof Integer) {
+//					isApplicable = (Boolean) Calculator.calculate(Integer.valueOf(left.toString()), operator, Integer.valueOf(right.toString()));
+//				} else if (left instanceof Double) {
+//					isApplicable = (Boolean) Calculator.calculate(Double.valueOf(left.toString()), operator, Double.valueOf(right.toString()));
+//				} else if (left instanceof Boolean) {
+//					isApplicable = (Boolean) Calculator.calculate(Boolean.valueOf(left.toString()), operator, Boolean.valueOf(right.toString()));
+//				}  else {
+//					stopExecution("Type of '" + left.getClass().getSimpleName() + "' could not be recognized.");
+//				}
+//			} else {
+////				ex: if(boolean)
+//				isApplicable = Calculator.booleanCalculate(left);
+//			}
+//			
+//		} else if (expression instanceof ComparisionExpression) {
+//			isApplicable = OperationExpressionExecutor.evaluateComparisionExpression((ComparisionExpression) expression, id, "double");
+//		}
 		return isApplicable;
 	}
 	
@@ -396,4 +398,10 @@ public abstract class AbstractStackHelper {
 		System.err.println("Error while processing, reason: " + reason);
 		System.exit(0);
 	}
+	
+	public static int getLineNumber(EObject expression) {
+		INode node = NodeModelUtils.getNode(expression);
+		return node.getStartLine();
+	}
+	
 }

@@ -19,14 +19,16 @@ class OperationExpressionGenerator implements IExpressionGenerator {
 	}
 	
 	def static String getOperation(Operation operation) {
-		var Atomic left = operation.left
-		var String result = AtomicGenerator.generate(left)
-		
-		for (var int i = 0; i < operation.operator.size; i++) {
-			val Atomic right = operation.right.get(i)
-			result += " " + operation.operator.get(i)
-			result += " " + AtomicGenerator.generate(right)
-		}
+		var result = ""
+		// TODO
+//		var Atomic left = operation.left
+//		var String result = AtomicGenerator.generate(left)
+//		
+//		for (var int i = 0; i < operation.operator.size; i++) {
+//			val Atomic right = operation.right.get(i)
+//			result += " " + operation.operator.get(i)
+//			result += " " + AtomicGenerator.generate(right)
+//		}
 		
 		return result
 	}
