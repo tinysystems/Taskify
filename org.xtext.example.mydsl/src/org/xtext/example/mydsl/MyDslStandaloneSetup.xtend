@@ -9,7 +9,7 @@ package org.xtext.example.mydsl
  */
 class MyDslStandaloneSetup extends MyDslStandaloneSetupGenerated {
 
-	def static void doSetup() {
-		new MyDslStandaloneSetup().createInjectorAndDoEMFRegistration()
-	}
+    def static void doSetup() {
+        new MyDslStandaloneSetup().createInjectorAndDoEMFRegistration()
+    }
 }

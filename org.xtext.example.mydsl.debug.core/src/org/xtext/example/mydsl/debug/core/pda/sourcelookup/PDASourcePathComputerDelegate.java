@@ -17,26 +17,26 @@ import org.xtext.example.mydsl.debug.core.pda.DebugCorePlugin;
 
 public class PDASourcePathComputerDelegate implements ISourcePathComputerDelegate {
 
-	@Override
-	public ISourceContainer[] computeSourceContainers(ILaunchConfiguration configuration, IProgressMonitor monitor)
-			throws CoreException {
-		String path = configuration.getAttribute(DebugCorePlugin.ATTR_PDA_PROGRAM, (String)null);
-		ISourceContainer sourceContainer = null;
-		if (path != null) {
-			IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(path));
-			if (resource != null) {
-				IContainer container = resource.getParent();
-				if (container.getType() == IResource.PROJECT) {
-					sourceContainer = new ProjectSourceContainer((IProject)container, false);
-				} else if (container.getType() == IResource.FOLDER) {
-					sourceContainer = new FolderSourceContainer(container, false);
-				}
-			}
-		}
-		if (sourceContainer == null) {
-			sourceContainer = new WorkspaceSourceContainer();
-		}
-		return new ISourceContainer[]{sourceContainer};
-	}
+    @Override
+    public ISourceContainer[] computeSourceContainers(ILaunchConfiguration configuration, IProgressMonitor monitor)
+            throws CoreException {
+        String path = configuration.getAttribute(DebugCorePlugin.ATTR_PDA_PROGRAM, (String)null);
+        ISourceContainer sourceContainer = null;
+        if (path != null) {
+            IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(path));
+            if (resource != null) {
+                IContainer container = resource.getParent();
+                if (container.getType() == IResource.PROJECT) {
+                    sourceContainer = new ProjectSourceContainer((IProject)container, false);
+                } else if (container.getType() == IResource.FOLDER) {
+                    sourceContainer = new FolderSourceContainer(container, false);
+                }
+            }
+        }
+        if (sourceContainer == null) {
+            sourceContainer = new WorkspaceSourceContainer();
+        }
+        return new ISourceContainer[]{sourceContainer};
+    }
 
 }

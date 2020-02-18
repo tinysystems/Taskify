@@ -27,115 +27,115 @@ import org.xtext.example.mydsl.generator.common.HeaderComment
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
 class MyDslGenerator extends AbstractGenerator {
-	val static String APPINIT = "appinit.c"
-	val static String THREAD = "thread1.c"
+    val static String APPINIT = "appinit.c"
+    val static String THREAD = "thread1.c"
 
-	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		initialize(fsa)
-		var model = resource.contents.head as InkApp
-		
-		try {
-			if (model !== null) {
-				fsa.generateFile(APPINIT, CommonGenerator.appinit())
-				fsa.generateFile(THREAD, thread1(model, fsa))			
-			}
-		} catch (RuntimeException e) {
-			e.printStackTrace
-		} catch (Exception e) {
-			e.printStackTrace()
-		}
-	}
-	
-	
-	def void initialize(IFileSystemAccess2 fsa) {
-		try {
-			TaskTable.resetTaskTable()
-			SymbolTable.resetTable()
-			fsa.deleteFile(APPINIT)
-			fsa.deleteFile(THREAD)
-			
-		} catch (RuntimeException e) {
-			throw e
-		}
-	}
-	
-	def thread1(InkApp model, IFileSystemAccess2 fsa) {
-		var String threadContent = ""
-		val GeneratorSwitcher generator = new GeneratorSwitcher()
-		
-		var String includeContent = ""
-		var String sharedContent = ""
-		var String constantContent = ""
-		var String taskDeclerationContent = ""
-		var String tasksContent = ""
-		
-		try {
-			IncludeTable.add(IncludeTemplates.inkLibrary)
-			
-			sharedContent = "__shared(" + "\n"
-			for (SharedVariableExpression shared: model.shareds) {				
-				sharedContent += CommonGenerator.tab + generator.generate(shared)
-			}
-			sharedContent += ")" + CommonGenerator.newLine
-			
-			for (ConstantVariableExpression constant: model.constants) {
-				constantContent += generator.generate(constant)
-			}
-			
-			
-			val TaskTable taskTable = TaskTable.taskTable
-			val EntryTask entry = model.entry
-			if (entry !== null) {
-				var String taskBody = ""
-				val Task entryTask = entry.task			
-				
-				// Generate entry task
-				for (EObject bodyElement: entryTask.taskbody.body){
-					taskBody += generator.generate(bodyElement)
-				}
-				taskTable.add(entryTask.name)
-				tasksContent += taskTable.generateTask(entryTask.name, taskBody) + CommonGenerator.newLine
-				
-				// Generate next tasks
-				val List<Task> tasks = model.tasks
-				for (Task task: tasks) {
-					if (!taskTable.isAdded(task.name)) {
-						taskBody = ""
-						
-						for (EObject bodyElement: task.taskbody.body){
-							taskBody += generator.generate(bodyElement)
-						}
-						taskTable.add(task.name)
-						tasksContent += taskTable.generateTask(task.name, taskBody) + CommonGenerator.newLine
-					}
-				}
-			}
-			
-			includeContent = IncludeTable.generate
-			taskDeclerationContent = taskTable.generate
+    override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+        initialize(fsa)
+        var model = resource.contents.head as InkApp
+        
+        try {
+            if (model !== null) {
+                fsa.generateFile(APPINIT, CommonGenerator.appinit())
+                fsa.generateFile(THREAD, thread1(model, fsa))            
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
+    }
+    
+    
+    def void initialize(IFileSystemAccess2 fsa) {
+        try {
+            TaskTable.resetTaskTable()
+            SymbolTable.resetTable()
+            fsa.deleteFile(APPINIT)
+            fsa.deleteFile(THREAD)
+            
+        } catch (RuntimeException e) {
+            throw e
+        }
+    }
+    
+    def thread1(InkApp model, IFileSystemAccess2 fsa) {
+        var String threadContent = ""
+        val GeneratorSwitcher generator = new GeneratorSwitcher()
+        
+        var String includeContent = ""
+        var String sharedContent = ""
+        var String constantContent = ""
+        var String taskDeclerationContent = ""
+        var String tasksContent = ""
+        
+        try {
+            IncludeTable.add(IncludeTemplates.inkLibrary)
+            
+            sharedContent = "__shared(" + "\n"
+            for (SharedVariableExpression shared: model.shareds) {                
+                sharedContent += CommonGenerator.tab + generator.generate(shared)
+            }
+            sharedContent += ")" + CommonGenerator.newLine
+            
+            for (ConstantVariableExpression constant: model.constants) {
+                constantContent += generator.generate(constant)
+            }
+            
+            
+            val TaskTable taskTable = TaskTable.taskTable
+            val EntryTask entry = model.entry
+            if (entry !== null) {
+                var String taskBody = ""
+                val Task entryTask = entry.task            
+                
+                // Generate entry task
+                for (EObject bodyElement: entryTask.taskbody.body){
+                    taskBody += generator.generate(bodyElement)
+                }
+                taskTable.add(entryTask.name)
+                tasksContent += taskTable.generateTask(entryTask.name, taskBody) + CommonGenerator.newLine
+                
+                // Generate next tasks
+                val List<Task> tasks = model.tasks
+                for (Task task: tasks) {
+                    if (!taskTable.isAdded(task.name)) {
+                        taskBody = ""
+                        
+                        for (EObject bodyElement: task.taskbody.body){
+                            taskBody += generator.generate(bodyElement)
+                        }
+                        taskTable.add(task.name)
+                        tasksContent += taskTable.generateTask(task.name, taskBody) + CommonGenerator.newLine
+                    }
+                }
+            }
+            
+            includeContent = IncludeTable.generate
+            taskDeclerationContent = taskTable.generate
 
-			threadContent = HeaderComment.headerThread
-			threadContent += includeContent + CommonGenerator.doubleNewLine
-			
-			threadContent += HeaderComment.headerShared
-			threadContent += sharedContent + CommonGenerator.doubleNewLine
-			
-			threadContent += HeaderComment.headerConstant
-			threadContent += constantContent + CommonGenerator.doubleNewLine
-			
-			threadContent += HeaderComment.headerTaskDecleration
-			threadContent += taskDeclerationContent + CommonGenerator.doubleNewLine
-			
-			threadContent += HeaderComment.headerThreadInit
-			threadContent += CommonGenerator.thread1_init(taskTable.entry)			
-			
-			threadContent += HeaderComment.headerTaskDefinition
-			threadContent += tasksContent
-		
-		} catch (Exception e) {
-			throw e
-		}
-		return threadContent
-	}
-	
+            threadContent = HeaderComment.headerThread
+            threadContent += includeContent + CommonGenerator.doubleNewLine
+            
+            threadContent += HeaderComment.headerShared
+            threadContent += sharedContent + CommonGenerator.doubleNewLine
+            
+            threadContent += HeaderComment.headerConstant
+            threadContent += constantContent + CommonGenerator.doubleNewLine
+            
+            threadContent += HeaderComment.headerTaskDecleration
+            threadContent += taskDeclerationContent + CommonGenerator.doubleNewLine
+            
+            threadContent += HeaderComment.headerThreadInit
+            threadContent += CommonGenerator.thread1_init(taskTable.entry)            
+            
+            threadContent += HeaderComment.headerTaskDefinition
+            threadContent += tasksContent
+        
+        } catch (Exception e) {
+            throw e
+        }
+        return threadContent
+    }
+    
 }

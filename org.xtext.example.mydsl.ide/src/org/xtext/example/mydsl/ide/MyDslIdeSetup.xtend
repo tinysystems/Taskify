@@ -13,8 +13,8 @@ import org.xtext.example.mydsl.MyDslStandaloneSetup
  */
 class MyDslIdeSetup extends MyDslStandaloneSetup {
 
-	override createInjector() {
-		Guice.createInjector(Modules2.mixin(new MyDslRuntimeModule, new MyDslIdeModule))
-	}
-	
+    override createInjector() {
+        Guice.createInjector(Modules2.mixin(new MyDslRuntimeModule, new MyDslIdeModule))
+    }
+    
 }

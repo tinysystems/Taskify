@@ -12,47 +12,47 @@ import org.xtext.example.mydsl.myDsl.TaskBody;
 
 
 public class NextTaskExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
-	NextTaskExpression expression;
-	ExpressionSwitcher executor;
-	private static boolean endTaskExist = false;
-	
-	public NextTaskExpressionExecutor(NextTaskExpression expression, ExpressionSwitcher executor) {
-		this.expression = expression;
-		this.executor = executor;
-	}
-	
-	@Override
-	public void execute(String id) {
-		Task task = this.expression.getNexttask();
-		checkEndTask();
-		
-		if (task != null) {
-			System.out.println("Task '" + task.getName() + "' is being executed.");
-			TaskBody taskBody = task.getTaskbody();
-			this.execute(taskBody, id);
-		}
-	}
-	
-	private void execute(TaskBody taskBody, String id) {
-		CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
-		
-		for(EObject bodyElement: taskBody.getBody()) {
-			this.executor.execute(bodyElement, id);
-			
-			/* Leave task if execution is jumped to another one */
-			if (bodyElement instanceof NextTaskExpression) {
-				break;
-			}
-		}
-	}
-	
-	private void checkEndTask() {
-		if (this.expression.getEndtask() != null) {
-			endTaskExist = true;
-		}
-	}
-	
-	public static boolean isEndTaskExist() {
-		return endTaskExist;
-	}
+    NextTaskExpression expression;
+    ExpressionSwitcher executor;
+    private static boolean endTaskExist = false;
+    
+    public NextTaskExpressionExecutor(NextTaskExpression expression, ExpressionSwitcher executor) {
+        this.expression = expression;
+        this.executor = executor;
+    }
+    
+    @Override
+    public void execute(String id) {
+        Task task = this.expression.getNexttask();
+        checkEndTask();
+        
+        if (task != null) {
+            System.out.println("Task '" + task.getName() + "' is being executed.");
+            TaskBody taskBody = task.getTaskbody();
+            this.execute(taskBody, id);
+        }
+    }
+    
+    private void execute(TaskBody taskBody, String id) {
+        CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
+        
+        for(EObject bodyElement: taskBody.getBody()) {
+            this.executor.execute(bodyElement, id);
+            
+            /* Leave task if execution is jumped to another one */
+            if (bodyElement instanceof NextTaskExpression) {
+                break;
+            }
+        }
+    }
+    
+    private void checkEndTask() {
+        if (this.expression.getEndtask() != null) {
+            endTaskExist = true;
+        }
+    }
+    
+    public static boolean isEndTaskExist() {
+        return endTaskExist;
+    }
 }

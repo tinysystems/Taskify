@@ -4,11 +4,11 @@ import org.xtext.example.mydsl.myDsl.ForExpression
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
 
 class ForExpressionGenerator implements IExpressionGenerator {
-	
-	new (ForExpression expression, GeneratorSwitcher generator) {
-	}
-	
-	override String generate() {
-		return ""
-	}
+    
+    new (ForExpression expression, GeneratorSwitcher generator) {
+    }
+    
+    override String generate() {
+        return ""
+    }
 }

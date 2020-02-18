@@ -20,49 +20,49 @@ import static org.eclipse.core.runtime.IStatus.*
  * Each template is able to generate one or more projects. Each project can be configured such that any number of files are included.
  */
 class MyDslProjectTemplateProvider implements IProjectTemplateProvider {
-	override getProjectTemplates() {
-		#[new HelloWorldProject]
-	}
+    override getProjectTemplates() {
+        #[new HelloWorldProject]
+    }
 }
 
 @ProjectTemplate(label="Hello World", icon="project_template.png", description="<p><b>Hello World</b></p>
 <p>This is a parameterized hello world for MyDsl. You can set a parameter to modify the content in the generated file
 and a parameter to set the package the file is created in.</p>")
 final class HelloWorldProject {
-	val advanced = check("Advanced:", false)
-	val advancedGroup = group("Properties")
-	val name = combo("Name:", #["Xtext", "World", "Foo", "Bar"], "The name to say 'Hello' to", advancedGroup)
-	val path = text("Package:", "mydsl", "The package path to place the files in", advancedGroup)
+    val advanced = check("Advanced:", false)
+    val advancedGroup = group("Properties")
+    val name = combo("Name:", #["Xtext", "World", "Foo", "Bar"], "The name to say 'Hello' to", advancedGroup)
+    val path = text("Package:", "mydsl", "The package path to place the files in", advancedGroup)
 
-	override protected updateVariables() {
-		name.enabled = advanced.value
-		path.enabled = advanced.value
-		if (!advanced.value) {
-			name.value = "Xtext"
-			path.value = "mydsl"
-		}
-	}
+    override protected updateVariables() {
+        name.enabled = advanced.value
+        path.enabled = advanced.value
+        if (!advanced.value) {
+            name.value = "Xtext"
+            path.value = "mydsl"
+        }
+    }
 
-	override protected validate() {
-		if (path.value.matches('[a-z][a-z0-9_]*(/[a-z][a-z0-9_]*)*'))
-			null
-		else
-			new Status(ERROR, "Wizard", "'" + path + "' is not a valid package name")
-	}
+    override protected validate() {
+        if (path.value.matches('[a-z][a-z0-9_]*(/[a-z][a-z0-9_]*)*'))
+            null
+        else
+            new Status(ERROR, "Wizard", "'" + path + "' is not a valid package name")
+    }
 
-	override generateProjects(IProjectGenerator generator) {
-		generator.generate(new PluginProjectFactory => [
-			projectName = projectInfo.projectName
-			location = projectInfo.locationPath
-			projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
-			builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
-			folders += "src"
-			addFile('''src/«path»/Model.mydsl''', '''
-				/*
-				 * This is an example model
-				 */
-				Hello «name»!
-			''')
-		])
-	}
+    override generateProjects(IProjectGenerator generator) {
+        generator.generate(new PluginProjectFactory => [
+            projectName = projectInfo.projectName
+            location = projectInfo.locationPath
+            projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
+            builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
+            folders += "src"
+            addFile('''src/«path»/Model.mydsl''', '''
+                /*
+                 * This is an example model
+                 */
+                Hello «name»!
+            ''')
+        ])
+    }
 }

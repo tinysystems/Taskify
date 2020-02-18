@@ -25,59 +25,59 @@ import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 import org.xtext.example.mydsl.myDsl.WhileExpression;
 
 public class ExpressionSwitcher extends ProcessHandler {
-	public static enum MODES {RUN, DEBUG}
-	private static MODES MODE = ExpressionSwitcher.MODES.RUN;
-	
-	public MODES getMode() {
-		return ExpressionSwitcher.MODE;
-	}
-	
-	public void setMode(MODES mode) {
-		ExpressionSwitcher.MODE = mode;
-	}
-	
-	public void execute(EObject expression, String id) {
-		if (ExpressionSwitcher.MODE == ExpressionSwitcher.MODES.DEBUG) {
-			threadStateForDebugging(expression);
-		}
+    public static enum MODES {RUN, DEBUG}
+    private static MODES MODE = ExpressionSwitcher.MODES.RUN;
+    
+    public MODES getMode() {
+        return ExpressionSwitcher.MODE;
+    }
+    
+    public void setMode(MODES mode) {
+        ExpressionSwitcher.MODE = mode;
+    }
+    
+    public void execute(EObject expression, String id) {
+        if (ExpressionSwitcher.MODE == ExpressionSwitcher.MODES.DEBUG) {
+            threadStateForDebugging(expression);
+        }
 
-		IExpressionExecutor executor = null;
-		
-		try {
-			if (expression instanceof BreakExpression) {
-				executor = (IExpressionExecutor) new BreakExpressionExecutor((BreakExpression) expression, this);
-			} else if (expression instanceof BuiltinFunctionCallExpression) {
-				executor = (IExpressionExecutor) new BuiltinFunctionCallExpressionExecutor((BuiltinFunctionCallExpression) expression, this);
-			} else if (expression instanceof ConstantVariableExpression) {
-				executor = (IExpressionExecutor) new ConstantVariableExpressionExecutor((ConstantVariableExpression) expression, this);
-			} else if (expression instanceof ForExpression) {
-				executor = (IExpressionExecutor) new ForExpressionExecutor((ForExpression) expression, this);
-			} else if (expression instanceof SharedVariableExpression) {
-				executor = (IExpressionExecutor) new SharedVariableExpressionExecutor((SharedVariableExpression) expression, this);
-			} else if (expression instanceof IfExpression) {
-				executor = (IExpressionExecutor) new IfExpressionExecutor((IfExpression) expression, this);
-			} else if (expression instanceof VariableAssignmentExpression) {
-				executor = (IExpressionExecutor) new VariableAssignmentExpressionExecutor((VariableAssignmentExpression) expression, this);
-			} else if (expression instanceof VariableDeclerationExpression) {
-				executor = (IExpressionExecutor) new VariableDeclerationExpressionExecutor((VariableDeclerationExpression) expression, this);
-			} else if (expression instanceof WhileExpression) {
-				executor = (IExpressionExecutor) new WhileExpressionExecutor((WhileExpression) expression, this);
-			} else if (expression instanceof NextTaskExpression) {
-				executor = (IExpressionExecutor) new NextTaskExpressionExecutor((NextTaskExpression) expression, this);
-			} else {
-				throw new InterpreterException("Unsupported expression " + expression.toString());
-			}
-			
-			executor.execute(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-	}
-	
-	@Override
-	public void run() {
-		super.start();
-	}
+        IExpressionExecutor executor = null;
+        
+        try {
+            if (expression instanceof BreakExpression) {
+                executor = (IExpressionExecutor) new BreakExpressionExecutor((BreakExpression) expression, this);
+            } else if (expression instanceof BuiltinFunctionCallExpression) {
+                executor = (IExpressionExecutor) new BuiltinFunctionCallExpressionExecutor((BuiltinFunctionCallExpression) expression, this);
+            } else if (expression instanceof ConstantVariableExpression) {
+                executor = (IExpressionExecutor) new ConstantVariableExpressionExecutor((ConstantVariableExpression) expression, this);
+            } else if (expression instanceof ForExpression) {
+                executor = (IExpressionExecutor) new ForExpressionExecutor((ForExpression) expression, this);
+            } else if (expression instanceof SharedVariableExpression) {
+                executor = (IExpressionExecutor) new SharedVariableExpressionExecutor((SharedVariableExpression) expression, this);
+            } else if (expression instanceof IfExpression) {
+                executor = (IExpressionExecutor) new IfExpressionExecutor((IfExpression) expression, this);
+            } else if (expression instanceof VariableAssignmentExpression) {
+                executor = (IExpressionExecutor) new VariableAssignmentExpressionExecutor((VariableAssignmentExpression) expression, this);
+            } else if (expression instanceof VariableDeclerationExpression) {
+                executor = (IExpressionExecutor) new VariableDeclerationExpressionExecutor((VariableDeclerationExpression) expression, this);
+            } else if (expression instanceof WhileExpression) {
+                executor = (IExpressionExecutor) new WhileExpressionExecutor((WhileExpression) expression, this);
+            } else if (expression instanceof NextTaskExpression) {
+                executor = (IExpressionExecutor) new NextTaskExpressionExecutor((NextTaskExpression) expression, this);
+            } else {
+                throw new InterpreterException("Unsupported expression " + expression.toString());
+            }
+            
+            executor.execute(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+    
+    @Override
+    public void run() {
+        super.start();
+    }
 
 }

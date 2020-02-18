@@ -16,29 +16,29 @@ import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 class MyDslValidator extends AbstractMyDslValidator {
-	
-//	public static val INVALID_NAME = 'invalidName'
+    
+//    public static val INVALID_NAME = 'invalidName'
 //
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					MyDslPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
+//    @Check
+//    def checkGreetingStartsWithCapital(Greeting greeting) {
+//        if (!Character.isUpperCase(greeting.name.charAt(0))) {
+//            warning('Name should start with a capital', 
+//                    MyDslPackage.Literals.GREETING__NAME,
+//                    INVALID_NAME)
+//        }
+//    }
 
-//	@Check
-//	def checkOperationDataType(VariableAssignmentExpression expression) {
-//		var assigneeType = expression.variable;
-////		var assigneeType = expression.variable.variableReference;
-//		if (assigneeType === null) {
-//			error("Assignee cannot be empty.", MyDslPackage.Literals.VARIABLE_ASSIGNMENT_EXPRESSION__VARIABLE)
-//		}
-//	}
-	
-//	def getType(VariableReference reference) {
-//		return ((VariableDeclerationExpression) reference.variableReference).type.type
-//	}
+//    @Check
+//    def checkOperationDataType(VariableAssignmentExpression expression) {
+//        var assigneeType = expression.variable;
+////        var assigneeType = expression.variable.variableReference;
+//        if (assigneeType === null) {
+//            error("Assignee cannot be empty.", MyDslPackage.Literals.VARIABLE_ASSIGNMENT_EXPRESSION__VARIABLE)
+//        }
+//    }
+    
+//    def getType(VariableReference reference) {
+//        return ((VariableDeclerationExpression) reference.variableReference).type.type
+//    }
 
 }
