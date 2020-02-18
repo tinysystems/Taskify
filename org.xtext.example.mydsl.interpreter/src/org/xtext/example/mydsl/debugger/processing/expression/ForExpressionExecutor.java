@@ -1,11 +1,13 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
-import org.eclipse.emf.ecore.EObject;
+import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
+import org.xtext.example.mydsl.myDsl.Atomic;
+import org.xtext.example.mydsl.myDsl.ComparisionExpression;
+import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.ForExpression;
-import org.xtext.example.mydsl.myDsl.OperationExpression;
-//import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression;
+import org.xtext.example.mydsl.myDsl.Operation;
 
 
 public class ForExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
@@ -19,38 +21,38 @@ public class ForExpressionExecutor extends AbstractStackHelper implements IExpre
 	
 	@Override
 	public void execute(String id) {
-		// TODO Auto-generated method stub
-		OperationExpression initial = expression.getInitial();
-		this.executor.execute(initial, id);
+		Atomic initial_atomic = this.expression.getInitial_variable();
+		Atomic update_atomic = this.expression.getUpdate_variable();
 		
+		Symbol initial_symbol = lookupSymbolByAtomic(initial_atomic, id);
+		Symbol update_symbol = lookupSymbolByAtomic(update_atomic, id);
+		Object value = null;
 		
+		value = VariableAssignmentExpressionExecutor.evaluateValue((Operation) this.expression.getInitial_value().getExpression(), id, value, initial_symbol.getType());
+		updateCallStackBySymbol(initial_symbol, value);
 		
-		EObject test = expression.getTest();
-		System.out.println(test.toString());
-		
-		// VariableAssignmentExpression update = expression.getUpdate();
-		// this.executor.execute(update, id);
+		ComparisionExpression test = expression.getTest();
+        
+		while (checkCondition(test, id)) {
+			// Execute body of for loop
+			for (Object exp: this.expression.getBody().getBody()) {
+				if (isBreak) {
+					break;
+				}
+				executor.execute((Expression) exp, id);
+			}
+            
+			if (isBreak) {
+//				Last executor may be break.
+				break;
+			}
+			
+			// Update update_symbol
+			value = VariableAssignmentExpressionExecutor.evaluateValue((Operation) this.expression.getUpdate_value().getExpression(), id, value, update_symbol.getType());
+			updateCallStackBySymbol(update_symbol, value);
+		}
+	
+		isBreak = false;
 	}
 	
-//	private Symbol getInitialSymbol(OperationExpression expression, String id) {
-//		Symbol symbol = null;
-//		if (expression instanceof Operation) {
-//			Atomic atomic = ((Operation) expression).getLeft();
-//			symbol = lookupSymbolByAtomic(atomic, id);
-//		} 
-//		return symbol;
-//	}
-//	
-//	private int getInitialValue(OperationExpression expression, String id) {
-//		int value = 0;
-//		if (expression instanceof Operation) {
-//			Atomic atomic = ((Operation) expression).getRight().get(0);
-//			Symbol symbol = lookupSymbolByAtomic(atomic, id);
-//			value = (int) symbol.getVariableValue();
-//		}
-//		return value;
-//	}
-//	
-//	private Symbol getTestSymbol(Operaration)
-
 }

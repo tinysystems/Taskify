@@ -35,7 +35,7 @@ public class VariableAssignmentExpressionExecutor extends AbstractStackHelper im
 			if (expression.getAssignment() != null) {
 				EObject assignmentExpression = expression.getAssignment().getExpression();
 				if (assignmentExpression != null) {
-					//  expression = (OperationExpression | ArrayAssignment | BuiltinRandomFunction | ComparisionExpression)
+					//  expression = (OperationExpression | ArrayAssignment | BuiltinRandomFunction | CustomFunctionCallExpression)
 					if (assignmentExpression instanceof OperationExpression) {
 						value = evaluateValue((Operation) assignmentExpression, id, value, type);
 					} else if (assignmentExpression instanceof BuiltinRandomFunction) {
@@ -67,13 +67,6 @@ public class VariableAssignmentExpressionExecutor extends AbstractStackHelper im
 	
 	public static Object evaluateValue(Operation expression, String id, Object value, String type) {
 		if (expression != null) {
-			// TODO
-//			Atomic atomicValue = expression.getLeft();
-//			value = decoupleAtomic(atomicValue, id);
-//			
-//			if (expression.getOperator().size() > 0) {
-//				value = OperationExpressionExecutor.evaluateOperationExpression(expression, id, type);
-//			}
 			value = OperationExpressionExecutor.evaluateOperationExpression(expression, id, type);
 		}
 		return value;

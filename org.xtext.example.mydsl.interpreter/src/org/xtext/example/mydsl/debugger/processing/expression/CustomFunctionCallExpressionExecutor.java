@@ -13,21 +13,7 @@ import org.xtext.example.mydsl.myDsl.CustomFunctionCallExpression;
 import org.xtext.example.mydsl.myDsl.FunctionDefinitionParameter;
 import org.xtext.example.mydsl.myDsl.FunctionDefinitionParameters;
 
-public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
-	CustomFunctionCallExpression expression;
-	ExpressionSwitcher executor;
-	
-	public CustomFunctionCallExpressionExecutor(CustomFunctionCallExpression expression, ExpressionSwitcher executor) {
-		this.expression = expression;
-		this.executor = executor;
-	}
-	
-	@Override
-	public void execute(String id) {
-		// TODO Auto-generated method stub
-
-	}
-	
+public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {	
 	public static Object call(CustomFunctionCallExpression expression, ExpressionSwitcher executor, String id) {
 		EList<Atomic> callParameters = expression.getParameters().getParameter();
 		FunctionDefinitionParameters functionDefinitionTypedParameters = expression.getFunction().getParameters();

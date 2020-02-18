@@ -201,7 +201,7 @@ IfExpression:
 
 ForExpression:
 	{ForExpression}
-	'for' '(' initial = OperationExpression ';' test = ComparisionExpression ';' update = VariableAssignmentExpression ')' '{'
+	'for' '(' initial_variable = Variable initial_value = VariableAssignment ';' test = ComparisionExpression ';' update_variable = Variable update_value = VariableAssignment ')' '{'
 		body = LoopBody
 	'}' 
 ;

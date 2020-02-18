@@ -362,7 +362,10 @@ public abstract class AbstractStackHelper {
 	
 	protected static boolean checkCondition(EObject expression, String id) {
 		boolean isApplicable = false;
-		// TODO
+		// TODO: make type more proper instead of hardcoded "double"
+		if (expression instanceof ComparisionExpression) {
+			isApplicable = OperationExpressionExecutor.evaluateComparisionExpression((ComparisionExpression) expression, id, "double");
+		}
 //		if(expression instanceof Operation) {
 //			Atomic atomicLeft = (Atomic) ((Operation) expression).getLeft();
 //			Object left = decoupleAtomic(atomicLeft, id);

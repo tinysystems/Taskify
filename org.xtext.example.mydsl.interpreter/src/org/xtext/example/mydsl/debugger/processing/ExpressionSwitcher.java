@@ -10,7 +10,6 @@ import org.xtext.example.mydsl.debugger.processing.expression.SharedVariableExpr
 import org.xtext.example.mydsl.debugger.processing.expression.IExpressionExecutor;
 import org.xtext.example.mydsl.debugger.processing.expression.IfExpressionExecutor;
 import org.xtext.example.mydsl.debugger.processing.expression.NextTaskExpressionExecutor;
-import org.xtext.example.mydsl.debugger.processing.expression.OperationExpressionExecutor;
 import org.xtext.example.mydsl.debugger.processing.expression.VariableAssignmentExpressionExecutor;
 import org.xtext.example.mydsl.debugger.processing.expression.VariableDeclerationExpressionExecutor;
 import org.xtext.example.mydsl.debugger.processing.expression.WhileExpressionExecutor;
@@ -21,7 +20,6 @@ import org.xtext.example.mydsl.myDsl.ForExpression;
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
 import org.xtext.example.mydsl.myDsl.IfExpression;
 import org.xtext.example.mydsl.myDsl.NextTaskExpression;
-import org.xtext.example.mydsl.myDsl.OperationExpression;
 import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression;
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;
 import org.xtext.example.mydsl.myDsl.WhileExpression;
@@ -58,8 +56,6 @@ public class ExpressionSwitcher extends ProcessHandler {
 				executor = (IExpressionExecutor) new SharedVariableExpressionExecutor((SharedVariableExpression) expression, this);
 			} else if (expression instanceof IfExpression) {
 				executor = (IExpressionExecutor) new IfExpressionExecutor((IfExpression) expression, this);
-			} else if (expression instanceof OperationExpression) {
-				executor = (IExpressionExecutor) new OperationExpressionExecutor((OperationExpression) expression, this);
 			} else if (expression instanceof VariableAssignmentExpression) {
 				executor = (IExpressionExecutor) new VariableAssignmentExpressionExecutor((VariableAssignmentExpression) expression, this);
 			} else if (expression instanceof VariableDeclerationExpression) {

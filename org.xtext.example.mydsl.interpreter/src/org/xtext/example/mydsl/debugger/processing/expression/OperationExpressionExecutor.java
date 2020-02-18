@@ -1,70 +1,21 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.nodemodel.INode;
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.Calculator;
-import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayAssignment;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.ComparisionExpression;
 import org.xtext.example.mydsl.myDsl.InParanthesisOperation;
 import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.OperationExpression;
-//import org.xtext.example.mydsl.debugger.context.Symbol;
-//import org.xtext.example.mydsl.myDsl.ArrayReference;
 
-public class OperationExpressionExecutor extends AbstractStackHelper implements IExpressionExecutor {
-	OperationExpression expression;
-	ExpressionSwitcher executor;
-
-	public OperationExpressionExecutor(OperationExpression expression, ExpressionSwitcher executor) {
-		this.expression = expression;
-		this.executor = executor;
-	}
-
-	@Override
-	public void execute(String id) {
-		/* Never called for the moemnt since evaluateOperationExpression() is public */
-		/*
-		 * if (expression instanceof Operation) { Object value = null; Object rightVal =
-		 * null; Atomic variable = ((Operation) expression).getLeft(); Symbol symbol =
-		 * lookupSymbolByAtomic(variable, id);
-		 * 
-		 * 
-		 * String firstOperator = ((Operation) expression).getOperator().get(0);
-		 * 
-		 * if (firstOperator.equals("=")) { // value =
-		 * evaluateOperationExpression(((Operation) expression).getRight(), id,
-		 * symbol.getType()); }
-		 * 
-		 * for (String operator: ((Operation) expression).getOperator()) { int
-		 * operatorIndex = ((Operation) expression).getOperator().indexOf(operator);
-		 * Atomic atomicValue = ((Operation) expression).getRight().get(operatorIndex);
-		 * 
-		 * rightVal = decoupleAtomic(atomicValue, id); if (operator.equals("=")) { value
-		 * = (Object) rightVal; } else if (Calculator.isArithmetic(operator)) { switch
-		 * (symbol.getType()) { case "integer": value =
-		 * Calculator.arithmeticCalculate((int) value, operator, (int) rightVal); break;
-		 * case "double": value = Calculator.arithmeticCalculate((double) value,
-		 * operator, (double) rightVal); break; }
-		 * 
-		 * } }
-		 * 
-		 * if (variable instanceof ArrayReference) {
-		 * updateCallStackByArray((ArrayReference) variable, value, getParentId()); }
-		 * else { updateCallStackByAtomic(variable, value, getParentId()); } }
-		 */
-	}
-
+public class OperationExpressionExecutor extends AbstractStackHelper {
 	public final static int BINARY_P = 6;
 	public final static int SQRT_P = 5;
 	public final static int MULT_DIV_P = 4;
@@ -245,7 +196,7 @@ public class OperationExpressionExecutor extends AbstractStackHelper implements 
 
 		for (int i = 0; i < stack.size(); i++) {
 			Object item = stack.get(i);
-			
+            
 			if (item instanceof String) {
 				String operator = (String) item;
 				rightValue = results.pop();
