@@ -1,7 +1,6 @@
 package org.xtext.example.mydsl.debugger.processing;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.nodemodel.INode;
@@ -19,7 +18,6 @@ import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.DoubleReference;
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
 import org.xtext.example.mydsl.myDsl.IntegerReference;
-import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.PrimitiveReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
 import org.xtext.example.mydsl.myDsl.Variable;
@@ -35,7 +33,6 @@ public abstract class AbstractStackHelper {
     static Object lastFunctionReturn = null;
     
     protected static CallStackItem lookupStackItem(String id) {
-//        System.out.println("lookupStackItem: id: " + id);
         Iterator<CallStackItem> callStackIterator = CallStack.getCallStack().iterator();
         
         while(callStackIterator.hasNext()) {
@@ -130,15 +127,6 @@ public abstract class AbstractStackHelper {
         if (atomic instanceof PrimitiveReference) {
             result = true;
         }
-//        if(atomic instanceof StringReference) {
-//            result = true;
-//        } else if (atomic instanceof IntegerReference) {
-//            result = true;
-//        } else if (atomic instanceof DoubleReference) {
-//            result = true;
-//        } else if (atomic instanceof BooleanReference) {
-//            result = true;
-//        }
         return result;
     }
     
@@ -180,11 +168,7 @@ public abstract class AbstractStackHelper {
     
     protected static void removeCallStackBySymbol(Symbol symbol, String id) {
         CallStackItem item = lookupStackItem(id);
-        
         item.getSymbolTable().getSymbolTable().remove(symbol);
-        // if (item.getSymbolTable().getSymbolTable().contains(symbol)) {
-            // item.getSymbolTable().getSymbolTable().remove(symbol);
-        // }
     }
     
     private static Object decouplePrimitiveAtomic(Atomic atomic) {
@@ -256,7 +240,7 @@ public abstract class AbstractStackHelper {
         
         boolean found = updateCallStackByArray(target, index, callStackItem, value);
         
-//        Update shared, in case of non-local
+        // Update shared, in case of non-local
         if (!found) {
             callStackItem = lookupStackItem("shared");
             updateCallStackByArray(target, index, callStackItem, value);
@@ -279,17 +263,7 @@ public abstract class AbstractStackHelper {
     
     private static String getVariableSymbolName(VariableSymbol variableSymbol) {
         String symbolName = "";
-        
         symbolName = variableSymbol.getName();
-//        if (variableSymbol instanceof VariableDeclerationExpression) {
-//            symbolName = ((VariableDeclerationExpression) variableSymbol).getName();
-//        } else if (variableSymbol instanceof ConstantVariableExpression) {
-//            symbolName = ((ConstantVariableExpression) variableSymbol).getName();
-//        } else if (variableSymbol instanceof SharedVariableExpression) {
-//            symbolName = ((SharedVariableExpression) variableSymbol).getName();    
-//        } else if (variableSymbol instanceof FunctionDefinitionParameter) {
-//            symbolName = ((SharedVariableExpression) variableSymbol).getName();
-//        }
         return symbolName;
     }
     
@@ -362,38 +336,10 @@ public abstract class AbstractStackHelper {
     
     protected static boolean checkCondition(EObject expression, String id) {
         boolean isApplicable = false;
-        // TODO: make type more proper instead of hardcoded "double"
+        // TODO: make type more proper instead of hardcoded "double", it would fail in case of boolean comparision
         if (expression instanceof ComparisionExpression) {
             isApplicable = OperationExpressionExecutor.evaluateComparisionExpression((ComparisionExpression) expression, id, "double");
         }
-//        if(expression instanceof Operation) {
-//            Atomic atomicLeft = (Atomic) ((Operation) expression).getLeft();
-//            Object left = decoupleAtomic(atomicLeft, id);
-//            List<Atomic> atomicList = ((Operation) expression).getRight();
-//            
-//            if(atomicList.size() > 0) {
-//                Atomic atomicRight = atomicList.get(0);            
-//
-//                Object right = decoupleAtomic(atomicRight, id);
-//                String operator = ((Operation) expression).getOperator().get(0);
-//                
-//                if (left instanceof Integer) {
-//                    isApplicable = (Boolean) Calculator.calculate(Integer.valueOf(left.toString()), operator, Integer.valueOf(right.toString()));
-//                } else if (left instanceof Double) {
-//                    isApplicable = (Boolean) Calculator.calculate(Double.valueOf(left.toString()), operator, Double.valueOf(right.toString()));
-//                } else if (left instanceof Boolean) {
-//                    isApplicable = (Boolean) Calculator.calculate(Boolean.valueOf(left.toString()), operator, Boolean.valueOf(right.toString()));
-//                }  else {
-//                    stopExecution("Type of '" + left.getClass().getSimpleName() + "' could not be recognized.");
-//                }
-//            } else {
-////                ex: if(boolean)
-//                isApplicable = Calculator.booleanCalculate(left);
-//            }
-//            
-//        } else if (expression instanceof ComparisionExpression) {
-//            isApplicable = OperationExpressionExecutor.evaluateComparisionExpression((ComparisionExpression) expression, id, "double");
-//        }
         return isApplicable;
     }
     

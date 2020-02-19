@@ -4,7 +4,6 @@ import org.xtext.example.mydsl.myDsl.WhileExpression
 import org.eclipse.emf.common.util.EList
 import org.xtext.example.mydsl.myDsl.BlockExpressions
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
-import org.eclipse.emf.ecore.EObject
 
 class WhileExpressionGenerator implements IExpressionGenerator {
     WhileExpression expression
@@ -16,15 +15,15 @@ class WhileExpressionGenerator implements IExpressionGenerator {
     }
     
     override String generate() {
-        return template(this.generator, this.expression.test, this.expression.body.body)
+        return template(this.expression.body.body)
     }
     
-    def static String template(GeneratorSwitcher generator, EObject test, EList<BlockExpressions> content) {
+    def String template(EList<BlockExpressions> body) {
         '''
         
-        while(«generator.generate(test)») {
-            «FOR bodyElement: content»
-                «generator.generate(bodyElement)»
+        while(«this.generator.generate(this.expression.test)») {
+            «FOR bodyElement: body»
+                «this.generator.generate(bodyElement)»
             «ENDFOR»
         }
         '''

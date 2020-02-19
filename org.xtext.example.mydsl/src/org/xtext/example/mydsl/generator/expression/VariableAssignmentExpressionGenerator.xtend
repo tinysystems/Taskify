@@ -1,7 +1,6 @@
 package org.xtext.example.mydsl.generator.expression
 
 import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression
-import org.eclipse.emf.ecore.EObject
 import org.xtext.example.mydsl.myDsl.Variable
 import org.xtext.example.mydsl.myDsl.ArrayReference
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
@@ -19,14 +18,21 @@ class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
     }
     
     override String generate() {
+        var String result = generateExpression(this.expression, this.generator)
+        result += ";" + CommonGenerator.newLine
+        return result
+    }
+    
+    def static String generateExpression(VariableAssignmentExpression expression, GeneratorSwitcher generator) {
         var String result = ""
-        val Variable leftVariable = this.expression.variable
+        
+        val Variable leftVariable = expression.variable
         result = VariableGenerator.generate(leftVariable)
         
-        //        Generate right side of definition
-        if (this.expression.assignment !== null) {
+        // Generate right side of definition
+        if (expression.assignment !== null) {
             
-            val String right = generateRightOperation
+            val String right = generator.generate(expression.assignment.expression)
             // variableName: array[1] (remove last 3 character), variable
             var String variableName = result
             if (leftVariable instanceof ArrayReference) {
@@ -43,14 +49,8 @@ class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
                 result += " = " + right
             }
         }
-        result += ";" + CommonGenerator.newLine
         
         return result
-    }
-    
-    def String generateRightOperation() {
-        val EObject rightExpression = this.expression.assignment.expression
-        return this.generator.generate(rightExpression)        
     }
     
     def static String generateSharedAssignment(String variable, String value) {

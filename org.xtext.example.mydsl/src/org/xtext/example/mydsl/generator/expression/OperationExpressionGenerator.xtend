@@ -47,7 +47,7 @@ class OperationExpressionGenerator implements IExpressionGenerator {
         
         val EList<String> operators = operation.getOperator();
         if (operators.size() == 1) {
-            result += operators.get(0)
+            result += " " + operators.get(0) + " "
         }
         
         val EList<Operation> rights = operation.getRight();
