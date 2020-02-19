@@ -407,4 +407,9 @@ public abstract class AbstractStackHelper {
         return node.getStartLine();
     }
     
+    public static String getExpressionText(EObject expression) {
+        INode node = NodeModelUtils.getNode(expression);
+        return node.getText();
+    }
+    
 }
