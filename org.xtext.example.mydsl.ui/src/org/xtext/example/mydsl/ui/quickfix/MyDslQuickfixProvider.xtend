@@ -4,6 +4,10 @@
 package org.xtext.example.mydsl.ui.quickfix
 
 import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
+import org.eclipse.xtext.ui.editor.quickfix.Fix
+import org.xtext.example.mydsl.validation.MyDslValidator
+import org.eclipse.xtext.validation.Issue
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
 
 /**
  * Custom quickfixes.
@@ -11,14 +15,36 @@ import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#quick-fixes
  */
 class MyDslQuickfixProvider extends DefaultQuickfixProvider {
-
-//    @Fix(MyDslValidator.INVALID_NAME)
-//    def capitalizeName(Issue issue, IssueResolutionAcceptor acceptor) {
-//        acceptor.accept(issue, 'Capitalize name', 'Capitalize the name.', 'upcase.png') [
-//            context |
-//            val xtextDocument = context.xtextDocument
-//            val firstLetter = xtextDocument.get(issue.offset, 1)
-//            xtextDocument.replace(issue.offset, 1, firstLetter.toUpperCase)
-//        ]
-//    }
+    
+    @Fix(MyDslValidator.SAME_ID_WITH_SHARED)
+    def changeLocalVariableDeclerationName(Issue issue, IssueResolutionAcceptor acceptor) {
+        val String name = issue.data.get(1)
+        
+        acceptor.accept(issue, "Change name", "Change name to '_" + name + "'.", 'upcase.png') [
+            context |
+            // Apply changes
+            /* 
+            val String type = issue.data.get(0)
+            val xtextDocument = context.xtextDocument
+            val int startPoint = issue.offset + type.length + 1
+            xtextDocument.replace(startPoint, name.length + 1, "_" + name)
+            */
+        ]
+    }
+    
+    @Fix(MyDslValidator.SAME_PARAMETER_WITH_SHARED)
+    def changeFunctionDefinitionParameterName(Issue issue, IssueResolutionAcceptor acceptor) {
+        val String name = issue.data.get(1)
+        
+        acceptor.accept(issue, "Change name", "Change name to '_" + name + "'.", 'upcase.png') [
+            context |
+            // Apply changes
+            /*
+            val String type = issue.data.get(0)
+            val xtextDocument = context.xtextDocument
+            val int startPoint = issue.offset + type.length + 1
+            xtextDocument.replace(startPoint, name.length + 1, "_" + name)
+            */
+        ]
+    }
 }

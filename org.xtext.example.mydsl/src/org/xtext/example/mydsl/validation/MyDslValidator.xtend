@@ -4,11 +4,16 @@
 package org.xtext.example.mydsl.validation
 
 import org.eclipse.xtext.validation.Check
-import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression
 import org.xtext.example.mydsl.myDsl.MyDslPackage
-import org.xtext.example.mydsl.myDsl.VariableReference
-import org.xtext.example.mydsl.myDsl.impl.VariableDeclerationExpressionImpl
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
+import org.xtext.example.mydsl.myDsl.InkApp
+import org.xtext.example.mydsl.myDsl.SharedVariableExpression
+import org.eclipse.emf.common.util.EList
+import org.xtext.example.mydsl.myDsl.FunctionDefinitionParameters
+import org.xtext.example.mydsl.myDsl.FunctionDefinitionParameter
+import org.eclipse.xtext.nodemodel.INode
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils
+import org.eclipse.emf.ecore.EObject
 
 /**
  * This class contains custom validation rules. 
@@ -17,28 +22,55 @@ import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
  */
 class MyDslValidator extends AbstractMyDslValidator {
     
-//    public static val INVALID_NAME = 'invalidName'
-//
-//    @Check
-//    def checkGreetingStartsWithCapital(Greeting greeting) {
-//        if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//            warning('Name should start with a capital', 
-//                    MyDslPackage.Literals.GREETING__NAME,
-//                    INVALID_NAME)
-//        }
-//    }
+    public static val SAME_ID_WITH_SHARED = 'sameIdWithShared'
+    public static val SAME_PARAMETER_WITH_SHARED = 'sameParameterWithShared'
 
-//    @Check
-//    def checkOperationDataType(VariableAssignmentExpression expression) {
-//        var assigneeType = expression.variable;
-////        var assigneeType = expression.variable.variableReference;
-//        if (assigneeType === null) {
-//            error("Assignee cannot be empty.", MyDslPackage.Literals.VARIABLE_ASSIGNMENT_EXPRESSION__VARIABLE)
-//        }
-//    }
+    def int getOffset(EObject expr) {
+        val INode node = NodeModelUtils.getNode(expr);
+        return node.offset
+    }
     
-//    def getType(VariableReference reference) {
-//        return ((VariableDeclerationExpression) reference.variableReference).type.type
-//    }
+    @Check
+    def addGlobalsToSymbolTable(InkApp inkApp) {
+        val EList<SharedVariableExpression> shareds = inkApp.shareds
+        
+        SymbolTable.resetTable()
+        
+        for (SharedVariableExpression shared: shareds) {
+            val String name = shared.name
+            SymbolTable.addName(name)
+        }
+    }
+    
+    @Check
+    def checkIfLocalVariableNameSameWithShared(VariableDeclerationExpression variableDeclerationExpression) {
+        val String name = variableDeclerationExpression.name
+        
+        if (SymbolTable.isExist(name)) {
+            error("Local variable '" + name + "' cannot be same with shared variable name.", 
+                MyDslPackage.Literals.VARIABLE_DECLERATION_EXPRESSION__DIMENSION, 
+                -1, 
+                SAME_ID_WITH_SHARED,
+                variableDeclerationExpression.type,
+                name
+            ) 
+        }  
+    }
+    
+    @Check
+    def checkFunctionParameterNameSameWithShared(FunctionDefinitionParameters parameters) {
+        val EList<FunctionDefinitionParameter> params = parameters.typedVariableList
+        for (FunctionDefinitionParameter param: params) {
+            if (SymbolTable.isExist(param.name)) {
+                error("Function parameter '" + param.name + "' cannot be same with shared variable name.", 
+                    MyDslPackage.Literals.FUNCTION_DEFINITION_PARAMETERS__TYPED_VARIABLE_LIST, 
+                    getOffset(param),  // the point where the error starts
+                    SAME_PARAMETER_WITH_SHARED,
+                    param.type,
+                    param.name
+                )  
+            }
+        }
+    }
 
 }
