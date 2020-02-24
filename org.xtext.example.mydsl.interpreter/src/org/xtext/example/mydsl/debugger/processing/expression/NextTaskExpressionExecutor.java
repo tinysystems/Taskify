@@ -1,9 +1,6 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
 import org.eclipse.emf.ecore.EObject;
-import org.xtext.example.mydsl.debugger.context.CallStack;
-import org.xtext.example.mydsl.debugger.context.CallStackItem;
-import org.xtext.example.mydsl.debugger.context.SymbolTable;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.NextTaskExpression;
@@ -23,18 +20,21 @@ public class NextTaskExpressionExecutor extends AbstractStackHelper implements I
     
     @Override
     public void execute(String id) {
+        finishPreviousTask(id);
+        
         Task task = this.expression.getNexttask();
         checkEndTask();
         
         if (task != null) {
-            System.out.println("Task '" + task.getName() + "' is being executed.");
+            id = task.getName();
+            System.out.println("Task '" + id + "' is being executed.");
             TaskBody taskBody = task.getTaskbody();
-            this.execute(taskBody, id);
+            this.executeBody(taskBody, id);
         }
     }
     
-    private void execute(TaskBody taskBody, String id) {
-        CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
+    private void executeBody(TaskBody taskBody, String id) {
+        pushCallStackItem(id);
         
         for(EObject bodyElement: taskBody.getBody()) {
             this.executor.execute(bodyElement, id);
@@ -44,6 +44,13 @@ public class NextTaskExpressionExecutor extends AbstractStackHelper implements I
                 break;
             }
         }
+    }
+    
+    private void finishPreviousTask(String id) {
+        System.out.println("Task '" + id + "' is executed.");
+        
+        // TODO: Empty callstack
+        // removeCallStack(id);
     }
     
     private void checkEndTask() {

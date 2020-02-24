@@ -7,7 +7,7 @@ import org.xtext.example.mydsl.myDsl.ArrayDimension
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression
 
 class CommonGenerator {
-    static String INT = "uint32_t"
+    static String LONG = "uint32_t"
     static String FLOAT = "float"
     static String STRING = "char"
     static String BOOL = "bool"
@@ -16,8 +16,8 @@ class CommonGenerator {
         var String result
         
         if (type == "integer") {
-            result = INT
-        } else if (type == "double") {
+            result = LONG
+        } else if (type == "float") {
             result = FLOAT
         } else if (type == "string") {
             result = STRING
@@ -55,13 +55,13 @@ class CommonGenerator {
         return result
     }
     
-    def static String dimension(int index)
-    '''[«index»]'''
+    def static String dimension(long index)
+    '''[«index as int»]'''
     
     def static String dimension(VariableSymbol symbolIndex, int index)
     '''[«getVariableSymbol(symbolIndex, index)»]'''
     
-    def static String getDimension(ArrayDimension dimension, int index) {
+    def static String getDimension(ArrayDimension dimension, long index) {
         var String result = ""
         val Object objIndex = dimension.size
         if (index >= 0) {
@@ -69,7 +69,7 @@ class CommonGenerator {
         } else {
             if (objIndex instanceof VariableSymbol) {
                 result = dimension(objIndex as VariableSymbol, -1)
-            } else if (objIndex instanceof Integer) {
+            } else if (objIndex instanceof Long) {
                 result = dimension(objIndex)
             }
         }
@@ -77,7 +77,7 @@ class CommonGenerator {
         return result
     }
         
-    def static String getVariableSymbol(VariableSymbol symbol, int index) {
+    def static String getVariableSymbol(VariableSymbol symbol, long index) {
         var String result = ""
         if (symbol instanceof VariableDeclerationExpression) {
             result = (symbol as VariableDeclerationExpression).name

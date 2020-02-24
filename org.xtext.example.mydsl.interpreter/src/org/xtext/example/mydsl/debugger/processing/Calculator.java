@@ -43,8 +43,8 @@ public class Calculator {
         return list.contains(operator);
     }
 
-    public static final int arithmeticCalculate(int leftValue, String operator, int rightValue) {
-        int result = 0;
+    public static final long arithmeticCalculate(long leftValue, String operator, long rightValue) {
+        long result = 0;
 
         switch (operator) {
         case PLUS:
@@ -63,54 +63,54 @@ public class Calculator {
         return result;
     }
 
-    public static final double arithmeticCalculate(double leftValue, String operator, double rightValue) {
-        double result = 0.00;
+    public static final float arithmeticCalculate(float leftValue, String operator, float rightValue) {
+        float result = 0.00F;
 
         switch (operator) {
-        case PLUS:
-            result = leftValue + rightValue;
-            break;
-        case MINUS:
-            result = leftValue - rightValue;
-            break;
-        case MULT:
-            result = leftValue * rightValue;
-            break;
-        case DIV:
-            result = leftValue / rightValue;
-            break;
+            case PLUS:
+                result = leftValue + rightValue;
+                break;
+            case MINUS:
+                result = leftValue - rightValue;
+                break;
+            case MULT:
+                result = leftValue * rightValue;
+                break;
+            case DIV:
+                result = leftValue / rightValue;
+                break;
         }
         return result;
     }
 
-    protected static final boolean logicalCalculate(double leftValue, String operator, double rightValue) {
+    protected static final boolean logicalCalculate(float leftValue, String operator, float rightValue) {
         boolean result = false;
         switch (operator) {
-        case EQUAL:
-            result = leftValue == rightValue;
-            break;
-        case NOT_EQUAL:
-            result = leftValue != rightValue;
-            break;
-        case LOWER:
-            result = leftValue < rightValue;
-            break;
-        case GREATER:
-            result = leftValue > rightValue;
-            break;
-        case LOWER_EQUAL:
-            result = leftValue <= rightValue;
-            break;
-        case GREATER_EQUAL:
-            result = leftValue >= rightValue;
-            break;
-        default:
-            AbstractStackHelper.stopExecution("Logical operator '" + operator + "' could not be recognized.");
+            case EQUAL:
+                result = leftValue == rightValue;
+                break;
+            case NOT_EQUAL:
+                result = leftValue != rightValue;
+                break;
+            case LOWER:
+                result = leftValue < rightValue;
+                break;
+            case GREATER:
+                result = leftValue > rightValue;
+                break;
+            case LOWER_EQUAL:
+                result = leftValue <= rightValue;
+                break;
+            case GREATER_EQUAL:
+                result = leftValue >= rightValue;
+                break;
+            default:
+                AbstractStackHelper.stopExecution("Logical operator '" + operator + "' could not be recognized.");
         }
         return result;
     }
 
-    protected static final boolean logicalCalculate(int leftValue, String operator, int rightValue) {
+    protected static final boolean logicalCalculate(long leftValue, String operator, long rightValue) {
         boolean result = false;
         switch (operator) {
         case EQUAL:
@@ -161,10 +161,10 @@ public class Calculator {
     public static final boolean booleanCalculate(Object value) {
         boolean result = false;
         if (value != null) {
-            if (value instanceof Integer) {
-                result = (Integer.valueOf(value.toString())) > 0;
-            } else if (value instanceof Double) {
-                result = (Double.valueOf(value.toString())) > 0;
+            if (value instanceof Long) {
+                result = (Long.valueOf(value.toString())) > 0;
+            } else if (value instanceof Float) {
+                result = (Float.valueOf(value.toString())) > 0;
             } else if (value instanceof Boolean) {
                 result = Boolean.valueOf(value.toString());
             } else {
@@ -174,8 +174,8 @@ public class Calculator {
         return result;
     }
 
-    public static final int bitwiseCalculate(int leftValue, String operator, int rightValue) {
-        int result = 0;
+    public static final long bitwiseCalculate(long leftValue, String operator, long rightValue) {
+        long result = 0;
         switch (operator) {
         case BITWISE_AND:
             result = (leftValue & rightValue);
@@ -195,7 +195,7 @@ public class Calculator {
         return result;
     }
 
-    public static final Object calculate(int leftValue, String operator, int rightValue) {
+    public static final Object calculate(long leftValue, String operator, long rightValue) {
         Object result = null;
         if (isArithmetic(operator)) {
             result = arithmeticCalculate(leftValue, operator, rightValue);
@@ -209,7 +209,7 @@ public class Calculator {
         return result;
     }
 
-    public static final Object calculate(double leftValue, String operator, double rightValue) {
+    public static final Object calculate(float leftValue, String operator, float rightValue) {
         Object result = null;
         if (isArithmetic(operator)) {
             result = arithmeticCalculate(leftValue, operator, rightValue);
@@ -239,16 +239,16 @@ public class Calculator {
             case "integer":
                 result = arithmeticCalculate(Integer.valueOf(leftValue.toString()), operator, Integer.valueOf(rightValue.toString()));
                 break;
-            case "double":
-                result = arithmeticCalculate(Double.valueOf(leftValue.toString()), operator,
-                        Double.valueOf(rightValue.toString()));
+            case "float":
+                result = arithmeticCalculate(Float.valueOf(leftValue.toString()), operator,
+                        Float.valueOf(rightValue.toString()));
                 break;
             default:
                 AbstractStackHelper.stopExecution("Type '" + type + "' is not applicable to calculate arithmatically.");
             }
         } else if (isBinary(operator)) {
             if (type.equals("integer")) {
-                result = bitwiseCalculate(Integer.valueOf(leftValue.toString()), operator, Integer.valueOf(rightValue.toString()));
+                result = bitwiseCalculate(Long.valueOf(leftValue.toString()), operator, Long.valueOf(rightValue.toString()));
             } else {
                 AbstractStackHelper
                         .stopExecution("Type '" + type + "' is not applicable to calculate binary. Must be integer.");

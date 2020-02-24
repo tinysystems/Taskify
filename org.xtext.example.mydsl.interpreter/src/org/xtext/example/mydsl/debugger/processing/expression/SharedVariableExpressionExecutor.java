@@ -23,7 +23,7 @@ public class SharedVariableExpressionExecutor extends AbstractStackHelper implem
         Object value = null;
         int size = 0;
         if (expression.getDimension() != null && expression.getDimension().getSize() > 0) {
-            size = expression.getDimension().getSize();
+            size = (int) expression.getDimension().getSize();
             Object array[] = generateArrayValue(type, size);
             value = array;
         } else {

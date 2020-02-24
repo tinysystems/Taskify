@@ -10,9 +10,7 @@ import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
 import org.xtext.example.mydsl.myDsl.InkApp;
 import org.xtext.example.mydsl.myDsl.TaskBody;
-import org.xtext.example.mydsl.debugger.context.CallStack;
-import org.xtext.example.mydsl.debugger.context.CallStackItem;
-import org.xtext.example.mydsl.debugger.context.SymbolTable;
+import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.debugger.processing.expression.NextTaskExpressionExecutor;
 
@@ -63,7 +61,7 @@ public class Debugger extends ExpressionSwitcher {
     }
     
     private void execute(EList<Expression> variables, String id) {
-        CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
+        AbstractStackHelper.pushCallStackItem(id);
         
         for(Expression variable: variables) {
             super.execute(variable, id);
@@ -71,7 +69,7 @@ public class Debugger extends ExpressionSwitcher {
     }
     
     private void execute(TaskBody taskBody, String id) {
-        CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
+        AbstractStackHelper.pushCallStackItem(id);
         
         for(EObject bodyElement: taskBody.getBody()) {
             super.execute(bodyElement, id);

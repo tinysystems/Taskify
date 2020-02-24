@@ -1,13 +1,13 @@
 package org.xtext.example.mydsl.generator.common
 
 import org.xtext.example.mydsl.myDsl.Atomic
-import org.xtext.example.mydsl.myDsl.IntegerReference
-import org.xtext.example.mydsl.myDsl.DoubleReference
 import org.xtext.example.mydsl.myDsl.StringReference
 import org.xtext.example.mydsl.myDsl.BooleanReference
 import org.xtext.example.mydsl.myDsl.Variable
 import org.xtext.example.mydsl.myDsl.ArrayReference
 import org.xtext.example.mydsl.myDsl.PrimitiveReference
+import org.xtext.example.mydsl.myDsl.LongReference
+import org.xtext.example.mydsl.myDsl.FloatReference
 
 class AtomicGenerator {
     def static String generate(Atomic atomic) {
@@ -15,15 +15,15 @@ class AtomicGenerator {
     }
     
     /*
-     * Get target code of primitive INT, DOUBLE, STRING, BOOLEAN
+     * Get target code of primitive LONG, FLOAT, STRING, BOOLEAN
      * returns: 5 | 5.0 | Five | true
      */
     def private static String getPrimitiveReference(PrimitiveReference atomic) {
         var String result = ""
         
-        if (atomic instanceof IntegerReference) {
+        if (atomic instanceof LongReference) {
             result = atomic.value.toString
-        } else if (atomic instanceof DoubleReference) {
+        } else if (atomic instanceof FloatReference) {
             result = atomic.value.toString
         } else if (atomic instanceof StringReference) {
             result = atomic.value.toString

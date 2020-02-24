@@ -96,8 +96,8 @@ public class OperationExpressionExecutor extends AbstractStackHelper {
             result = (boolean) Calculator.calculate(Boolean.valueOf(leftValue.toString()), comparisionOperator,
                     Boolean.valueOf(rightValue.toString()));
         } else {
-            result = (boolean) Calculator.calculate(Double.valueOf(leftValue.toString()), comparisionOperator,
-                    Double.valueOf(rightValue.toString()));
+            result = (boolean) Calculator.calculate(Float.valueOf(leftValue.toString()), comparisionOperator,
+                    Float.valueOf(rightValue.toString()));
         }
 
         return result;

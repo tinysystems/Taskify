@@ -12,9 +12,9 @@ import org.xtext.example.mydsl.myDsl.BooleanReference;
 import org.xtext.example.mydsl.myDsl.BuiltinFunctionCallExpression;
 import org.xtext.example.mydsl.myDsl.BuiltinPrintFunction;
 import org.xtext.example.mydsl.myDsl.BuiltinRandomFunction;
-import org.xtext.example.mydsl.myDsl.DoubleReference;
+import org.xtext.example.mydsl.myDsl.FloatReference;
 import org.xtext.example.mydsl.myDsl.FunctionCallParameters;
-import org.xtext.example.mydsl.myDsl.IntegerReference;
+import org.xtext.example.mydsl.myDsl.LongReference;
 import org.xtext.example.mydsl.myDsl.PrimitiveReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
 import org.xtext.example.mydsl.myDsl.Variable;
@@ -49,10 +49,10 @@ public class BuiltinFunctionCallExpressionExecutor extends AbstractStackHelper i
             if(atomic instanceof PrimitiveReference) {
                 if(atomic instanceof StringReference) {
                     output = String.valueOf(((StringReference) atomic).getValue());
-                } else if (atomic instanceof IntegerReference) {
-                    output = String.valueOf(((IntegerReference) atomic).getValue());
-                } else if (atomic instanceof DoubleReference) {
-                    output = String.valueOf(((DoubleReference) atomic).getValue());
+                } else if (atomic instanceof LongReference) {
+                    output = String.valueOf(((LongReference) atomic).getValue());
+                } else if (atomic instanceof FloatReference) {
+                    output = String.valueOf(((FloatReference) atomic).getValue());
                 } else if (atomic instanceof BooleanReference) {
                     output = String.valueOf(((BooleanReference) atomic).isValue());
                 }
@@ -74,7 +74,7 @@ public class BuiltinFunctionCallExpressionExecutor extends AbstractStackHelper i
                             }
                         } else if (atomicVar instanceof ArrayReference) {
                             // Print an element of an array
-                            int index = ((ArrayReference) atomicVar).getIndex().getSize();
+                            int index = (int) ((ArrayReference) atomicVar).getIndex().getSize();
                             Object values[] = (Object[]) value;
                             output = values[index].toString();
                         }                        

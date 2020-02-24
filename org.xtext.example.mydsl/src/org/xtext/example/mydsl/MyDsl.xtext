@@ -13,8 +13,16 @@ InkApp:
     tasks+=Task*
 ;
 
-terminal DOUBLE returns ecore::EDouble:
-    INT '.' INT
+terminal FLOAT returns ecore::EFloat:
+    ('-')?(('0'..'9')+ '.' ('0'..'9')+)
+;
+
+terminal LONG returns ecore::ELong:
+    ('0'..'9')+
+;
+
+terminal HEX:
+    '0x'('0'..'9'|'a'..'f'|'A'..'F')+
 ;
     
 terminal BOOLEAN returns ecore::EBoolean:
@@ -53,12 +61,12 @@ BreakExpression:
 ;
 
 VariableType:
-    'string' | 'integer' |  'boolean'
+    'string' | 'integer' |  'boolean' | 'float'
 ;
 
 ArrayDimension:
     {ArrayDimension}
-    '[' (index = [VariableSymbol] | size = INT) ']'
+    '[' (index = [VariableSymbol] | size = LONG) ']'
 ;
 
 VariableSymbol:
@@ -70,14 +78,15 @@ VariableSymbol:
 
 Variable:
     {ArrayReference} arrayReference = [VariableSymbol] (index = ArrayDimension) |
-     {VariableReference} variableReference = [VariableSymbol]
+    {VariableReference} variableReference = [VariableSymbol]
 ;
 
 PrimitiveReference:
-    {IntegerReference} value =  INT |
-    {DoubleReference} value = DOUBLE |
+    {LongReference} value = LONG |
+    {FloatReference} value = FLOAT |
     {StringReference} value = STRING |
-    {BooleanReference} value = BOOLEAN
+    {BooleanReference} value = BOOLEAN |
+    {HexadecimalReference} value = HEX
 ;
 
 Atomic:

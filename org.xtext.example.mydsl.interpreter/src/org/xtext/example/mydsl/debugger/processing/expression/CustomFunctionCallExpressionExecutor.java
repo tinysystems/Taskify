@@ -10,7 +10,6 @@ import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.CustomFunctionCallExpression;
-import org.xtext.example.mydsl.myDsl.FunctionDefinitionParameter;
 import org.xtext.example.mydsl.myDsl.FunctionDefinitionParameters;
 
 public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {    
@@ -18,7 +17,7 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {
         EList<Atomic> callParameters = expression.getParameters().getParameter();
         FunctionDefinitionParameters functionDefinitionTypedParameters = expression.getFunction().getParameters();
         String callerId = id;
-        id = expression.getFunction().getName() + "_" + id;    
+        id = expression.getFunction().getName() + "_" + id;
         
         addCallStack(functionDefinitionTypedParameters, callParameters, id, callerId);
         
@@ -31,7 +30,7 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {
         Atomic returnValue = expression.getFunction().getReturn();
         Object value = lookupSymbolByAtomic((Atomic) returnValue, id).getVariableValue();
         
-        removeCallStack(functionDefinitionTypedParameters.getTypedVariableList(), id);
+        removeCallStack(id);
         
         return value;
     }
@@ -39,7 +38,7 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {
     // Add all parameters to call stack with their values based on call arguments
     private static void addCallStack(FunctionDefinitionParameters functionDefinitionTypedParameters, EList<Atomic> callParameters, String id, String callerId) {
         int definitionParametersCount = functionDefinitionTypedParameters.getTypedVariableList().size();
-        CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
+        pushCallStackItem(callerId);
         
         for (int i = 0; i < definitionParametersCount; i++) {
             String name = functionDefinitionTypedParameters.getTypedVariableList().get(i).getName();
@@ -49,19 +48,6 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {
             Symbol symbol = new Symbol(name, type, value, id);
             addCallStackBySymbol(symbol, id);
         }
-    }
-    
-    // Remove all Symbols(parameters) from call stack
-    private static void removeCallStack(EList<FunctionDefinitionParameter> functionDefinitionParameterList, String id) {
-        int definitionParametersCount = functionDefinitionParameterList.size();
-        
-        for (int i = 0; i < definitionParametersCount; i++) {
-            Symbol symbol = lookupSymbolByString(functionDefinitionParameterList.get(i).getName(), id);
-            removeCallStackBySymbol(symbol, id);
-        }
-        
-        CallStackItem item = lookupStackItem(id);
-        CallStack.getCallStack().remove(item);
     }
     
     // Validate all parameters between function call and its definition.

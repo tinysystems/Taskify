@@ -15,9 +15,10 @@ import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BooleanReference;
 import org.xtext.example.mydsl.myDsl.ComparisionExpression;
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
-import org.xtext.example.mydsl.myDsl.DoubleReference;
+import org.xtext.example.mydsl.myDsl.FloatReference;
+import org.xtext.example.mydsl.myDsl.HexadecimalReference;
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
-import org.xtext.example.mydsl.myDsl.IntegerReference;
+import org.xtext.example.mydsl.myDsl.LongReference;
 import org.xtext.example.mydsl.myDsl.PrimitiveReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
 import org.xtext.example.mydsl.myDsl.Variable;
@@ -52,7 +53,7 @@ public abstract class AbstractStackHelper {
     }
     
     protected static Symbol lookupSymbolByAtomic(Atomic atomic, String id) {        
-//        if Atomic is StringReference or IntegerReference or DoubleReference or BooleanReference, 
+//        if Atomic is StringReference or LongReference or FloatReference or BooleanReference, HexadecimalReference
 //        the value is not inside call stack. So make dummy symbol and return it.
 //        System.out.println("lookupSymbolByAtomic: atomic: " + atomic.toString() + " id: " + id);
         if(isDummy(atomic)) {
@@ -105,16 +106,18 @@ public abstract class AbstractStackHelper {
         if(atomic instanceof StringReference) {
             value = (String) ((StringReference) atomic).getValue();
             type = "string";
-        } else if (atomic instanceof IntegerReference) {
-            value = (int) ((IntegerReference) atomic).getValue();
+        } else if (atomic instanceof LongReference) {
+            value = (long) ((LongReference) atomic).getValue();
             type = "integer";
-        } else if (atomic instanceof DoubleReference) {
-            value = (double) ((DoubleReference) atomic).getValue();
-            type = "double";
+        } else if (atomic instanceof FloatReference) {
+            value = (float) ((FloatReference) atomic).getValue();
+            type = "float";
         } else if (atomic instanceof BooleanReference) {
             value = (boolean) ((BooleanReference) atomic).isValue();
             type = "boolean";
-        }    
+        } else if (atomic instanceof HexadecimalReference) {
+            value = Long.decode(((HexadecimalReference) atomic).getValue());
+        }
         
         Symbol dummySymbol = new Symbol("dummy", type);
         dummySymbol.setVariableValue(value);
@@ -130,7 +133,7 @@ public abstract class AbstractStackHelper {
         return result;
     }
     
-    protected static void pushCallStackItem(String id) {
+    public static void pushCallStackItem(String id) {
         CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
     }
 
@@ -163,12 +166,27 @@ public abstract class AbstractStackHelper {
 
     protected static void addCallStackBySymbol(Symbol symbol, String id) {
         CallStackItem item = lookupStackItem(id);
-        item.getSymbolTable().getSymbolTable().add(symbol);
+        
+        if (item != null) {
+            item.getSymbolTable().getSymbolTable().add(symbol);
+        }
     }
     
     protected static void removeCallStackBySymbol(Symbol symbol, String id) {
         CallStackItem item = lookupStackItem(id);
-        item.getSymbolTable().getSymbolTable().remove(symbol);
+        
+        if (item != null) {
+            item.getSymbolTable().getSymbolTable().remove(symbol);
+        }
+    }
+    
+    protected static void removeCallStack(String id) {
+        CallStackItem item = lookupStackItem(id);
+        
+        if (item != null) { 
+            item.getSymbolTable().getSymbolTable().clear();
+            CallStack.getCallStack().remove(item);
+        }
     }
     
     private static Object decouplePrimitiveAtomic(Atomic atomic) {
@@ -177,10 +195,12 @@ public abstract class AbstractStackHelper {
             m_return = ((StringReference) atomic).getValue();
         } else if(atomic instanceof BooleanReference) {
             m_return = ((BooleanReference) atomic).isValue();
-        } else if(atomic instanceof IntegerReference) {
-            m_return = ((IntegerReference) atomic).getValue();
-        } else if(atomic instanceof DoubleReference) {
-            m_return = ((DoubleReference) atomic).getValue();
+        } else if(atomic instanceof LongReference) {
+            m_return = ((LongReference) atomic).getValue();
+        } else if(atomic instanceof FloatReference) {
+            m_return = ((FloatReference) atomic).getValue();
+        } else if (atomic instanceof HexadecimalReference) {
+            m_return = Long.decode(((HexadecimalReference) atomic).getValue());
         }
         return m_return;
     }
@@ -190,8 +210,8 @@ public abstract class AbstractStackHelper {
         if (atomic instanceof ArrayReference) {
             Symbol symbol = lookupSymbolByAtomic(atomic, id);
             Object[] arrayValues = (Object[]) symbol.getVariableValue();
-            int index = ((ArrayReference) atomic).getIndex().getSize();
-            m_return = arrayValues[index];
+            long index = ((ArrayReference) atomic).getIndex().getSize();
+            m_return = arrayValues[(int) index];
         } else if (atomic instanceof VariableReference) {
             Symbol symbol = lookupSymbolByAtomic(atomic, id);
             m_return = symbol.getVariableValue();
@@ -209,11 +229,11 @@ public abstract class AbstractStackHelper {
         return m_return;
     }
     
-    private static boolean updateCallStackByArray(String target, int index, CallStackItem callStackItem, Object value) {        
+    private static boolean updateCallStackByArray(String target, long index, CallStackItem callStackItem, Object value) {        
         for(Symbol symbol: callStackItem.getSymbolTable().getSymbolTable()) {
             if(target.equals(symbol.getName())) {
                 Object[] values = (Object[]) symbol.getVariableValue();
-                values[index] = value;
+                values[(int) index] = value;
                 symbol.setVariableValue(values);
                 return true;
             }
@@ -234,7 +254,7 @@ public abstract class AbstractStackHelper {
     }
     
     protected static void updateCallStackByArray(ArrayReference array, Object value, String callerId) {
-        int index = array.getIndex().getSize();
+        long index = array.getIndex().getSize();
         String target = getArrayReferenceName(array.getArrayReference());
         CallStackItem callStackItem = lookupStackItem(callerId);
         
@@ -271,10 +291,10 @@ public abstract class AbstractStackHelper {
         Object array[] = null;
         switch (type) {
             case "integer":
-                array = new Integer[size]; 
+                array = new Long[size]; 
                 break;
-            case "double":
-                array = new Double[size];
+            case "float":
+                array = new Float[size];
                 break;
             case "string":
                 array = new String[size];
@@ -293,7 +313,7 @@ public abstract class AbstractStackHelper {
             case "integer":
                 value = 0; 
                 break;
-            case "double":
+            case "float":
                 value = 0.0F;
                 break;
             case "string":
@@ -312,8 +332,8 @@ public abstract class AbstractStackHelper {
             case "integer":
                 array = new Integer[size]; 
                 break;
-            case "double":
-                array = new Double[size];
+            case "float":
+                array = new Float[size];
                 break;
             case "string":
                 array = new String[size];
@@ -336,9 +356,9 @@ public abstract class AbstractStackHelper {
     
     protected static boolean checkCondition(EObject expression, String id) {
         boolean isApplicable = false;
-        // TODO: make type more proper instead of hardcoded "double", it would fail in case of boolean comparision
+        // TODO: make type more proper instead of hardcoded "float", it would fail in case of boolean comparision
         if (expression instanceof ComparisionExpression) {
-            isApplicable = OperationExpressionExecutor.evaluateComparisionExpression((ComparisionExpression) expression, id, "double");
+            isApplicable = OperationExpressionExecutor.evaluateComparisionExpression((ComparisionExpression) expression, id, "float");
         }
         return isApplicable;
     }

@@ -17,7 +17,7 @@ public class PDAValue extends PDADebugElement implements IValue {
 //        TODO return type in the future
         String type = null;
         try {
-            Integer.parseInt(fValue);
+            Long.parseLong(fValue);
             type = "integer";
         } catch (NumberFormatException e) {
             try {
@@ -25,10 +25,10 @@ public class PDAValue extends PDADebugElement implements IValue {
                 type = "boolean";
             } catch (Exception e1) {
                 try {
-                    Double.parseDouble(fValue);
-                    type = "double";
+                    Float.parseFloat(fValue);
+                    type = "float";
                 } catch (Exception e2) {
-                    // TODO: handle exception
+                    type = "undetermined";
                 }
             }
         }
