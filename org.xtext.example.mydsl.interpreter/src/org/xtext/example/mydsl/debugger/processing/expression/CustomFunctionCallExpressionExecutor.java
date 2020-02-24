@@ -2,10 +2,7 @@ package org.xtext.example.mydsl.debugger.processing.expression;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.xtext.example.mydsl.debugger.context.CallStack;
-import org.xtext.example.mydsl.debugger.context.CallStackItem;
 import org.xtext.example.mydsl.debugger.context.Symbol;
-import org.xtext.example.mydsl.debugger.context.SymbolTable;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.Atomic;
@@ -38,7 +35,7 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {
     // Add all parameters to call stack with their values based on call arguments
     private static void addCallStack(FunctionDefinitionParameters functionDefinitionTypedParameters, EList<Atomic> callParameters, String id, String callerId) {
         int definitionParametersCount = functionDefinitionTypedParameters.getTypedVariableList().size();
-        pushCallStackItem(callerId);
+        addCallStackItem(callerId);
         
         for (int i = 0; i < definitionParametersCount; i++) {
             String name = functionDefinitionTypedParameters.getTypedVariableList().get(i).getName();

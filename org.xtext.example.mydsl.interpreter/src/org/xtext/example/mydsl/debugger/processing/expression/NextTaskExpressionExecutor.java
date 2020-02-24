@@ -34,7 +34,7 @@ public class NextTaskExpressionExecutor extends AbstractStackHelper implements I
     }
     
     private void executeBody(TaskBody taskBody, String id) {
-        pushCallStackItem(id);
+        addCallStackItem(id);
         
         for(EObject bodyElement: taskBody.getBody()) {
             this.executor.execute(bodyElement, id);

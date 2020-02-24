@@ -133,11 +133,11 @@ public abstract class AbstractStackHelper {
         return result;
     }
     
-    public static void pushCallStackItem(String id) {
+    public static void addCallStackItem(String id) {
         CallStack.getCallStack().add(new CallStackItem(id, new SymbolTable()));
     }
 
-    protected static void popCallStackItem(String id) {
+    protected static void removeCallStackItem(String id) {
         CallStackItem item = lookupStackItem(id);
         CallStack.getCallStack().remove(item);
     }
