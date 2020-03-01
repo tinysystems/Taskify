@@ -1,0 +1,389 @@
+SHARED integer pinCont
+SHARED integer n_0
+SHARED integer n_1
+SHARED integer n_2
+SHARED integer n_3
+SHARED integer n_4
+SHARED integer n_5
+SHARED integer n_6
+SHARED integer function
+SHARED integer iteration
+SHARED integer seed
+
+CONSTANT integer bits[256] = [
+    0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,  /* 0   - 15  */
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,  /* 16  - 31  */
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,  /* 32  - 47  */
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,  /* 48  - 63  */
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,  /* 64  - 79  */
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,  /* 80  - 95  */
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,  /* 96  - 111 */
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,  /* 112 - 127 */
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,  /* 128 - 143 */
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,  /* 144 - 159 */
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,  /* 160 - 175 */
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,  /* 176 - 191 */
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,  /* 192 - 207 */
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,  /* 208 - 223 */
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,  /* 224 - 239 */
+    4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8   /* 240 - 255 */
+]
+ 
+
+CONSTANT integer SEED = 4
+CONSTANT integer ITER = 85
+CONSTANT integer CHAR_BIT = 8
+CONSTANT integer plus = 13
+
+integer recursive_cnt(integer x) {
+	integer index = x AND_BITWISE 15
+	integer cnt = bits[index]
+	integer tmp_cnt
+	
+	x = x SHIFT_RIGHT 4
+	if (x != 0) {
+		tmp_cnt = recursive_cnt(x)
+		cnt = cnt + tmp_cnt
+	}
+	
+	return cnt
+}
+
+integer non_recursive_cnt(integer x) {
+	integer index = x AND_BITWISE 0x0000000F
+    integer cnt = bits[index]
+    
+    x = x SHIFT_RIGHT 4
+    while (x != 0) {
+    	index = x AND_BITWISE 0x0000000F
+        cnt = cnt + bits[index]
+        
+        x = x SHIFT_RIGHT 4
+    }
+    return cnt
+}
+
+entry task t_init {
+    integer _seed = random()
+    seed = _seed
+    seed = 45697649
+    
+    print("Initial seed is: ", seed)
+    pinCont = 1
+    function = 0
+    n_0 = 0
+    n_1 = 0
+    n_2 = 0
+    n_3 = 0
+    n_4 = 0
+    n_5 = 0
+    n_6 = 0
+    
+    next t_select_func
+}
+
+task t_select_func {
+    
+    integer _function = function
+    
+    // Set shared variables
+    iteration = 0
+    
+    if (_function == 0) {
+        function = _function + 1
+        next t_bit_count
+    } else if (_function == 1) {
+        function = _function + 1
+        next t_bitcount
+    } else if (_function == 2) {
+        function = _function + 1
+        next t_ntbl_bitcnt
+    } else if (_function == 3) {
+        function = _function + 1
+        next t_ntbl_bitcount
+    } else if (_function == 4) {
+        function = _function + 1
+        next t_BW_btbl_bitcount
+    } else if (_function == 5) {
+        function = _function + 1
+        next t_AR_btbl_bitcount
+    } else if (_function == 6) {
+        function = _function + 1
+        next t_bit_shifter
+    } else {
+        function = _function + 1
+        next t_end
+    }
+}
+
+task t_bit_count {
+    // Copy shared variables to local variables
+    integer _seed = seed
+    integer _n_0 = n_0
+    integer _iteration = iteration
+    
+    integer tmp_seed = _seed
+    integer temp = 0
+    print("seed is: ", _seed)
+    
+    _seed = tmp_seed + plus
+    
+    if (tmp_seed > 0) {
+        temp = temp + 1
+        tmp_seed = tmp_seed AND_BITWISE (tmp_seed - 1)
+        while (tmp_seed != 0) {
+            temp = temp + 1
+            tmp_seed = tmp_seed AND_BITWISE (tmp_seed - 1)
+        }
+    }
+    _iteration = _iteration + 1
+    
+    // Set shared variables
+    seed = _seed
+    n_0 = _n_0 + temp
+    iteration = _iteration
+    
+    // print("_n_0: ", _n_0, ", _iteration: ", _iteration)
+    if (_iteration < ITER) {
+        next t_bit_count
+    } else {
+        next t_select_func
+    }
+}
+
+task t_bitcount {
+    // Copy shared variables to local variables
+    integer _seed = seed
+    integer _n_1 = n_1
+    integer _iteration = iteration
+    
+    integer tmp_seed = _seed
+    print("seed is: ", _seed)
+    _seed = tmp_seed + plus
+   
+    tmp_seed = ((tmp_seed AND_BITWISE 0xAAAAAAAA) SHIFT_RIGHT 1) + (tmp_seed AND_BITWISE 0x55555555)
+    tmp_seed = ((tmp_seed AND_BITWISE 0xCCCCCCCC) SHIFT_RIGHT 2) + (tmp_seed AND_BITWISE 0x33333333)
+    tmp_seed = ((tmp_seed AND_BITWISE 0xF0F0F0F0) SHIFT_RIGHT 4) + (tmp_seed AND_BITWISE 0x0F0F0F0F)
+    tmp_seed = ((tmp_seed AND_BITWISE 0xFF00FF00) SHIFT_RIGHT 8) + (tmp_seed AND_BITWISE 0x00FF00FF)
+    tmp_seed = ((tmp_seed AND_BITWISE 0xFFFF0000) SHIFT_RIGHT 16) + (tmp_seed AND_BITWISE 0x0000FFFF)
+
+    _iteration = _iteration + 1
+    
+    // Set shared variables
+    seed = _seed
+    n_1 = _n_1 + tmp_seed
+    iteration = _iteration
+    
+    // print("_n_1: ", _n_1, ", _iteration: ", _iteration)
+    if (iteration < ITER) {
+    	next t_bitcount
+    } else {
+    	next t_select_func
+    }
+}
+
+task t_ntbl_bitcnt {
+    // Copy shared variables to local variables
+    integer _seed = seed
+    integer _n_2 = n_2
+    integer _iteration = iteration
+    
+    integer tmp_seed = _seed
+    integer function_result = non_recursive_cnt(tmp_seed)
+    print("seed is: ", _seed)
+    
+    _seed = tmp_seed + plus
+    
+    _iteration = _iteration + 1
+    
+    // Set shared variables
+    seed = _seed
+    n_2 = _n_2 + function_result
+    iteration = _iteration
+    
+    // print("_n_2: ", _n_2, ", _iteration: ", _iteration)
+    if (_iteration < ITER) {
+        next t_ntbl_bitcnt
+    } else {
+        next t_select_func
+    } 
+}
+
+task t_ntbl_bitcount {
+    // Copy shared variables to local variables
+    integer _seed = seed
+    integer _n_3 = n_3
+    integer _iteration = iteration
+    
+    integer tmp_seed = _seed
+    integer __cry = _seed
+    
+    integer index = __cry AND_BITWISE 0x0000000F
+    _n_3 = _n_3 + bits[index]
+    print("seed is: ", _seed)
+    
+    index = (__cry AND_BITWISE 0x000000F0) SHIFT_RIGHT 4
+    _n_3 = _n_3 + bits[index]
+    
+    index = (__cry AND_BITWISE 0x00000F00) SHIFT_RIGHT 8
+    _n_3 = _n_3 + bits[index]
+    
+    index = (__cry AND_BITWISE 0x0000F000) SHIFT_RIGHT 12
+    _n_3 = _n_3 + bits[index]
+    
+    index = (__cry AND_BITWISE 0x000F0000) SHIFT_RIGHT 16
+    _n_3 = _n_3 + bits[index]
+    
+    index = (__cry AND_BITWISE 0x00F00000) SHIFT_RIGHT 20
+    _n_3 = _n_3 + bits[index]
+    
+    index = (__cry AND_BITWISE 0x0F000000) SHIFT_RIGHT 24
+    _n_3 = _n_3 + bits[index]
+    
+    index = (__cry AND_BITWISE 0xF0000000) SHIFT_RIGHT 28
+    _n_3 = _n_3 + bits[index]
+    
+    _seed = tmp_seed + plus
+    _iteration = _iteration + 1
+    
+    // Set shared variables
+    n_3 = _n_3
+    seed = _seed
+    iteration = _iteration
+    
+    // print("_n_3: ", _n_3, ", _iteration: ", _iteration)
+    if (_iteration < ITER) {
+        next t_ntbl_bitcount
+    } else {
+        next t_select_func
+    }
+}
+
+task t_BW_btbl_bitcount {
+    // Copy shared variables to local variables
+    integer _seed = seed
+    integer _n_4 = n_4
+    integer _iteration = iteration
+    
+    // Example seed: 4249729 = 00000000 01000000 11011000 10000001
+    // index will be: 129, 216, 64, 0
+    // 0: seed << 24 >> 24, 1: seed << 16 >> 24,  2: seed << 8 >> 24, 3: seed >> 24
+    integer index = _seed SHIFT_LEFT 24 SHIFT_RIGHT 24
+    _n_4 = _n_4 + bits[index]
+    print("seed is: ", _seed)
+    
+    index = _seed SHIFT_LEFT 16 SHIFT_RIGHT 24
+    _n_4 = _n_4 + bits[index]
+    
+    index = _seed SHIFT_LEFT 8 SHIFT_RIGHT 24
+    _n_4 = _n_4 + bits[index]
+    
+    index = _seed SHIFT_RIGHT 24
+    _n_4 = _n_4 + bits[index]
+    
+    _seed = _seed + plus
+    _iteration = _iteration + 1
+    
+    // Set shared variables
+    n_4 = _n_4
+    seed = _seed
+    iteration = _iteration
+    
+    // print("_n_4: ", _n_4, ", _iteration: ", _iteration)
+    if (_iteration < ITER) {
+        next t_BW_btbl_bitcount
+    } else {
+        next t_select_func
+    }
+}
+
+task t_AR_btbl_bitcount {
+    // Copy shared variables to local variables
+    integer _seed = seed
+    integer _n_5 = n_5
+    integer _iteration = iteration
+    
+    integer index = _seed SHIFT_LEFT 24 SHIFT_RIGHT 24
+    _n_5 = _n_5 + bits[index]
+    
+    print("seed is: ", _seed)
+    
+    index = _seed SHIFT_LEFT 16 SHIFT_RIGHT 24
+    _n_5 = _n_5 + bits[index]
+    
+    index = _seed SHIFT_LEFT 8 SHIFT_RIGHT 24
+    _n_5 = _n_5 + bits[index]
+    
+    index = _seed SHIFT_RIGHT 24
+    _n_5 = _n_5 + bits[index]
+    
+    _seed = _seed + plus
+    _iteration = _iteration + 1
+    
+    // Set shared variables
+    n_5 = _n_5
+    seed = _seed
+    iteration = _iteration
+    
+    // print("_n_5: ", _n_5, ", _iteration: ", _iteration)
+    if (_iteration < ITER) {
+        next t_AR_btbl_bitcount
+    } else {
+        next t_select_func
+    }
+}
+
+task t_bit_shifter {
+    // Copy shared variables to local variables
+    integer _seed = seed
+    integer _n_6 = n_6
+    integer _iteration = iteration
+    
+    integer i = 0
+    integer nn
+    integer tmp_seed = _seed
+    
+    print("seed is: ", _seed)
+    
+    for (nn = 0;  0 < tmp_seed; tmp_seed = tmp_seed SHIFT_RIGHT 1) {
+        i = i + 1
+        
+        if (i < 8 * CHAR_BIT) { // (unsigned int) is 64 bits
+            nn = nn + (tmp_seed AND_BITWISE 1)   
+        } else {
+            break
+        }
+    }
+    _n_6 = _n_6 + nn
+    _seed = _seed + plus
+    _iteration = _iteration + 1
+    
+    // Set shared variables
+    n_6 = _n_6
+    seed = _seed
+    iteration = _iteration
+    
+    // print("_n_6: ", _n_6, ", _iteration: ", _iteration)
+    if (_iteration < ITER) {
+        next t_bit_shifter
+    } else {
+        next t_select_func
+    }
+}
+
+task t_end {
+    integer _pinCont = pinCont
+    
+    pinCont = 0
+    
+    print("***** n_0: ", n_0)
+    print("***** n_1: ", n_1)
+    print("***** n_2: ", n_2)
+    print("***** n_3: ", n_3)
+    print("***** n_4: ", n_4)
+    print("***** n_5: ", n_5)
+    print("***** n_6: ", n_6)
+    
+    end
+    // next t_init
+}
