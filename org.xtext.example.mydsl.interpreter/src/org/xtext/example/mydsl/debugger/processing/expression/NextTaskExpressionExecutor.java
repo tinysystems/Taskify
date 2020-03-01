@@ -48,9 +48,9 @@ public class NextTaskExpressionExecutor extends AbstractStackHelper implements I
     
     private void finishPreviousTask(String id) {
         System.out.println("Task '" + id + "' is executed.");
+        System.out.println();
         
-        // TODO: Empty callstack
-        // removeCallStack(id);
+        removeCallStack(id);
     }
     
     private void checkEndTask() {

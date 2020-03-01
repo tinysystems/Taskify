@@ -1,3 +1,4 @@
+//grammar org.xtext.example.mydsl.MyDsl hidden(WS, ML_COMMENT, SL_COMMENT)
 grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.common.Terminals
 
 generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
@@ -12,6 +13,9 @@ InkApp:
     entry = EntryTask
     tasks+=Task*
 ;
+
+@Override
+terminal INT returns ecore::EInt: "0000000000";
 
 terminal FLOAT returns ecore::EFloat:
     ('-')?(('0'..'9')+ '.' ('0'..'9')+)

@@ -14,7 +14,7 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {
         EList<Atomic> callParameters = expression.getParameters().getParameter();
         FunctionDefinitionParameters functionDefinitionTypedParameters = expression.getFunction().getParameters();
         String callerId = id;
-        id = expression.getFunction().getName() + "_" + id;
+        id = id + "_" + expression.getFunction().getName();
         
         addCallStack(functionDefinitionTypedParameters, callParameters, id, callerId);
         
@@ -35,7 +35,7 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {
     // Add all parameters to call stack with their values based on call arguments
     private static void addCallStack(FunctionDefinitionParameters functionDefinitionTypedParameters, EList<Atomic> callParameters, String id, String callerId) {
         int definitionParametersCount = functionDefinitionTypedParameters.getTypedVariableList().size();
-        addCallStackItem(callerId);
+        addCallStackItem(id);
         
         for (int i = 0; i < definitionParametersCount; i++) {
             String name = functionDefinitionTypedParameters.getTypedVariableList().get(i).getName();

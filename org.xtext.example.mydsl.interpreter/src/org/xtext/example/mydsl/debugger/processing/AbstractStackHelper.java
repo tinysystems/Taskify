@@ -10,6 +10,7 @@ import org.xtext.example.mydsl.debugger.context.CallStackItem;
 import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.context.SymbolTable;
 import org.xtext.example.mydsl.debugger.processing.expression.OperationExpressionExecutor;
+import org.xtext.example.mydsl.myDsl.ArrayDimension;
 import org.xtext.example.mydsl.myDsl.ArrayReference;
 import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.BooleanReference;
@@ -208,10 +209,33 @@ public abstract class AbstractStackHelper {
     private static Object decoupleVariableAtomic(Atomic atomic, String id) {
         Object m_return = null;
         if (atomic instanceof ArrayReference) {
+            long index = 0;
             Symbol symbol = lookupSymbolByAtomic(atomic, id);
             Object[] arrayValues = (Object[]) symbol.getVariableValue();
-            long index = ((ArrayReference) atomic).getIndex().getSize();
-            m_return = arrayValues[(int) index];
+            ArrayDimension dimension = ((ArrayReference) atomic).getIndex();
+            
+            if (dimension.getIndex() != null) {
+                String indexName = getArrayReferenceName(dimension.getIndex());
+                Symbol indexSymbol = lookupSymbolByString(indexName, id);
+                
+                if (indexSymbol != null) {
+                    try {
+                        index = (long) indexSymbol.getVariableValue();
+                    } catch (Exception e) {
+                        stopExecution(indexName + ", as index, must be integer line #" + getLineNumber(atomic));
+                    }
+                } else {
+                    stopExecution(indexName + " is not in the scope at line #" + getLineNumber(atomic));
+                }
+                
+            } else {
+                index = (long) dimension.getSize();
+            }
+            
+            if (index < 0 || index > arrayValues.length - 1) {
+                stopExecution("Index " + index + " is out of bounds for length " + arrayValues.length + getLineNumberText(atomic));
+            } 
+            m_return = arrayValues[(int) index];            
         } else if (atomic instanceof VariableReference) {
             Symbol symbol = lookupSymbolByAtomic(atomic, id);
             m_return = symbol.getVariableValue();
@@ -225,6 +249,8 @@ public abstract class AbstractStackHelper {
             m_return = decouplePrimitiveAtomic(atomic);
         } else if(atomic instanceof Variable) {
             m_return = decoupleVariableAtomic(atomic, id);
+        } else {
+            stopExecution("Type of symbol <" + getExpressionText(atomic) + "> could not be recognised at line #" + getLineNumber(atomic));
         }
         return m_return;
     }
@@ -241,7 +267,7 @@ public abstract class AbstractStackHelper {
         return false;
     }
     
-    private static String getArrayReferenceName(VariableSymbol array) {
+    protected static String getArrayReferenceName(VariableSymbol array) {
         String name = null;
         if (array instanceof SharedVariableExpression) {
             name = ((SharedVariableExpression) array).getName();
@@ -371,6 +397,10 @@ public abstract class AbstractStackHelper {
     public static int getLineNumber(EObject expression) {
         INode node = NodeModelUtils.getNode(expression);
         return node.getStartLine();
+    }
+    
+    public static String getLineNumberText(EObject expression) {
+        return " at line #" + getLineNumber(expression);
     }
     
     public static String getExpressionText(EObject expression) {

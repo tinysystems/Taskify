@@ -5,6 +5,7 @@ import org.xtext.example.mydsl.myDsl.ArrayAssignment
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
 import org.xtext.example.mydsl.generator.common.CommonGenerator
 import org.xtext.example.mydsl.myDsl.OperationExpression
+import org.xtext.example.mydsl.myDsl.BuiltinRandomFunction
 
 class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
     VariableDeclerationExpression expression
@@ -30,6 +31,9 @@ class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
         if (this.expression.assignment !== null) {
             if (isArray) {
                 result += " = " + OperationExpressionGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)    
+            } else if (this.expression.assignment.expression instanceof BuiltinRandomFunction) {
+                // TODO
+                result += " = " +  generator.generate(this.expression.assignment.expression as BuiltinRandomFunction) 
             } else {
                 result += " = " + generator.generate(this.expression.assignment.expression as OperationExpression)
             }

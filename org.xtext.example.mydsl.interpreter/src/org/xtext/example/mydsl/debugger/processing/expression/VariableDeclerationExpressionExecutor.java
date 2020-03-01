@@ -6,6 +6,8 @@ import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayAssignment;
+import org.xtext.example.mydsl.myDsl.BuiltinRandomFunction;
+import org.xtext.example.mydsl.myDsl.CustomFunctionCallExpression;
 import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression;;
 
@@ -21,11 +23,11 @@ public class VariableDeclerationExpressionExecutor extends AbstractStackHelper i
 
     @Override
     public void execute(String id) {
-        Symbol symbol = executeVariableDeclarationExpression(this.expression, id);
+        Symbol symbol = executeVariableDeclarationExpression(this.expression, this.executor, id);
         addCallStackBySymbol(symbol, id);
     }
     
-    public static Symbol executeVariableDeclarationExpression(VariableDeclerationExpression expression, String id) {
+    public static Symbol executeVariableDeclarationExpression(VariableDeclerationExpression expression, ExpressionSwitcher executor, String id) {
         String name = expression.getName();
         String type = expression.getType();
         String scope = id;
@@ -46,6 +48,12 @@ public class VariableDeclerationExpressionExecutor extends AbstractStackHelper i
                     value = VariableAssignmentExpressionExecutor.evaluateValue((Operation) assignmentExpression, id, value, type);
                 } else if (assignmentExpression instanceof ArrayAssignment){                    
                     value = VariableAssignmentExpressionExecutor.evaluateValue((ArrayAssignment) assignmentExpression, id, (Object[]) value, size, type);
+                } else if (assignmentExpression instanceof BuiltinRandomFunction) {
+                    value = BuiltinFunctionCallExpressionExecutor.builtinRandomFunction();
+                } else if (assignmentExpression instanceof CustomFunctionCallExpression) {
+                    if (CustomFunctionCallExpressionExecutor.validateParameters((CustomFunctionCallExpression) assignmentExpression, id)) {
+                        value = CustomFunctionCallExpressionExecutor.call((CustomFunctionCallExpression) assignmentExpression, executor, id);
+                    }
                 }
             } else {
                 System.out.println("Typo while defining local variable " + name);

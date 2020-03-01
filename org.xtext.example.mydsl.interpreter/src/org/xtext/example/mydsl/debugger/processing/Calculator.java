@@ -184,10 +184,10 @@ public class Calculator {
             result = (leftValue | rightValue);
             break;
         case SHIFT_LEFT:
-            result = (leftValue << rightValue);
+            result = ((int) leftValue << rightValue);
             break;
         case SHIFT_RIGHT:
-            result = (leftValue >> rightValue);
+            result = ((int) leftValue >>> rightValue);
             break;
         default:
             AbstractStackHelper.stopExecution("Bitwise operator '" + operator + "' could not be recognized.");
