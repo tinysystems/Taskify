@@ -44,6 +44,7 @@ public class VariableDeclerationExpressionExecutor extends AbstractStackHelper i
         if (expression.getAssignment() != null) {
             EObject assignmentExpression = expression.getAssignment().getExpression();
             if (assignmentExpression != null) {
+                //  expression = (OperationExpression | ArrayAssignment | BuiltinRandomFunction | CustomFunctionCallExpression)
                 if (assignmentExpression instanceof Operation) {
                     value = VariableAssignmentExpressionExecutor.evaluateValue((Operation) assignmentExpression, id, value, type);
                 } else if (assignmentExpression instanceof ArrayAssignment){                    

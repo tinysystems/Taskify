@@ -4,6 +4,7 @@ import org.xtext.example.mydsl.myDsl.IfExpression
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
+import org.xtext.example.mydsl.generator.common.CommonGenerator
 
 class IfExpressionGenerator implements IExpressionGenerator {
     IfExpression expression;
@@ -24,6 +25,8 @@ class IfExpressionGenerator implements IExpressionGenerator {
         
         if (this.expression.elsebody !== null) {
             result += elseTemplate(this.generator, this.expression.elsebody.body)
+        } else {
+            result += CommonGenerator.newLine
         }
         
         return result
@@ -35,8 +38,7 @@ class IfExpressionGenerator implements IExpressionGenerator {
                 «FOR bodyElement: ifbody»
                     «generator.generate(bodyElement)»
                 «ENDFOR»
-            }
-        '''
+            } '''
     }
     
     def static String elseifTemplate(GeneratorSwitcher generator, EObject elseifcondition, EList<EObject> elseifbody) {
@@ -45,8 +47,7 @@ class IfExpressionGenerator implements IExpressionGenerator {
                 «FOR bodyElement: elseifbody»
                     «generator.generate(bodyElement)»
                 «ENDFOR»                
-            }
-        '''
+            } '''
     }
     
     def static String elseTemplate(GeneratorSwitcher generator, EList<EObject> elsebody) {

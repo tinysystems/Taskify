@@ -8,6 +8,7 @@ import org.xtext.example.mydsl.generator.common.VariableGenerator
 import org.xtext.example.mydsl.generator.common.SymbolTable
 import org.xtext.example.mydsl.generator.common.CommonGenerator
 import org.xtext.example.mydsl.myDsl.VariableAssignment
+import org.xtext.example.mydsl.generator.common.VariableAssignmentGenerator
 
 class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
     VariableAssignmentExpression expression
@@ -33,7 +34,7 @@ class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
         // Generate right side of definition
         if (expression.assignment !== null) {
             
-            val String right = generator.generate(expression.assignment.expression)
+            val String right = VariableAssignmentGenerator.generate(expression.assignment, generator)
             
             var String variableName = result
             if (leftVariable instanceof ArrayReference) {

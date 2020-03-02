@@ -1,11 +1,9 @@
 package org.xtext.example.mydsl.generator.expression
 
 import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
-import org.xtext.example.mydsl.myDsl.ArrayAssignment
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
 import org.xtext.example.mydsl.generator.common.CommonGenerator
-import org.xtext.example.mydsl.myDsl.OperationExpression
-import org.xtext.example.mydsl.myDsl.BuiltinRandomFunction
+import org.xtext.example.mydsl.generator.common.VariableAssignmentGenerator
 
 class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
     VariableDeclerationExpression expression
@@ -29,21 +27,11 @@ class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
         
 //        Generate right side of definition
         if (this.expression.assignment !== null) {
-            if (isArray) {
-                result += " = " + OperationExpressionGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)    
-            } else if (this.expression.assignment.expression instanceof BuiltinRandomFunction) {
-                // TODO
-                result += " = " +  generator.generate(this.expression.assignment.expression as BuiltinRandomFunction) 
-            } else {
-                result += " = " + generator.generate(this.expression.assignment.expression as OperationExpression)
-            }
+            result += " = " + VariableAssignmentGenerator.generate(this.expression.assignment, this.generator)
         }
         
         result += ";" + CommonGenerator.newLine
         return result
     }
-    
-//    def String variable() 
-//    '''«CommonGenerator.getCType(this.expression.type.type)» «this.expression.name»'''
 
 }

@@ -8,9 +8,47 @@ import org.xtext.example.mydsl.generator.GeneratorSwitcher
 import org.xtext.example.mydsl.generator.common.AtomicGenerator
 import org.xtext.example.mydsl.myDsl.InParanthesisOperation
 import org.eclipse.emf.common.util.EList
+import java.util.Map
+import com.google.common.collect.ImmutableMap
 
 class OperationExpressionGenerator implements IExpressionGenerator {
     OperationExpression expression;
+    
+    static Map<String, String> logicalOperators = ImmutableMap.builder.
+        put("AND", "&&").
+        put("OR", "||").
+        build
+
+    static Map<String, String> bitwiseOperators = ImmutableMap.builder.
+        put("AND_BITWISE", "&").
+        put("OR_BITWISE", "|").
+        put("SHIFT_LEFT", "<<").
+        put("SHIFT_RIGHT", ">>").
+        build
+      
+    static Map<String, String> comparisionOperators = ImmutableMap.builder.
+        put(">=", ">=").
+        put("<=", "<=").
+        put("==", "==").
+        put("!=", "!=").
+        put("<", "<").
+        put(">", ">").
+        build
+    
+    static Map<String, String> arithmeticOperators = ImmutableMap.builder.
+        put("+", "+").
+        put("-", "-").
+        put("*", "*").
+        put("/", "/").
+        build
+    
+    static Map<String, String> operators = ImmutableMap.builder.
+        putAll(logicalOperators).
+        putAll(bitwiseOperators).
+        putAll(comparisionOperators).
+        putAll(arithmeticOperators).
+        build
+    
     
     new (OperationExpression expression, GeneratorSwitcher generator) {
         this.expression = expression
@@ -25,12 +63,23 @@ class OperationExpressionGenerator implements IExpressionGenerator {
     def static String getPrimaryOperation(Operation operation) {
         var String result = ""
         if (operation instanceof Atomic) {
-            // list.add(left);
             result += AtomicGenerator.generate(operation);
         } else if (operation instanceof InParanthesisOperation) {
             result += "(" + getOperation((operation as InParanthesisOperation).getOperation()) + ")"
         } else if (operation instanceof Operation) {
             result += getOperation(operation as Operation)
+        }
+        
+        return result
+    }
+    
+    def static String getOperator(String operator) {
+        var String result = ""
+        val String op = operators.get(operator)
+        if (op !== null) {
+            result = op
+        } else {
+            result = "<Unsupported operator>"
         }
         
         return result
@@ -47,7 +96,7 @@ class OperationExpressionGenerator implements IExpressionGenerator {
         
         val EList<String> operators = operation.getOperator();
         if (operators.size() == 1) {
-            result += " " + operators.get(0) + " "
+            result += " " + getOperator(operators.get(0)) + " "
         }
         
         val EList<Operation> rights = operation.getRight();
