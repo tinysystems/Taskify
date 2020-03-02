@@ -3,16 +3,13 @@
  */
 package org.xtext.example.mydsl.ui.wizard
 
-
-import org.eclipse.core.runtime.Status
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtext.ui.XtextProjectHelper
 import org.eclipse.xtext.ui.util.PluginProjectFactory
 import org.eclipse.xtext.ui.wizard.template.IProjectGenerator
 import org.eclipse.xtext.ui.wizard.template.IProjectTemplateProvider
 import org.eclipse.xtext.ui.wizard.template.ProjectTemplate
-
-import static org.eclipse.core.runtime.IStatus.*
+import org.xtext.example.mydsl.ui.wizard.templates.AppTemplates
 
 /**
  * Create a list with all project templates to be shown in the template new project wizard.
@@ -21,35 +18,18 @@ import static org.eclipse.core.runtime.IStatus.*
  */
 class MyDslProjectTemplateProvider implements IProjectTemplateProvider {
     override getProjectTemplates() {
-        #[new HelloWorldProject]
+        #[
+            new HelloWorldProject, 
+            new AddTwoIntegersProject,
+            new FunctionCallProject
+        ]
     }
 }
 
-@ProjectTemplate(label="Hello World", icon="project_template.png", description="<p><b>Hello World</b></p>
+@ProjectTemplate(label="Hello World", icon="project_template.png", description="<p><b>Hello World Sample</b></p>
 <p>This is a parameterized hello world for MyDsl. You can set a parameter to modify the content in the generated file
 and a parameter to set the package the file is created in.</p>")
 final class HelloWorldProject {
-    val advanced = check("Advanced:", false)
-    val advancedGroup = group("Properties")
-    val name = combo("Name:", #["Xtext", "World", "Foo", "Bar"], "The name to say 'Hello' to", advancedGroup)
-    val path = text("Package:", "mydsl", "The package path to place the files in", advancedGroup)
-
-    override protected updateVariables() {
-        name.enabled = advanced.value
-        path.enabled = advanced.value
-        if (!advanced.value) {
-            name.value = "Xtext"
-            path.value = "mydsl"
-        }
-    }
-
-    override protected validate() {
-        if (path.value.matches('[a-z][a-z0-9_]*(/[a-z][a-z0-9_]*)*'))
-            null
-        else
-            new Status(ERROR, "Wizard", "'" + path + "' is not a valid package name")
-    }
-
     override generateProjects(IProjectGenerator generator) {
         generator.generate(new PluginProjectFactory => [
             projectName = projectInfo.projectName
@@ -57,12 +37,41 @@ final class HelloWorldProject {
             projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
             builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
             folders += "src"
-            addFile('''src/«path»/Model.mydsl''', '''
-                /*
-                 * This is an example model
-                 */
-                Hello «name»!
-            ''')
+            
+            addFile('''src/HelloWorld.mydsl''', AppTemplates.helloWorldTemplate)
         ])
     }
 }
+
+@ProjectTemplate(label="Add Two Integers", icon="project_template.png", description="<p><b>Add Two Integers Sample</b></p>
+<p>Implements operand summary operation in one task</p>")
+final class AddTwoIntegersProject {
+    override generateProjects(IProjectGenerator generator) {
+        generator.generate(new PluginProjectFactory => [
+            projectName = projectInfo.projectName
+            location = projectInfo.locationPath
+            projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
+            builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
+            folders += "src"
+            
+            addFile('''src/AddTwoIntegers.mydsl''', AppTemplates.addTwoIntegers)
+        ])
+    }
+}
+
+@ProjectTemplate(label="Function Call", icon="project_template.png", description="<p><b>Function Call Sample</b></p>
+<p>Implements different function calls from different tasks</p>")
+final class FunctionCallProject {
+    override generateProjects(IProjectGenerator generator) {
+        generator.generate(new PluginProjectFactory => [
+            projectName = projectInfo.projectName
+            location = projectInfo.locationPath
+            projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
+            builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
+            folders += "src"
+            
+            addFile('''src/FunctionCall.mydsl''', AppTemplates.functionCallTemplate)
+        ])
+    }
+}
+

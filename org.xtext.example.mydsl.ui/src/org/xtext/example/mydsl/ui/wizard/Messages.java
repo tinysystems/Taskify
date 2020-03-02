@@ -7,6 +7,10 @@ public class Messages extends NLS {
 	
 	public static String HelloWorldProject_Label;
 	public static String HelloWorldProject_Description;
+	public static String AddTwoIntegersProject_Label;
+	public static String AddTwoIntegersProject_Description;
+	public static String FunctionCallProject_Label;
+	public static String FunctionCallProject_Description;
 	
 	static {
 	// initialize resource bundle
