@@ -1,6 +1,27 @@
 package org.xtext.example.mydsl.ui.wizard.templates
 
-class AppTemplates {    
+class AppTemplates {
+    def static String emptyTemplate() {
+        '''
+        // Define task shared variables
+        // SHARED integer shared1
+        
+        // Define persistent variables
+        // CONSTANT integer constant1 = 5
+        
+        entry task first {
+            print("Hello World")
+            
+            next second
+        }
+        
+        task second {
+            
+            end
+        }
+        '''    
+    }
+    
     def static String helloWorldTemplate() {
         '''
         entry task t_init {
@@ -17,7 +38,7 @@ class AppTemplates {
         SHARED integer result
         
         // Define persistent variables
-        CONSTANT integer op1  = 5
+        CONSTANT integer op1 = 5
         
         entry task t_init {
             integer op2 = 5 * 2
@@ -45,7 +66,7 @@ class AppTemplates {
         SHARED integer result
         
         // Define persistent variables
-        CONSTANT integer op1  = 5
+        CONSTANT integer op1 = 5
         CONSTANT integer op2 = 5
         
         // Define function definitions

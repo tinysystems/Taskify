@@ -175,7 +175,7 @@ task t_bitcount {
     iteration = _iteration
     
     // print("_n_1: ", _n_1, ", _iteration: ", _iteration)
-    if (iteration < ITER) {
+    if (_iteration < ITER) {
     	next t_bitcount
     } else {
     	next t_select_func
@@ -387,3 +387,4 @@ task t_end {
     end
     // next t_init
 }
+

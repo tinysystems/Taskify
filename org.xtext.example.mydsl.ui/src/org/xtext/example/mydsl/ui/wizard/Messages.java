@@ -11,6 +11,8 @@ public class Messages extends NLS {
 	public static String AddTwoIntegersProject_Description;
 	public static String FunctionCallProject_Label;
 	public static String FunctionCallProject_Description;
+	public static String EmptyProject_Label;
+	public static String EmptyProject_Description;
 	
 	static {
 	// initialize resource bundle

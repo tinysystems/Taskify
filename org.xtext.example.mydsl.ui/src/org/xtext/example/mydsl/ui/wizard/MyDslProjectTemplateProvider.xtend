@@ -19,10 +19,27 @@ import org.xtext.example.mydsl.ui.wizard.templates.AppTemplates
 class MyDslProjectTemplateProvider implements IProjectTemplateProvider {
     override getProjectTemplates() {
         #[
+            new EmptyProject,
             new HelloWorldProject, 
             new AddTwoIntegersProject,
             new FunctionCallProject
         ]
+    }
+}
+
+@ProjectTemplate(label="Empty Project", icon="project_template.png", description="<p><b>Empty Project</b></p>
+<p>Just creates an empty project structure.</p>")
+final class EmptyProject {
+    override generateProjects(IProjectGenerator generator) {
+        generator.generate(new PluginProjectFactory => [
+            projectName = projectInfo.projectName
+            location = projectInfo.locationPath
+            projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
+            builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
+            folders += "src"
+            
+            addFile('''src/«projectInfo.projectName».mydsl''', AppTemplates.emptyTemplate)
+        ])
     }
 }
 
