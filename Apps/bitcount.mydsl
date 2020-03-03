@@ -1,15 +1,3 @@
-SHARED integer pinCont
-SHARED integer n_0
-SHARED integer n_1
-SHARED integer n_2
-SHARED integer n_3
-SHARED integer n_4
-SHARED integer n_5
-SHARED integer n_6
-SHARED integer function
-SHARED integer iteration
-SHARED integer seed
-
 CONSTANT integer bits[256] = [
     0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,  /* 0   - 15  */
     1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,  /* 16  - 31  */
@@ -28,34 +16,45 @@ CONSTANT integer bits[256] = [
     3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,  /* 224 - 239 */
     4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8   /* 240 - 255 */
 ]
- 
 
 CONSTANT integer SEED = 4
-CONSTANT integer ITER = 85
+CONSTANT integer ITER = 10
 CONSTANT integer CHAR_BIT = 8
 CONSTANT integer plus = 13
 
+SHARED integer pinCont
+SHARED integer n_0
+SHARED integer n_1
+SHARED integer n_2
+SHARED integer n_3
+SHARED integer n_4
+SHARED integer n_5
+SHARED integer n_6
+SHARED integer function
+SHARED integer iteration
+SHARED integer seed
+
 integer recursive_cnt(integer x) {
-	integer index = x AND_BITWISE 15
-	integer cnt = bits[index]
-	integer tmp_cnt
-	
-	x = x SHIFT_RIGHT 4
-	if (x != 0) {
-		tmp_cnt = recursive_cnt(x)
-		cnt = cnt + tmp_cnt
-	}
-	
-	return cnt
+    integer index = x AND_BITWISE 15
+    integer cnt = bits[index]
+    integer tmp_cnt
+    
+    x = x SHIFT_RIGHT 4
+    if (x != 0) {
+        tmp_cnt = recursive_cnt(x)
+        cnt = cnt + tmp_cnt
+    }
+    
+    return cnt
 }
 
 integer non_recursive_cnt(integer x) {
-	integer index = x AND_BITWISE 0x0000000F
+    integer index = x AND_BITWISE 0x0000000F
     integer cnt = bits[index]
     
     x = x SHIFT_RIGHT 4
     while (x != 0) {
-    	index = x AND_BITWISE 0x0000000F
+        index = x AND_BITWISE 0x0000000F
         cnt = cnt + bits[index]
         
         x = x SHIFT_RIGHT 4
@@ -176,9 +175,9 @@ task t_bitcount {
     
     // print("_n_1: ", _n_1, ", _iteration: ", _iteration)
     if (_iteration < ITER) {
-    	next t_bitcount
+        next t_bitcount
     } else {
-    	next t_select_func
+        next t_select_func
     }
 }
 
@@ -387,4 +386,3 @@ task t_end {
     end
     // next t_init
 }
-

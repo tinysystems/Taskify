@@ -1,0 +1,304 @@
+// Define persistent variables
+CONSTANT integer NIL = 0
+CONSTANT integer DICT_SIZE = 512
+CONSTANT integer BLOCK_SIZE = 64
+
+CONSTANT integer NUM_LETTERS_IN_SAMPLE = 2
+CONSTANT integer LETTER_MASK = 0x00FF
+CONSTANT integer LETTER_SIZE_BITS = 8
+CONSTANT integer NUM_LETTERS = (LETTER_MASK + 1)
+
+// Define task shared variables
+SHARED integer pinCont
+SHARED integer v_letter_idx
+SHARED integer v_letter
+SHARED integer v_prev_sample
+SHARED integer v_out_len
+SHARED integer v_node_count
+SHARED integer v_sample
+SHARED integer v_sample_count
+SHARED integer v_sibling
+SHARED integer v_child
+SHARED integer v_parent
+SHARED integer v_parent_next
+SHARED integer v_parent_node_letter
+SHARED integer v_parent_node_sibling
+SHARED integer v_parent_node_child
+SHARED integer v_sibling_node_letter
+SHARED integer v_sibling_node_sibling
+SHARED integer v_sibling_node_child
+SHARED integer v_symbol
+SHARED integer v_compressed_data_letter[BLOCK_SIZE]
+SHARED integer v_compressed_data_sibling[BLOCK_SIZE]
+SHARED integer v_compressed_data_child[BLOCK_SIZE]
+SHARED integer v_dict_letter[DICT_SIZE]
+SHARED integer v_dict_sibling[DICT_SIZE]
+SHARED integer v_dict_child[DICT_SIZE]
+
+integer acquire_sample(integer prev_sample) {
+    integer sample = (prev_sample + 1) AND_BITWISE 0x03
+    return sample
+}
+
+entry task t_init {
+    pinCont = 1
+    v_parent_next = 0
+    v_out_len = 0
+    v_letter = 0
+    v_prev_sample = 0
+    v_letter_idx = 0
+    v_sample_count = 1
+    next task_init_dict
+}
+
+task task_init_dict {
+    integer _v_letter = v_letter
+    
+    v_dict_letter[_v_letter] = _v_letter
+    v_dict_sibling[_v_letter] = NIL
+    v_dict_child[_v_letter] = NIL
+    
+    // Set task shared variable
+    v_letter = _v_letter + 1
+    
+    if (_v_letter < NUM_LETTERS) {
+        next task_init_dict
+    } else {
+        v_node_count = NUM_LETTERS
+        next task_sample
+    }
+}
+
+task task_sample {
+    integer _v_letter_idx = v_letter_idx
+    integer _next_v_letter_idx = _v_letter_idx + 1
+    
+    if (_next_v_letter_idx == NUM_LETTERS_IN_SAMPLE) {
+        _next_v_letter_idx = 0
+    }
+    
+    if (_v_letter_idx == 0) {
+        v_letter_idx = _next_v_letter_idx
+        next task_measure_temp
+    } else {
+        v_letter_idx = _next_v_letter_idx
+        next task_letterize    
+    }
+}
+
+task task_measure_temp {
+    integer _v_prev_sample = v_prev_sample
+    integer sample = acquire_sample(_v_prev_sample)
+    
+    _v_prev_sample = sample
+    
+    // Set task shared variables
+    v_prev_sample = _v_prev_sample
+    v_sample = sample
+    
+    next task_letterize
+}
+
+task task_letterize {
+    integer _v_letter_idx = v_letter_idx
+    integer letter_shift
+    integer letter
+    
+    if (_v_letter_idx == 0) {
+        _v_letter_idx = NUM_LETTERS_IN_SAMPLE
+    } else {
+        _v_letter_idx = _v_letter_idx - 1
+    }
+    
+    letter_shift = LETTER_SIZE_BITS * _v_letter_idx
+    
+    letter = (v_sample AND_BITWISE (LETTER_MASK SHIFT_LEFT letter_shift)) SHIFT_RIGHT letter_shift
+    
+    v_letter = letter
+    
+    next task_compress
+}
+
+task task_compress {
+    integer parent = v_parent_next
+    integer __cry
+    
+    __cry = v_dict_child[parent]
+    v_sibling = __cry
+    v_parent_node_child = __cry
+    v_child = __cry
+    
+    __cry = v_dict_letter[parent]
+    v_parent_node_letter = __cry
+    
+    __cry = v_dict_sibling[parent]
+    v_parent_node_sibling = __cry
+    
+    v_parent = parent
+    
+    v_sample_count = v_sample_count + 1
+    next task_find_sibling
+}
+
+task task_find_sibling {
+    integer i = v_sibling
+    integer __cry
+    integer starting_node_idx
+    
+    if (i != NIL) {
+        __cry = v_letter
+        
+        if (v_dict_letter[i] != __cry) {
+            // found
+            __cry = v_sibling
+            v_parent_next = __cry
+            
+            next task_letterize
+        } else if (v_dict_sibling[i] != 0) {
+            // continue traversing the siblings
+            __cry = v_dict_sibling[i]
+            v_sibling = __cry
+            
+            next task_find_sibling
+        } else {
+            starting_node_idx = v_letter
+            v_parent_next = starting_node_idx
+            
+            if (v_child == NIL) {
+                next task_add_insert
+            } else {
+                next task_add_node
+            }
+        }
+    } else {
+        starting_node_idx = v_letter
+        v_parent_next = starting_node_idx
+        
+        if (v_child == NIL) {
+            next task_add_insert
+        } else {
+            next task_add_node
+        }
+    }
+}
+
+task task_add_node {
+    integer i = v_sibling
+    integer next_sibling
+    integer __cry
+    
+    if (v_dict_sibling[i] != NIL) {
+        next_sibling = v_dict_sibling[i]
+        v_sibling = next_sibling
+        
+        next task_add_node
+    } else {
+        __cry = v_dict_letter[i]
+        v_sibling_node_letter = __cry
+        
+        __cry = v_dict_sibling[i]
+        v_sibling_node_sibling = __cry
+        
+        __cry = v_dict_child[i]
+        v_sibling_node_child = __cry
+        
+        next task_add_insert
+    }
+}
+
+task task_add_insert {
+    integer child
+    integer __cry
+    integer i
+    integer last_sibling
+    
+    if (v_node_count == DICT_SIZE) {
+        // wipe the table if full
+        while(1 == 1) {}        
+    }
+    
+    child = v_node_count
+    
+    if (v_parent_node_child == NIL) {
+        // the only child
+        v_parent_node_child = child
+        i = v_parent
+        
+        __cry = v_parent_node_letter
+        v_dict_letter[i] = __cry
+        
+        __cry = v_parent_node_sibling
+        v_dict_sibling[i] = __cry
+        
+        __cry = v_parent_node_child
+        v_dict_child[i] = __cry
+    } else {
+        // a sibling
+        last_sibling = v_sibling
+        v_sibling_node_sibling = child
+        
+        __cry = v_sibling_node_letter
+        v_dict_letter[last_sibling] = __cry
+        
+        __cry = v_sibling_node_sibling
+        v_dict_sibling[last_sibling] = __cry
+        
+        __cry = v_sibling_node_child
+        v_dict_child[last_sibling] = __cry
+    }
+    __cry = v_letter
+    v_dict_letter[child] = __cry
+    v_dict_sibling[child] = NIL
+    v_dict_child[child] = NIL
+        
+    __cry = v_parent
+    v_symbol = __cry
+    
+    v_node_count = v_node_count + 1
+    
+    next task_append_compressed
+}
+
+task task_append_compressed {
+    integer __cry = v_symbol
+    integer i = v_out_len
+    
+    v_compressed_data_letter[i] = __cry
+    v_out_len = v_out_len + 1
+    
+    if (v_out_len == BLOCK_SIZE) {
+        next task_print
+    } else {
+        next task_sample
+    }
+}
+
+task task_print {
+    integer i
+    integer index
+    
+    for (i = 0; i < BLOCK_SIZE; i = i + 1) {
+        index = v_compressed_data_letter[i]
+        print("task_print index: ", index)
+    }
+    next task_done
+}
+
+task task_done {
+    end
+//    next t_init
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
