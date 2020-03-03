@@ -4,6 +4,7 @@ import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
 import org.xtext.example.mydsl.generator.common.CommonGenerator
 import org.xtext.example.mydsl.generator.common.VariableAssignmentGenerator
+import org.xtext.example.mydsl.generator.common.AtomicGenerator
 
 class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
     VariableDeclerationExpression expression
@@ -17,15 +18,15 @@ class VariableDeclerationExpressionGenerator implements IExpressionGenerator {
     override String generate() {
         var String result = ""
         
-        val boolean isArray = this.expression.dimension !== null
+        // Generate variable type and name
+        result += CommonGenerator.getVariableTypeName(this.expression.type) + " " + this.expression.name
         
-//        Generate variable type and name
-        result += CommonGenerator.getVariableTypeName(this.expression.type, this.expression.name)
-        if (isArray) {
-            result += CommonGenerator.getDimension(this.expression.dimension, -1)
+        // Generate dimension part
+        if (this.expression.dimension !== null) {
+            result += AtomicGenerator.generateDimension(this.expression.dimension.index, true)        
         } 
         
-//        Generate right side of definition
+        // Generate right side of definition
         if (this.expression.assignment !== null) {
             result += " = " + VariableAssignmentGenerator.generate(this.expression.assignment, this.generator)
         }

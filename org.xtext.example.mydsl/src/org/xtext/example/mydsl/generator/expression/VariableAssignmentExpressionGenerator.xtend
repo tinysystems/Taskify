@@ -4,11 +4,11 @@ import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression
 import org.xtext.example.mydsl.myDsl.Variable
 import org.xtext.example.mydsl.myDsl.ArrayReference
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
-import org.xtext.example.mydsl.generator.common.VariableGenerator
 import org.xtext.example.mydsl.generator.common.SymbolTable
 import org.xtext.example.mydsl.generator.common.CommonGenerator
 import org.xtext.example.mydsl.myDsl.VariableAssignment
 import org.xtext.example.mydsl.generator.common.VariableAssignmentGenerator
+import org.xtext.example.mydsl.generator.common.AtomicGenerator
 
 class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
     VariableAssignmentExpression expression
@@ -29,7 +29,7 @@ class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
         var String result = ""
         
         val Variable leftVariable = expression.variable
-        result = VariableGenerator.generate(leftVariable)
+        result = AtomicGenerator.generate(leftVariable, false)
         
         // Generate right side of definition
         if (expression.assignment !== null) {

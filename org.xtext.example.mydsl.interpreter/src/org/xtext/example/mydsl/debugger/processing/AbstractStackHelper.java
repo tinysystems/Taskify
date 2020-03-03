@@ -215,21 +215,19 @@ public abstract class AbstractStackHelper {
             ArrayDimension dimension = ((ArrayReference) atomic).getIndex();
             
             if (dimension.getIndex() != null) {
-                String indexName = getArrayReferenceName(dimension.getIndex());
-                Symbol indexSymbol = lookupSymbolByString(indexName, id);
-                
-                if (indexSymbol != null) {
+                Atomic atomicIndex = dimension.getIndex();
+                Object result = decoupleAtomic(atomicIndex, id);
+                if (result != null) {
                     try {
-                        index = (long) indexSymbol.getVariableValue();
+                        index = (long) result;
                     } catch (Exception e) {
-                        stopExecution(indexName + ", as index, must be integer line #" + getLineNumber(atomic));
+                        stopExecution(getExpressionText(atomicIndex) + ", as index, must be integer line #" + getLineNumber(atomic));
                     }
                 } else {
-                    stopExecution(indexName + " is not in the scope at line #" + getLineNumber(atomic));
+                    stopExecution(getExpressionText(atomicIndex) + " is not in the scope at line #" + getLineNumber(atomic));
                 }
                 
-            } else {
-                index = (long) dimension.getSize();
+                
             }
             
             if (index < 0 || index > arrayValues.length - 1) {
@@ -259,8 +257,12 @@ public abstract class AbstractStackHelper {
         for(Symbol symbol: callStackItem.getSymbolTable().getSymbolTable()) {
             if(target.equals(symbol.getName())) {
                 Object[] values = (Object[]) symbol.getVariableValue();
+                try {
                 values[(int) index] = value;
                 symbol.setVariableValue(values);
+                } catch (Exception e) {
+                    System.out.println("");
+                }
                 return true;
             }
         }
@@ -280,7 +282,8 @@ public abstract class AbstractStackHelper {
     }
     
     protected static void updateCallStackByArray(ArrayReference array, Object value, String callerId) {
-        long index = array.getIndex().getSize();
+        Atomic atomicIndex = array.getIndex().getIndex();
+        long index = (long) decoupleAtomic(atomicIndex, callerId);
         String target = getArrayReferenceName(array.getArrayReference());
         CallStackItem callStackItem = lookupStackItem(callerId);
         

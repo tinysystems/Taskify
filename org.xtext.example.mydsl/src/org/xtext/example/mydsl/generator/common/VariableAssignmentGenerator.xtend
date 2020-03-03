@@ -25,9 +25,9 @@ class VariableAssignmentGenerator {
             result = expression.function.name + "("
             val int parameterCount = expression.parameters.parameter.size
             if (parameterCount > 0) {
-                result += AtomicGenerator.generate(expression.parameters.parameter.get(0))
+                result += AtomicGenerator.generate(expression.parameters.parameter.get(0), true)
                 for (var int i = 1; i < parameterCount; i++) {
-                    result += ", " + AtomicGenerator.generate(expression.parameters.parameter.get(i))   
+                    result += ", " + AtomicGenerator.generate(expression.parameters.parameter.get(i), true)   
                 }
             }
             result += ")"

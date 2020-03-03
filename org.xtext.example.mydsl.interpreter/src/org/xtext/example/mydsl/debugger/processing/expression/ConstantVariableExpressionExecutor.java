@@ -5,6 +5,7 @@ import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ArrayAssignment;
+import org.xtext.example.mydsl.myDsl.Atomic;
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression;
 import org.xtext.example.mydsl.myDsl.Operation;
 import org.xtext.example.mydsl.myDsl.OperationExpression;
@@ -28,8 +29,9 @@ public class ConstantVariableExpressionExecutor extends AbstractStackHelper impl
         
         Object value = null;
         int size = 0;
-        if(expression.getDimension() != null && expression.getDimension().getSize() > 0) {
-            size = (int) expression.getDimension().getSize();
+        if(expression.getDimension() != null) {
+            Atomic atomicIndex = expression.getDimension().getIndex();
+            size = Integer.parseInt(decoupleAtomic(atomicIndex, id).toString());
             Object array[] = generateArrayValue(type, size);
             value = array;
         } else {

@@ -1,11 +1,5 @@
 package org.xtext.example.mydsl.generator.common
 
-import org.xtext.example.mydsl.myDsl.VariableSymbol
-import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
-import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
-import org.xtext.example.mydsl.myDsl.ArrayDimension
-import org.xtext.example.mydsl.myDsl.SharedVariableExpression
-
 class CommonGenerator {
     static String LONG = "uint32_t"
     static String FLOAT = "float"
@@ -38,7 +32,7 @@ class CommonGenerator {
         return result
     }
     
-    def static String getVariableTypeName(String DslType, String name) {
+    def static String getVariableTypeName(String DslType) {
         var String result = ""
         val String type = getCType(DslType)
 
@@ -47,51 +41,11 @@ class CommonGenerator {
         }
         
         result += type
-        result += " " + name
-        
-        if (type == STRING) {
-            result += dimension(100)
-        }        
         return result
     }
     
     def static String dimension(long index)
-    '''[«index as int»]'''
-    
-    def static String dimension(VariableSymbol symbolIndex, int index)
-    '''[«getVariableSymbol(symbolIndex, index)»]'''
-    
-    def static String getDimension(ArrayDimension dimension, long index) {
-        var String result = ""
-        val Object objIndex = dimension.size
-        if (index >= 0) {
-            result = dimension(index)
-        } else {
-            if (objIndex instanceof VariableSymbol) {
-                result = dimension(objIndex as VariableSymbol, -1)
-            } else if (objIndex instanceof Long) {
-                result = dimension(objIndex)
-            }
-        }
-        
-        return result
-    }
-        
-    def static String getVariableSymbol(VariableSymbol symbol, long index) {
-        var String result = ""
-        if (symbol instanceof VariableDeclerationExpression) {
-            result = (symbol as VariableDeclerationExpression).name
-            result += symbol.dimension !== null ? getDimension(symbol.dimension, index) : ""
-        } else if (symbol instanceof ConstantVariableExpression) {
-            result = (symbol as ConstantVariableExpression).name
-            result += symbol.dimension !== null ? getDimension(symbol.dimension, index) : ""
-        } else if (symbol instanceof SharedVariableExpression) {
-            result = (symbol as SharedVariableExpression).name
-            result += symbol.dimension !== null ? getDimension(symbol.dimension, index) : ""
-        }
-        return result
-    }
-    
+    '''[«index as int»]'''    
     
     def static String newLine() {
         return "\n"

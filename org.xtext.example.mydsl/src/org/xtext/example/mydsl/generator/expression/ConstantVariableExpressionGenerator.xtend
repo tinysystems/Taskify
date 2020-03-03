@@ -1,11 +1,11 @@
 package org.xtext.example.mydsl.generator.expression
 
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
-import org.xtext.example.mydsl.myDsl.ArrayAssignment
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
 import org.xtext.example.mydsl.generator.common.SymbolTable
 import org.xtext.example.mydsl.generator.common.CommonGenerator
-import org.xtext.example.mydsl.myDsl.OperationExpression
+import org.xtext.example.mydsl.generator.common.AtomicGenerator
+import org.xtext.example.mydsl.generator.common.VariableAssignmentGenerator
 
 class ConstantVariableExpressionGenerator implements IExpressionGenerator {
     ConstantVariableExpression expression
@@ -25,21 +25,17 @@ class ConstantVariableExpressionGenerator implements IExpressionGenerator {
         // var String result = "__nv "
         var String result = ""
         
-        val boolean isArray = this.expression.dimension !== null
+        // Generate variable type and name
+        result += CommonGenerator.getVariableTypeName(this.expression.type) + " " + this.expression.name
         
-//        Generate variable type and name
-        result += CommonGenerator.getVariableTypeName(type, name)
-        if (isArray) {
-            result += CommonGenerator.getDimension(this.expression.dimension, -1)
-        } 
+        // Generate dimension part
+        if (this.expression.dimension !== null) {
+            result += AtomicGenerator.generateDimension(this.expression.dimension.index, true)       
+        }
         
-//        Generate right side of definition if exists
+        // Generate right side of definition if exists
         if (this.expression.assignment !== null) {
-            if (isArray) {
-                result += " = " + OperationExpressionGenerator.getAssignment(this.expression.assignment.expression as ArrayAssignment)    
-            } else {
-                result += " = " + this.generator.generate(this.expression.assignment.expression as OperationExpression)
-            }
+            result += " = " + VariableAssignmentGenerator.generate(this.expression.assignment, this.generator)
         }
         
         result += ";" + CommonGenerator.newLine    

@@ -72,16 +72,15 @@ class MyDslGenerator extends AbstractGenerator {
         try {
             IncludeTable.add(IncludeTemplates.inkLibrary)
             
-            sharedContent = "__shared(" + "\n"
-            for (SharedVariableExpression shared: model.shareds) {                
-                sharedContent += CommonGenerator.tab + generator.generate(shared)
-            }
-            sharedContent += ")" + CommonGenerator.newLine
-            
             for (ConstantVariableExpression constant: model.constants) {
                 constantContent += generator.generate(constant)
             }
             
+            sharedContent = "__shared(" + "\n"
+            for (SharedVariableExpression shared: model.shareds) {                
+                sharedContent += CommonGenerator.tab + generator.generate(shared)
+            }
+            sharedContent += ")" + CommonGenerator.newLine            
             
             val TaskTable taskTable = TaskTable.taskTable
             val EntryTask entry = model.entry
@@ -101,7 +100,6 @@ class MyDslGenerator extends AbstractGenerator {
                 for (Task task: tasks) {
                     if (!taskTable.isAdded(task.name)) {
                         taskBody = ""
-                        
                         for (EObject bodyElement: task.taskbody.body){
                             taskBody += generator.generate(bodyElement)
                         }
@@ -117,11 +115,11 @@ class MyDslGenerator extends AbstractGenerator {
             threadContent = HeaderComment.headerThread
             threadContent += includeContent + CommonGenerator.doubleNewLine
             
-            threadContent += HeaderComment.headerShared
-            threadContent += sharedContent + CommonGenerator.doubleNewLine
-            
             threadContent += HeaderComment.headerConstant
             threadContent += constantContent + CommonGenerator.doubleNewLine
+            
+            threadContent += HeaderComment.headerShared
+            threadContent += sharedContent + CommonGenerator.doubleNewLine
             
             threadContent += HeaderComment.headerTaskDecleration
             threadContent += taskDeclerationContent + CommonGenerator.doubleNewLine

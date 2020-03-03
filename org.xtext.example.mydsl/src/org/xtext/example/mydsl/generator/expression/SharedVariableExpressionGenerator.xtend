@@ -4,6 +4,7 @@ import org.xtext.example.mydsl.myDsl.SharedVariableExpression
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
 import org.xtext.example.mydsl.generator.common.SymbolTable
 import org.xtext.example.mydsl.generator.common.CommonGenerator
+import org.xtext.example.mydsl.generator.common.AtomicGenerator
 
 class SharedVariableExpressionGenerator implements IExpressionGenerator {
     SharedVariableExpression expression
@@ -11,6 +12,7 @@ class SharedVariableExpressionGenerator implements IExpressionGenerator {
     new (SharedVariableExpression expression, GeneratorSwitcher generator) {
         this.expression = expression
     }
+    
     override String generate() {
         val String scope = SymbolTable.SHARED
         val String name = this.expression.name
@@ -20,12 +22,12 @@ class SharedVariableExpressionGenerator implements IExpressionGenerator {
         // By-pass it to VariableDeclerationExpressionGenerator
         var String result = ""
         
-        val boolean isArray = this.expression.dimension !== null
+        // Generate variable type and name
+        result += CommonGenerator.getVariableTypeName(this.expression.type) + " " + this.expression.name
         
-//        Generate variable type and name
-        result += CommonGenerator.getVariableTypeName(this.expression.type, this.expression.name)
-        if (isArray) {
-            result += CommonGenerator.getDimension(this.expression.dimension, -1)
+        // Generate dimension part
+        if (this.expression.dimension !== null) {
+            result += AtomicGenerator.generateDimension(this.expression.dimension.index, false)
         } 
         
         result += ";" + CommonGenerator.newLine

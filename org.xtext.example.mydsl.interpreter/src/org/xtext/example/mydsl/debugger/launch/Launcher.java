@@ -22,14 +22,14 @@ public class Launcher extends ExpressionSwitcher {
     @SuppressWarnings("unchecked")
     @Override
     public void run() {
-        EList<SharedVariableExpression> sharedVariables = app.getShareds();
-        if (sharedVariables.size() > 0) {
-            this.execute((EList<Expression>)(EList<?>) sharedVariables, "shared");
-        }
-        
         EList<ConstantVariableExpression> constantVariables = app.getConstants();
         if (constantVariables.size() > 0) {
             this.execute((EList<Expression>)(EList<?>) constantVariables, "constant");
+        }
+        
+        EList<SharedVariableExpression> sharedVariables = app.getShareds();
+        if (sharedVariables.size() > 0) {
+            this.execute((EList<Expression>)(EList<?>) sharedVariables, "shared");
         }
         
         EntryTask entryTask = app.getEntry();

@@ -63,7 +63,7 @@ class OperationExpressionGenerator implements IExpressionGenerator {
     def static String getPrimaryOperation(Operation operation) {
         var String result = ""
         if (operation instanceof Atomic) {
-            result += AtomicGenerator.generate(operation);
+            result += AtomicGenerator.generate(operation, true);
         } else if (operation instanceof InParanthesisOperation) {
             result += "(" + getOperation((operation as InParanthesisOperation).getOperation()) + ")"
         } else if (operation instanceof Operation) {
@@ -112,10 +112,10 @@ class OperationExpressionGenerator implements IExpressionGenerator {
     
     def static String getAssignment(ArrayAssignment array) {        
         var String result = "{"
-        result += AtomicGenerator.generate(array.variable.get(0))
+        result += AtomicGenerator.generate(array.variable.get(0), true)
         
         for (var int i = 1; i < array.variable.size; i++) {
-            result += ", " + AtomicGenerator.generate(array.variable.get(i))
+            result += ", " + AtomicGenerator.generate(array.variable.get(i), true)
         }
         
         result += "}"
