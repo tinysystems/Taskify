@@ -399,7 +399,10 @@ public abstract class AbstractStackHelper {
     
     public static int getLineNumber(EObject expression) {
         INode node = NodeModelUtils.getNode(expression);
-        return node.getStartLine();
+        if (node != null) {
+            return node.getStartLine();            
+        }
+        return -1;
     }
     
     public static String getLineNumberText(EObject expression) {
@@ -408,7 +411,10 @@ public abstract class AbstractStackHelper {
     
     public static String getExpressionText(EObject expression) {
         INode node = NodeModelUtils.getNode(expression);
-        return node.getText();
+        if (node != null) {
+            return node.getText();
+        }
+        return null;
     }
     
 }

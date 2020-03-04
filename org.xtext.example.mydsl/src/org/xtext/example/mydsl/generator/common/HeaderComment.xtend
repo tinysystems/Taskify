@@ -25,15 +25,21 @@ class HeaderComment {
         '''
     }
     
+    def static String headerConstant() {
+        '''
+        // Define constant persistent variables that are stored in non-volatile memory.
+        '''
+    }
+    
     def static String headerShared() {
         '''
         // Define task-shared persistent variables.
         '''
     }
     
-    def static String headerConstant() {
+    def static String headerFunction() {
         '''
-        // Define constant persistent variables that are stored in non-volatile memory.
+        // Define helper functions
         '''
     }
     

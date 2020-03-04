@@ -25,7 +25,7 @@ uint32_t NIL = 0;
 uint32_t DICT_SIZE = 512;
 uint32_t BLOCK_SIZE = 64;
 uint32_t NUM_LETTERS_IN_SAMPLE = 2;
-uint32_t LETTER_MASK = ;
+uint32_t LETTER_MASK = 0x00FF;
 uint32_t LETTER_SIZE_BITS = 8;
 uint32_t NUM_LETTERS = (LETTER_MASK + 1);
 
@@ -80,6 +80,14 @@ void thread1_init(){
     // create a thread with priority 15 and entry task t_init
     __CREATE(15, t_init);
     __SIGNAL(15);
+}
+
+
+// Define helper functions
+int acquire_sample ( uint32_t prev_sample) {
+    uint32_t sample = (prev_sample + 1) & 0x03;
+    
+    return sample
 }
 
 

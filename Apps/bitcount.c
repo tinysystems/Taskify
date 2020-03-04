@@ -65,6 +65,35 @@ void thread1_init(){
 }
 
 
+// Define helper functions
+int recursive_cnt ( uint32_t x) {
+    uint32_t index = x & 15;
+    uint32_t cnt = bits[ index ];
+    uint32_t tmp_cnt;
+    x = x >> 4;
+    if(x != 0) {
+        tmp_cnt = recursive_cnt(x);
+        cnt = cnt + tmp_cnt;
+    } 
+    
+    return cnt
+}
+
+int non_recursive_cnt ( uint32_t x) {
+    uint32_t index = x & 0x0000000F;
+    uint32_t cnt = bits[ index ];
+    x = x >> 4;
+    
+    while(x != 0) {
+        index = x & 0x0000000F;
+        cnt = cnt + bits[ index ];
+        x = x >> 4;
+    }
+    
+    return cnt
+}
+
+
 // Implementation of all tasks that are declared above
 ENTRY_TASK(t_init) {
     uint32_t _seed = rand();
@@ -145,11 +174,11 @@ TASK(t_bitcount) {
     uint32_t _iteration = __GET(iteration);
     uint32_t tmp_seed = _seed;
     _seed = tmp_seed + plus;
-    tmp_seed = ((tmp_seed & ) >> 1) + (tmp_seed & );
-    tmp_seed = ((tmp_seed & ) >> 2) + (tmp_seed & );
-    tmp_seed = ((tmp_seed & ) >> 4) + (tmp_seed & );
-    tmp_seed = ((tmp_seed & ) >> 8) + (tmp_seed & );
-    tmp_seed = ((tmp_seed & ) >> 16) + (tmp_seed & );
+    tmp_seed = ((tmp_seed & 0xAAAAAAAA) >> 1) + (tmp_seed & 0x55555555);
+    tmp_seed = ((tmp_seed & 0xCCCCCCCC) >> 2) + (tmp_seed & 0x33333333);
+    tmp_seed = ((tmp_seed & 0xF0F0F0F0) >> 4) + (tmp_seed & 0x0F0F0F0F);
+    tmp_seed = ((tmp_seed & 0xFF00FF00) >> 8) + (tmp_seed & 0x00FF00FF);
+    tmp_seed = ((tmp_seed & 0xFFFF0000) >> 16) + (tmp_seed & 0x0000FFFF);
     _iteration = _iteration + 1;
     __SET(seed, _seed);
     __SET(n_1, _n_1 + tmp_seed);
@@ -185,21 +214,21 @@ TASK(t_ntbl_bitcount) {
     uint32_t _iteration = __GET(iteration);
     uint32_t tmp_seed = _seed;
     uint32_t __cry = _seed;
-    uint32_t index = __cry & ;
+    uint32_t index = __cry & 0x0000000F;
     _n_3 = _n_3 + bits[ index ];
-    index = (__cry & ) >> 4;
+    index = (__cry & 0x000000F0) >> 4;
     _n_3 = _n_3 + bits[ index ];
-    index = (__cry & ) >> 8;
+    index = (__cry & 0x00000F00) >> 8;
     _n_3 = _n_3 + bits[ index ];
-    index = (__cry & ) >> 12;
+    index = (__cry & 0x0000F000) >> 12;
     _n_3 = _n_3 + bits[ index ];
-    index = (__cry & ) >> 16;
+    index = (__cry & 0x000F0000) >> 16;
     _n_3 = _n_3 + bits[ index ];
-    index = (__cry & ) >> 20;
+    index = (__cry & 0x00F00000) >> 20;
     _n_3 = _n_3 + bits[ index ];
-    index = (__cry & ) >> 24;
+    index = (__cry & 0x0F000000) >> 24;
     _n_3 = _n_3 + bits[ index ];
-    index = (__cry & ) >> 28;
+    index = (__cry & 0xF0000000) >> 28;
     _n_3 = _n_3 + bits[ index ];
     _seed = tmp_seed + plus;
     _iteration = _iteration + 1;

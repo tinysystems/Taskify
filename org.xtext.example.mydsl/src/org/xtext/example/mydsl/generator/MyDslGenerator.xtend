@@ -20,6 +20,7 @@ import org.xtext.example.mydsl.generator.common.SymbolTable
 import org.xtext.example.mydsl.generator.common.IncludeTable
 import org.xtext.example.mydsl.generator.common.IncludeTemplates
 import org.xtext.example.mydsl.generator.common.HeaderComment
+import org.xtext.example.mydsl.myDsl.FunctionDefinitionExpression
 
 /**
  * Generates code from your model files on save.
@@ -64,8 +65,9 @@ class MyDslGenerator extends AbstractGenerator {
         val GeneratorSwitcher generator = new GeneratorSwitcher()
         
         var String includeContent = ""
-        var String sharedContent = ""
         var String constantContent = ""
+        var String sharedContent = ""
+        var String functionDefinitionContent = ""
         var String taskDeclerationContent = ""
         var String tasksContent = ""
         
@@ -76,11 +78,15 @@ class MyDslGenerator extends AbstractGenerator {
                 constantContent += generator.generate(constant)
             }
             
-            sharedContent = "__shared(" + "\n"
+            sharedContent = "__shared(" + CommonGenerator.newLine
             for (SharedVariableExpression shared: model.shareds) {                
                 sharedContent += CommonGenerator.tab + generator.generate(shared)
             }
-            sharedContent += ")" + CommonGenerator.newLine            
+            sharedContent += ")" + CommonGenerator.newLine      
+            
+            for (FunctionDefinitionExpression function: model.functions) {
+                functionDefinitionContent += generator.generate(function)
+            }
             
             val TaskTable taskTable = TaskTable.taskTable
             val EntryTask entry = model.entry
@@ -125,7 +131,10 @@ class MyDslGenerator extends AbstractGenerator {
             threadContent += taskDeclerationContent + CommonGenerator.doubleNewLine
             
             threadContent += HeaderComment.headerThreadInit
-            threadContent += CommonGenerator.thread1_init(taskTable.entry)            
+            threadContent += CommonGenerator.thread1_init(taskTable.entry)
+            
+            threadContent += HeaderComment.headerFunction
+            threadContent += functionDefinitionContent + CommonGenerator.newLine   
             
             threadContent += HeaderComment.headerTaskDefinition
             threadContent += tasksContent

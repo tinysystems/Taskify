@@ -1,5 +1,9 @@
 package org.xtext.example.mydsl.generator.common
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.nodemodel.INode
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils
+
 class CommonGenerator {
     static String LONG = "uint32_t"
     static String FLOAT = "float"
@@ -82,6 +86,30 @@ class CommonGenerator {
         
         
         '''
+    }
+    
+    def static void stopGeneration(String reason) {
+        System.err.println("Error while processing, reason: " + reason);
+    }
+    
+    def static int getLineNumber(EObject expression) {
+        val INode node = NodeModelUtils.getNode(expression);
+        if (node !== null) {
+            return node.getStartLine();
+        }
+        return -1
+    }
+    
+    def static String getLineNumberText(EObject expression) {
+        return " at line #" + getLineNumber(expression);
+    }
+    
+    def static String getExpressionText(EObject expression) {
+        val INode node = NodeModelUtils.getNode(expression);
+        if (node !== null) {
+            return node.getText();
+        }
+        return null
     }
     
 }

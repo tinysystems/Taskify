@@ -26,6 +26,8 @@ import org.xtext.example.mydsl.generator.expression.VariableDeclerationExpressio
 import org.xtext.example.mydsl.generator.expression.WhileExpressionGenerator
 import org.xtext.example.mydsl.myDsl.ComparisionExpression
 import org.xtext.example.mydsl.generator.expression.ComparisionExpressionGenerator
+import org.xtext.example.mydsl.myDsl.FunctionDefinitionExpression
+import org.xtext.example.mydsl.generator.expression.FunctionDefinitionExpressionGenerator
 
 class GeneratorSwitcher {
     
@@ -42,6 +44,8 @@ class GeneratorSwitcher {
             generator = new ConstantVariableExpressionGenerator(expression as ConstantVariableExpression, this) as IExpressionGenerator
         } else if (expression instanceof ForExpression) {
             generator = new ForExpressionGenerator(expression as ForExpression, this) as IExpressionGenerator
+        } else if (expression instanceof FunctionDefinitionExpression) {
+            generator = new FunctionDefinitionExpressionGenerator(expression as FunctionDefinitionExpression, this) as IExpressionGenerator
         } else if (expression instanceof IfExpression) {
             generator = new IfExpressionGenerator(expression as IfExpression, this) as IExpressionGenerator
         } else if (expression instanceof NextTaskExpression) {

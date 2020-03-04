@@ -14,6 +14,7 @@ import org.xtext.example.mydsl.myDsl.VariableDeclerationExpression
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression
 import org.xtext.example.mydsl.myDsl.FunctionDefinitionParameter
+import org.xtext.example.mydsl.myDsl.HexadecimalReference
 
 class AtomicGenerator {
     def static String generate(Atomic atomic, boolean checkShared) {
@@ -39,7 +40,9 @@ class AtomicGenerator {
             result = atomic.value.toString
         } else if (atomic instanceof BooleanReference) {
             result = atomic.value.toString
-        } 
+        } else if (atomic instanceof HexadecimalReference) {
+            result = atomic.value.toString
+        }
         return result
     }
     
