@@ -1,9 +1,10 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ComparisionExpression;
-import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.ForExpression;
 import org.xtext.example.mydsl.myDsl.VariableAssignmentExpression;
 
@@ -17,6 +18,7 @@ public class ForExpressionExecutor extends AbstractStackHelper implements IExpre
         this.executor = executor;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public void execute(String id) {
         VariableAssignmentExpression initial = this.expression.getInitial();
@@ -28,22 +30,17 @@ public class ForExpressionExecutor extends AbstractStackHelper implements IExpre
         
         while (checkCondition(test, id)) {
             // Execute body of for loop
-            for (Object exp: this.expression.getBody().getBody()) {
-                if (isBreak) {
-                    break;
-                }
-                // Execute update part(VariableAssignmentExpression)
-                executor.execute((Expression) exp, id);
-            }
+            executeExpressionList((EList<EObject>)(EList<?>) this.expression.getBody().getBody(), this.executor, id);
             
-            // Last executor may be break.
             if (isBreak) {
+                // Last executor may be break.
                 break;
             }
             
             // Update update_symbol
             this.executor.execute(update, id);
         }
+        // Make it reset
         isBreak = false;
     }
     

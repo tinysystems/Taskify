@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.ComparisionExpression;
-import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.IfExpression;
 
 
@@ -22,46 +21,34 @@ public class IfExpressionExecutor extends AbstractStackHelper implements IExpres
     
     @Override
     public void execute(String id) {
-        boolean ifOrElseifExecuted = false;
+        int index = -1;
+        EList<EObject> bodyList = null;
         int elseIfConditionCount = this.expression.getElseifcondition().size();
+
         if (checkCondition(this.expression.getIfcondition(), id)) {
-            ifOrElseifExecuted = true;
-            executeBody(this.expression.getIfbody().getBody(), id);
+            bodyList = this.expression.getIfbody().getBody();
         } else if (elseIfConditionCount > 0) {
-            // TODO
             List<ComparisionExpression> elseIfConditions = this.expression.getElseifcondition();
-            for (int index = 0; index < elseIfConditionCount; index++) {
+            
+            for (index = 0; index < elseIfConditionCount; index++) {
                 EObject exp = elseIfConditions.get(index);
-                
                 if (checkCondition(exp, id)) {
-                    ifOrElseifExecuted = true;
-                    EList<EObject> bodyList = this.expression.getElseifbody().get(index).getBody();
-                    executeBody(bodyList, id);
+                    bodyList = this.expression.getElseifbody().get(index).getBody();
                     break;
                 }
             }
         }
         
-        if (!ifOrElseifExecuted) {
-            if (this.expression.getElsebody() != null) {
-                executeBody(this.expression.getElsebody().getBody(), id);
-            }
+        if (bodyList == null && this.expression.getElsebody() != null) {
+            bodyList = this.expression.getElsebody().getBody();
+        }
+        
+        if (bodyList != null) {
+            executeBody(bodyList, id);
         }
     }
     
     private void executeBody(EList<EObject> bodyList, String id) {
-        if (bodyList.size() > 0){
-            for (Object body: bodyList) {
-                if (isBreak) {
-                    break;
-                } else {
-                    executor.execute((Expression) body, id);
-                }
-                
-                if (isBreak) {
-                    break;
-                }
-            }
-        }
+        executeExpressionList(bodyList, this.executor, id);
     }
 }

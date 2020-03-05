@@ -1,6 +1,5 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
-import org.eclipse.emf.ecore.EObject;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
 import org.xtext.example.mydsl.myDsl.NextTaskExpression;
@@ -36,14 +35,7 @@ public class NextTaskExpressionExecutor extends AbstractStackHelper implements I
     private void executeBody(TaskBody taskBody, String id) {
         addCallStackItem(id);
         
-        for(EObject bodyElement: taskBody.getBody()) {
-            this.executor.execute(bodyElement, id);
-            
-            /* Leave task if execution is jumped to another one */
-            if (bodyElement instanceof NextTaskExpression) {
-                break;
-            }
-        }
+        executeExpressionList(taskBody.getBody(), this.executor, id);
     }
     
     private void finishPreviousTask(String id) {

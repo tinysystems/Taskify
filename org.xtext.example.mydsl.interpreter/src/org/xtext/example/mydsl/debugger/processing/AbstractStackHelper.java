@@ -2,6 +2,7 @@ package org.xtext.example.mydsl.debugger.processing;
 
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -20,6 +21,7 @@ import org.xtext.example.mydsl.myDsl.FloatReference;
 import org.xtext.example.mydsl.myDsl.HexadecimalReference;
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
 import org.xtext.example.mydsl.myDsl.LongReference;
+import org.xtext.example.mydsl.myDsl.NextTaskExpression;
 import org.xtext.example.mydsl.myDsl.PrimitiveReference;
 import org.xtext.example.mydsl.myDsl.StringReference;
 import org.xtext.example.mydsl.myDsl.Variable;
@@ -390,6 +392,30 @@ public abstract class AbstractStackHelper {
             isApplicable = OperationExpressionExecutor.evaluateComparisionExpression((ComparisionExpression) expression, id, "float");
         }
         return isApplicable;
+    }
+    
+    protected static void executeExpressionList(EList<EObject> body, ExpressionSwitcher executor, String id) {        
+        if (body.size() > 0) {
+            for (EObject bodyElement: body) {
+                if (isBreak) {
+                    // Check if previous element was break
+                    break;
+                }
+                
+                executor.execute(bodyElement, id);
+                
+                if (bodyElement instanceof NextTaskExpression) {
+                    break;
+                }
+                
+                if (isBreak) {
+                    // Last executor may be break.
+                    break;
+                }
+            }
+            // Make it reset
+            // isBreak = false;
+        }
     }
     
     public static void stopExecution(String reason) {

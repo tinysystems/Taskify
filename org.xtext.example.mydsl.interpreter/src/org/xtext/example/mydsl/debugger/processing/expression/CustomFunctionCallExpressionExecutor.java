@@ -1,7 +1,6 @@
 package org.xtext.example.mydsl.debugger.processing.expression;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.xtext.example.mydsl.debugger.context.Symbol;
 import org.xtext.example.mydsl.debugger.processing.AbstractStackHelper;
 import org.xtext.example.mydsl.debugger.processing.ExpressionSwitcher;
@@ -18,15 +17,14 @@ public class CustomFunctionCallExpressionExecutor extends AbstractStackHelper {
         
         addCallStack(functionDefinitionTypedParameters, callParameters, id, callerId);
         
-        EList<EObject> body = expression.getFunction().getBody();
+        // Execute body of custom function
+        executeExpressionList(expression.getFunction().getBody(), executor, id);
         
-        for (EObject bodyElement: body) {
-            executor.execute(bodyElement, id);
-        }
-        
+        // Identify value to return
         Atomic returnValue = expression.getFunction().getReturn();
         Object value = lookupSymbolByAtomic((Atomic) returnValue, id).getVariableValue();
         
+        // Remove callstack since function execution finished and function could be called again
         removeCallStack(id);
         
         return value;
