@@ -74,7 +74,7 @@ public class PDAThread extends PDADebugElement implements IThread, IPDAEventList
 
     @Override
     public boolean isSuspended() {
-        return fSuspended && isTerminated();
+        return fSuspended && !isTerminated();
     }
 
     @Override
