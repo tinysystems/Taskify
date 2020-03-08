@@ -70,7 +70,7 @@ public class InkPDALaunchDelegate extends LaunchConfigurationDelegate{
 //        TODO remove in the future
         interpreterExecutableAbsolutePath = "/home/ink/Desktop/interpreter.jar";
 //        ProcessBuilder pb = new ProcessBuilder("java", "-jar", interpreterExecutableAbsolutePath, "-i", dslApplicationAbsolutePath, "-a", argValue, "-m", debugMode);
-        ProcessBuilder pb = new ProcessBuilder("java", "-jar", interpreterExecutableAbsolutePath, "-i", dslApplicationAbsolutePath, "-m", debugMode);
+        ProcessBuilder pb = new ProcessBuilder("java", "-Xss10m", "-jar", interpreterExecutableAbsolutePath, "-i", dslApplicationAbsolutePath, "-m", debugMode);
 //        ProcessBuilder pb = new ProcessBuilder("java", "-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8453,server=y,suspend=y", "-jar", interpreterExecutableAbsolutePath, "-i", dslApplicationAbsolutePath, "-m", debugMode);
         Process process = null;
         try {
