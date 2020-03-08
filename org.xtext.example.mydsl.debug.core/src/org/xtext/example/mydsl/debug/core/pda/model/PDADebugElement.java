@@ -17,8 +17,8 @@ public class PDADebugElement extends DebugElement {
         return DebugCorePlugin.ID_PDA_DEBUG_MODEL;
     }
     
-    public String sendRequest(String request) throws DebugException {
-        return getPDADebugTarget().sendRequest(request);
+    public String sendMessage(String message) throws DebugException {
+        return getPDADebugTarget().sendMessage(message);
     }
     
     protected PDADebugTarget getPDADebugTarget() {

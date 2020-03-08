@@ -16,10 +16,10 @@ public class EventHandler {
 
     public void handle(String command, Socket response) {
         
-        Socket eventSender = response;
+        Socket outSocket = response;
         String lowercaseCommand = command.toLowerCase();
         
-        System.out.println("command: " + command);
+        // System.out.println("command: " + command);
         
         switch (lowercaseCommand) {            
             case "resume":
@@ -34,7 +34,7 @@ public class EventHandler {
             case "exit":
                 System.exit(0);
             default:
-                sendData(eventSender, responsehandle(command));
+                sendMessage(outSocket, responsehandle(command));
                 break;
         }
         
@@ -184,33 +184,15 @@ public class EventHandler {
         return lines.toString();
     }
     
-    protected void sendData(Socket eventsender, String responseData) {
+    protected void sendMessage(Socket socket, String message) {
         try {
-            PrintWriter out = new PrintWriter(eventsender.getOutputStream(), true);
-
-            // **Important** don't use write(), PrintWriter should use print().
-            // if read string by in.readline in client, need to match print also
-            // with out.println.
-            // https://stackoverflow.com/questions/13057740/printwriter-does-not-send-my-string-tcp-ip
-            // System.out.println("server response" + responseData);
-            out.println(responseData);
+            System.out.println("org.xtext.example.mydsl.interpreter out: " + message);
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            out.println(message);
             out.flush();
-
-            System.out.println("server send event response >> " + responseData);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
-    public void sendOkError(Socket request, String okOrError) {
-        try {
-            PrintWriter out = new PrintWriter(request.getOutputStream(), true);
-            out.println(okOrError);
-            out.flush();
 
-            System.out.println("server send request response >> " + okOrError);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

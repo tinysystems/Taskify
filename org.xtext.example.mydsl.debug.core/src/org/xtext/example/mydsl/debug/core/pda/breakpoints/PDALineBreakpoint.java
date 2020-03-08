@@ -87,7 +87,7 @@ public class PDALineBreakpoint extends LineBreakpoint implements IPDAEventListen
      * @throws CoreException if request creation fails
      */
     protected void createRequest(PDADebugTarget target) throws CoreException {
-        target.sendRequest("brk#" + getLineNumber());
+        target.sendMessage("brk#" + getLineNumber());
     }
     
     /**
@@ -98,7 +98,7 @@ public class PDALineBreakpoint extends LineBreakpoint implements IPDAEventListen
      * @throws CoreException if clearing the request fails
      */
     protected void clearRequest(PDADebugTarget target) throws CoreException {
-        target.sendRequest("unbrk#" + getLineNumber());
+        target.sendMessage("unbrk#" + getLineNumber());
     }
     
     /**

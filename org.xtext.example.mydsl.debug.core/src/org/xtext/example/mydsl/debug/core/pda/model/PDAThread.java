@@ -79,12 +79,12 @@ public class PDAThread extends PDADebugElement implements IThread, IPDAEventList
 
     @Override
     public void resume() throws DebugException {
-        sendRequest("resume");
+        sendMessage("resume");
     }
 
     @Override
     public void suspend() throws DebugException {
-        sendRequest("suspend");
+        sendMessage("suspend");
     }
 
     @Override
@@ -114,7 +114,7 @@ public class PDAThread extends PDADebugElement implements IThread, IPDAEventList
 
     @Override
     public void stepOver() throws DebugException {
-        sendRequest("step");
+        sendMessage("step");
     }
 
     @Override
@@ -134,7 +134,7 @@ public class PDAThread extends PDADebugElement implements IThread, IPDAEventList
 
     @Override
     public void terminate() throws DebugException {
-        sendRequest("exit");
+        sendMessage("exit");
     }
     
     /**
@@ -266,7 +266,7 @@ public class PDAThread extends PDADebugElement implements IThread, IPDAEventList
     @Override
     public IStackFrame[] getStackFrames() throws DebugException {
         if (isSuspended()) {
-            String framesData = sendRequest("stack");
+            String framesData = sendMessage("stack");
             if (framesData != null) {
                 String[] frames = framesData.split("#");
                 IStackFrame[] theFrames = new IStackFrame[frames.length];

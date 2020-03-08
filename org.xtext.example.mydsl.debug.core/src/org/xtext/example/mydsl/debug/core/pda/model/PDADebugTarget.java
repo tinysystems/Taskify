@@ -110,7 +110,7 @@ public class PDADebugTarget extends PDADebugElement implements IDebugTarget, IBr
                 try {
                     event = fEventReader.readLine();
                     if (event != null && !event.isEmpty()) {
-                        System.out.println("org.xtext.example.mydsl.debug.core in event: " + event); 
+                        System.out.println("org.xtext.example.mydsl.debug.core in from in socket: " + event); 
                         // debugging
                         Object[] listeners = fEventListeners.toArray();
                         for (int i = 0; i < listeners.length; i++) {
@@ -373,16 +373,18 @@ public class PDADebugTarget extends PDADebugElement implements IDebugTarget, IBr
         removeEventListener(this);
     }
     
-    public String sendRequest(String request) throws DebugException {
+    public String sendMessage(String message) throws DebugException {
         synchronized (fRequestSocket) {
-            fRequestWriter.println(request);
+            fRequestWriter.println(message);
             fRequestWriter.flush();
-            System.out.println("org.xtext.example.mydsl.debug.core sent event: " + request);
+            System.out.println("org.xtext.example.mydsl.debug.core sent to out socket: " + message);
             try {
                 // wait for reply
-                return fRequestReader.readLine();
+                String response = fRequestReader.readLine();
+                System.out.println("org.xtext.example.mydsl.debug.core in from out socket: " + response);
+                return response;
             } catch (IOException e) {
-                requestFailed("Request failed: " + request, e);
+                requestFailed("Failed to sen message '" + message + "'. ", e);
             }
         }
         return null;
