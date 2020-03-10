@@ -6,6 +6,8 @@ import java.io.IOException;
 //import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -67,11 +69,25 @@ public class InkPDALaunchDelegate extends LaunchConfigurationDelegate{
             debugMode = "debug";
         }
         
-//        TODO remove in the future
+        List<String> command = new ArrayList<>();
+        command.add("java");
+        command.add("-Xss10m");
+        
+        // TODO remove below in the future
         interpreterExecutableAbsolutePath = "/home/ink/Desktop/interpreter.jar";
-//        ProcessBuilder pb = new ProcessBuilder("java", "-jar", interpreterExecutableAbsolutePath, "-i", dslApplicationAbsolutePath, "-a", argValue, "-m", debugMode);
-        ProcessBuilder pb = new ProcessBuilder("java", "-Xss10m", "-jar", interpreterExecutableAbsolutePath, "-i", dslApplicationAbsolutePath, "-m", debugMode);
-//        ProcessBuilder pb = new ProcessBuilder("java", "-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8453,server=y,suspend=y", "-jar", interpreterExecutableAbsolutePath, "-i", dslApplicationAbsolutePath, "-m", debugMode);
+        command.add("-Xdebug");
+        command.add("-Xrunjdwp:transport=dt_socket,address=8000,server=y");
+        // TODO remove above in the future
+        
+        command.add("-jar");
+        command.add(interpreterExecutableAbsolutePath);
+        command.add("-i");
+        command.add(dslApplicationAbsolutePath);
+        command.add("-m");
+        command.add(debugMode);
+        
+        ProcessBuilder pb = new ProcessBuilder(command);
+        
         Process process = null;
         try {
             process = pb.start();
