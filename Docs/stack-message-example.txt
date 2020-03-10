@@ -1,0 +1,41 @@
+Message against 'stack' message from interpreter to eclipse: 
+/home/ink/runtime-DSLapp/bitcount/src/bitcount.mydsl&347&constant&integer|bits|[Ljava.lang.Long;@34ad7b04&integer|SEED|4&integer|ITER|10&integer|CHAR_BIT|8&integer|plus|13&#/home/ink/runtime-DSLapp/bitcount/src/bitcount.mydsl&347&shared&integer|pinCont|1&integer|n_0|136&integer|n_1|132&integer|n_2|143&integer|n_3|128&integer|n_4|133&integer|n_5|135&integer|n_6|0&integer|function|7&integer|iteration|0&integer|seed|45698429&#/home/ink/runtime-DSLapp/bitcount/src/bitcount.mydsl&347&t_bit_shifter&integer|_seed|45698429&integer|_n_6|0&integer|_iteration|0&integer|i|0&integer|nn|0&integer|tmp_seed|45698429&#
+
+EBnf of message is as:
+    Variable: <data-type>|<variable-name>|<value>&
+    VariableInFile: <file-absolute-path>&<line-number>&<scope>&({Variable})*#
+    Summary: ({VariableInFile})*
+
+Converted into array inside PDAThread.getStackFrames()
+[
+    /home/ink/runtime-DSLapp/bitcount/src/bitcount.mydsl&347&
+        constant&
+            integer|bits|[Ljava.lang.Long;@34ad7b04&
+            integer|SEED|4&
+            integer|ITER|10&
+            integer|CHAR_BIT|8&
+            integer|plus|13&, 
+
+    /home/ink/runtime-DSLapp/bitcount/src/bitcount.mydsl&347&
+        shared&
+            integer|pinCont|1&
+            integer|n_0|136&
+            integer|n_1|132&
+            integer|n_2|143&
+            integer|n_3|128&
+            integer|n_4|133&
+            integer|n_5|135&
+            integer|n_6|0&
+            integer|function|7&
+            integer|iteration|0&
+            integer|seed|45698429&, 
+
+    /home/ink/runtime-DSLapp/bitcount/src/bitcount.mydsl&347&
+        t_bit_shifter&
+            integer|_seed|45698429&
+            integer|_n_6|0&
+            integer|_iteration|0&
+            integer|i|0&
+            integer|nn|0&
+            integer|tmp_seed|45698429&
+]
