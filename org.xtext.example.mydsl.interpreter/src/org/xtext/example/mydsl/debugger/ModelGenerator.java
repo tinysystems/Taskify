@@ -55,7 +55,7 @@ public class ModelGenerator {
             final InkApp app = readFile(inputFilePath);
             
             if(app != null) {
-                StateContext.setModelState("END");
+                StateContext.setModelState(StateContext.END_MODEL_STATE);
                 StateContext.setFilePath(inputFilePath);
             }
             

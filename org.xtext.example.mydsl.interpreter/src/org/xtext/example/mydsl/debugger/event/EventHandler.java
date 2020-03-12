@@ -23,10 +23,10 @@ public class EventHandler {
         
         switch (lowercaseCommand) {            
             case "resume":
-                StateContext.setState("RESUME");
+                StateContext.setState(StateContext.RESUME_STATE);
                 break;
             case "step":
-                StateContext.setState("RESUME_STEP");
+                StateContext.setState(StateContext.RESUME_STEP_STATE);
                 break;
             case "suspend":
                 ModelGenerator.getLauncher().suspend();
@@ -38,9 +38,9 @@ public class EventHandler {
                 break;
         }
         
-        if(StateContext.getState().equals("RESUME_STEP")) {
+        if(StateContext.getState().equals(StateContext.RESUME_STEP_STATE)) {
             ModelGenerator.getLauncher().resume();
-        } else if(StateContext.getState().equals("RESUME")) {
+        } else if(StateContext.getState().equals(StateContext.RESUME_STATE)) {
             checkModelAndTryResume();
         }
     }
@@ -49,7 +49,7 @@ public class EventHandler {
     private boolean isInitialized(String command) {
         boolean initialized = false;
         
-        if(StateContext.getState().equals("INIT")) {
+        if(StateContext.getState().equals(StateContext.INIT_STATE)) {
             if(!command.equals("brk")) {
                 initialized = true;
             }
@@ -62,7 +62,7 @@ public class EventHandler {
         boolean wait = true;
         
         while(wait) {
-            if(StateContext.getModelState().equals("END")) {
+            if(StateContext.getModelState().equals(StateContext.END_MODEL_STATE)) {
                 ModelGenerator.getLauncher().resume();
                 wait = false;
             } else {
@@ -78,7 +78,7 @@ public class EventHandler {
     private String responsehandle(String command) {
         String lowercaseCommand = command.toLowerCase();
         String responseData = "";
-        StateContext.setState("SETTING");
+        StateContext.setState(StateContext.SETTING_STATE);
         
         if(lowercaseCommand.equals("start")) {
             responseData = "started";
@@ -89,7 +89,7 @@ public class EventHandler {
                 String line = command.substring(lastSpace + 1);
                 int breakline = Integer.parseInt(line);
                 
-                StateContext.getBreaklines().add(breakline);
+                StateContext.addBreakline(breakline);
                 responseData = "set brk " + breakline;
             }
         } else if (lowercaseCommand.startsWith("unbrk")) {
@@ -99,7 +99,7 @@ public class EventHandler {
                 String line = command.substring(lastSpace + 1);
                 int breakline = Integer.parseInt(line);
                 
-                StateContext.getBreaklines().remove(breakline);
+                StateContext.removeBreakline(breakline);
                 responseData = "unset brk " + breakline;
             }
         } else if (lowercaseCommand.equals("p")) {

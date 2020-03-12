@@ -49,9 +49,9 @@ public abstract class ProcessHandler extends ThreadLauncher {
     private boolean isResumeStepping() {
         boolean isSuspended = false;
         
-        if (StateContext.getState().equals("RESUME_STEP")) {
+        if (StateContext.getState().equals(StateContext.RESUME_STEP_STATE)) {
             resume();
-        } else if (StateContext.getState().equals("SUSPEND_STEP")) {
+        } else if (StateContext.getState().equals(StateContext.RESUME_STEP_STATE)) {
             suspendStep();
             isSuspended = true;
         }
@@ -62,23 +62,23 @@ public abstract class ProcessHandler extends ThreadLauncher {
     private void findBreakLines(int srcLine) {        
         if (StateContext.getBreaklines().contains(srcLine)) {
             StateContext.setBreakpointSuspendedline(srcLine);
-            StateContext.setState("SUSPEND");
+            StateContext.setState(StateContext.SUSPEND_STATE);
         }
     }
     
     public synchronized void suspend() {
         suspended = true;
-        StateContext.setState("SUSPEND");
+        StateContext.setState(StateContext.SUSPEND_STATE);
     }
     
     public synchronized void resume() {
         suspended = false;
         notify();
 
-        if (StateContext.getState().equals("RESUME_STEP")) {
+        if (StateContext.getState().equals(StateContext.RESUME_STEP_STATE)) {
             EventStateHandler.update("state#resumed step");
-            StateContext.setState("SUSPEND_STEP");
-        } else if (StateContext.getState().equals("RESUME")) {
+            StateContext.setState(StateContext.SUSPEND_STEP_STATE);
+        } else if (StateContext.getState().equals(StateContext.RESUME_STATE)) {
             EventStateHandler.update("state#resumed client");
         }
     }
