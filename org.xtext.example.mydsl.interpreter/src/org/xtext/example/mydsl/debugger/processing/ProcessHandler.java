@@ -1,7 +1,5 @@
 package org.xtext.example.mydsl.debugger.processing;
 
-import java.util.Iterator;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -37,6 +35,8 @@ public abstract class ProcessHandler extends ThreadLauncher {
         StateContext.setSrcline(node.getStartLine());
         
         if (!isResumeStepping()) {
+            // Reset first, then findBreakLines() will fill if
+            StateContext.resetBreakpointSuspendedline();
             findBreakLines(StateContext.getSrcline());
             
             if (StateContext.getSrcline() == StateContext.getBreakpointSuspendedline()) {
@@ -59,17 +59,10 @@ public abstract class ProcessHandler extends ThreadLauncher {
         return isSuspended;
     }
     
-    private void findBreakLines(int srcLine) {
-        Iterator<Integer> iterator = StateContext.getBreaklines().iterator();
-        
-        while (iterator.hasNext()) {
-            int breakLine = iterator.next();
-            
-            if (srcLine == breakLine) {
-                StateContext.setBreakpointSuspendedline(breakLine);
-                StateContext.setState("SUSPEND");
-                break;
-            }
+    private void findBreakLines(int srcLine) {        
+        if (StateContext.getBreaklines().contains(srcLine)) {
+            StateContext.setBreakpointSuspendedline(srcLine);
+            StateContext.setState("SUSPEND");
         }
     }
     

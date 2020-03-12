@@ -23,6 +23,7 @@ public class EventStateHandler {
 
     private static void sendData(Socket event, String responseData) {
         try {
+            System.out.println("org.xtext.example.mydsl.interpreter out: " + responseData);
             PrintWriter out = new PrintWriter(event.getOutputStream(), true);
             out.println(responseData); 
             out.flush();

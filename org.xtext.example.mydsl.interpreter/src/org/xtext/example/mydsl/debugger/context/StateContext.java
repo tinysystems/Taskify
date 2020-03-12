@@ -51,6 +51,10 @@ public class StateContext {
         StateContext.breakpointSuspendedline = breakpointSuspendedline;
     }
     
+    public static void resetBreakpointSuspendedline() {
+        StateContext.breakpointSuspendedline = 0;
+    }
+    
     public static String getFilePath() {
         return filePath;
     }
