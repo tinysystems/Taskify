@@ -38,8 +38,10 @@ class VariableAssignmentExpressionGenerator implements IExpressionGenerator {
             
             var String variableName = result
             if (leftVariable instanceof ArrayReference) {
+                // Get only reference name 
+                variableName = AtomicGenerator.generateReferenceName(leftVariable)
                 // variableName: array[1] (remove last 3 character), variable
-                variableName = variableName.substring(0, variableName.length - 3)
+                // variableName = variableName.substring(0, variableName.length - 3)
             }
             
             val String scope = SymbolTable.getScope(variableName)

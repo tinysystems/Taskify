@@ -18,7 +18,11 @@ import org.xtext.example.mydsl.myDsl.HexadecimalReference
 
 class AtomicGenerator {
     def static String generate(Atomic atomic, boolean checkShared) {
-        return generateAtomic(atomic, checkShared)
+        return generateAtomic(atomic, checkShared, true)
+    }
+    
+    def static String generateReferenceName(Atomic atomic) {
+        return generateAtomic(atomic, false, false)
     }
     
     def static String generateDimension(Atomic atomic, boolean checkShared) {
@@ -46,21 +50,22 @@ class AtomicGenerator {
         return result
     }
     
-    def private static String generateVariableSymbol(VariableSymbol variableSymbol, boolean checkShared) {
-        var String result = ""
+    def private static String generateVariableSymbol(VariableSymbol variableSymbol, boolean checkShared, String dimension) {
+        var String referenceName = ""
 
         if (variableSymbol instanceof VariableDeclerationExpression) {
-            result = (variableSymbol as VariableDeclerationExpression).name
+            referenceName = (variableSymbol as VariableDeclerationExpression).name
         } else if (variableSymbol instanceof ConstantVariableExpression) {
-            result = (variableSymbol as ConstantVariableExpression).name
+            referenceName = (variableSymbol as ConstantVariableExpression).name
         } else if (variableSymbol instanceof SharedVariableExpression) {
-            result = (variableSymbol as SharedVariableExpression).name
+            referenceName = (variableSymbol as SharedVariableExpression).name
         } else if (variableSymbol instanceof FunctionDefinitionParameter) {
-            result = (variableSymbol as FunctionDefinitionParameter).name
+            referenceName = (variableSymbol as FunctionDefinitionParameter).name
         }
         
+        var String result = referenceName + dimension
         if (checkShared) {
-            val String scope = SymbolTable.getScope(result)
+            val String scope = SymbolTable.getScope(referenceName)
             if (scope == SymbolTable.SHARED) {
                 result = sharedGetCall(result)
             }
@@ -69,35 +74,40 @@ class AtomicGenerator {
         return result
     }
     
-    def private static String generateArrayReference(ArrayReference arrayReference, boolean checkShared) {
-        var String result = generateVariableSymbol(arrayReference.arrayReference, checkShared)
-        
-        if (arrayReference.index !== null) {
-            result += generateDimension(arrayReference.index.index, checkShared)
+    def private static String generateArrayReference(ArrayReference arrayReference, boolean checkShared, boolean includeDimension) {
+        var String dimension = ""
+        if (includeDimension) {
+            dimension = generateDimension(arrayReference.index.index, checkShared)
         }
+        
+        var String result = generateVariableSymbol(arrayReference.arrayReference, checkShared, dimension)
+        
+//        if (includeDimension && arrayReference.index !== null) {
+//            result += generateDimension(arrayReference.index.index, checkShared)
+//        }
         
         return result
     }
     
-    def private static String generateVariable(Variable variable, boolean checkShared) {
+    def private static String generateVariable(Variable variable, boolean checkShared, boolean includeDimension) {
         var String result = ""
         
         if (variable instanceof VariableReference) {
-            result = generateVariableSymbol(variable.variableReference, checkShared)
+            result = generateVariableSymbol(variable.variableReference, checkShared, "")
         } else if (variable instanceof ArrayReference) {
-            result = generateArrayReference(variable as ArrayReference, checkShared)
+            result = generateArrayReference(variable as ArrayReference, checkShared, includeDimension)
         }
         
         return result
     }
     
     // Most general function to get atomic generation
-    def private static String generateAtomic(Atomic atomic, boolean checkShared) {
+    def private static String generateAtomic(Atomic atomic, boolean checkShared, boolean includeDimension) {
         var String result = ""
         if (atomic instanceof PrimitiveReference) {
             result = generatePrimitiveReference(atomic as PrimitiveReference)
         } else if (atomic instanceof Variable) {
-            result = generateVariable(atomic as Variable, checkShared)
+            result = generateVariable(atomic as Variable, checkShared, includeDimension)
         }
         return result
     }

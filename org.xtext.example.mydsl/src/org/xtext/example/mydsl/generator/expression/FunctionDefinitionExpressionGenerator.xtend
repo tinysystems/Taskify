@@ -26,7 +26,7 @@ class FunctionDefinitionExpressionGenerator implements IExpressionGenerator {
                 «this.generator.generate(bodyElement)»
             «ENDFOR»
             
-            return «AtomicGenerator.generate(this.expression.^return, false)»
+            return «AtomicGenerator.generate(this.expression.^return, false)»;
         }
         
         '''
