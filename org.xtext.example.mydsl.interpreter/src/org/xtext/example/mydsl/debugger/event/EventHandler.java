@@ -143,7 +143,7 @@ public class EventHandler {
     
     private StringBuffer printSymbolTable(SymbolTable symbolTable, StringBuffer lines) {
         for(Symbol sym : symbolTable.getSymbolTable()){
-            String line = sym.getType() + "|" + sym.getName() + "|" + sym.getVariableValue();
+            String line = sym.getType() + "|" + sym.getName() + "|" + sym.valueToString();
             line = line + "&";
             lines.append(line);
         }

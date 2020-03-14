@@ -68,4 +68,31 @@ public class Symbol {
                 ", scope=" + scope + 
                 "  ]";
     }
+    
+    public String valueToString() {
+        String result = "null";
+        
+        if (this.variableValue == null) {
+            result = "null";  
+        } else if (this.variableValue instanceof Object[]) {
+            Object values[] = (Object[]) this.variableValue; 
+            int size = values.length;
+            
+            result = "[[";
+            if (size > 0) {
+                result += values[0].toString();
+                for (int i = 1; i < size; i++) {
+                    result += "," + values[i].toString();
+                }
+                
+            }
+            result += "]]";
+        } else {
+            result = this.variableValue.toString();
+        }
+        
+        
+        
+        return result;
+    }
 }
