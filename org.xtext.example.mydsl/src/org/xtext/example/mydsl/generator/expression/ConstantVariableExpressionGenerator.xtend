@@ -2,7 +2,6 @@ package org.xtext.example.mydsl.generator.expression
 
 import org.xtext.example.mydsl.myDsl.ConstantVariableExpression
 import org.xtext.example.mydsl.generator.GeneratorSwitcher
-import org.xtext.example.mydsl.generator.common.SymbolTable
 import org.xtext.example.mydsl.generator.common.CommonGenerator
 import org.xtext.example.mydsl.generator.common.AtomicGenerator
 import org.xtext.example.mydsl.generator.common.VariableAssignmentGenerator
@@ -17,29 +16,31 @@ class ConstantVariableExpressionGenerator implements IExpressionGenerator {
     }
     
     override String generate() {
-        val String scope = SymbolTable.CONSTANT
+        val cType = CommonGenerator.getVariableTypeName(this.expression.type)
         val String name = this.expression.name
-        val String type = this.expression.type
-        SymbolTable.addSymbol(name, type, scope)
-
-        // var String result = "__nv "
-        var String result = ""
-        
-        // Generate variable type and name
-        result += CommonGenerator.getVariableTypeName(this.expression.type) + " " + this.expression.name
-        
-        // Generate dimension part
+        var String dimension = null
         if (this.expression.dimension !== null) {
-            result += AtomicGenerator.generateDimension(this.expression.dimension.index, true)       
+            dimension = AtomicGenerator.generateDimension(this.expression.dimension.index, true)       
         }
-        
-        // Generate right side of definition if exists
-        if (this.expression.assignment !== null) {
-            result += " = " + VariableAssignmentGenerator.generate(this.expression.assignment, this.generator)
+        val String value = VariableAssignmentGenerator.generate(this.expression.assignment, this.generator)
+
+        if (dimension === null) {
+            return template(name, value)
+        } else {
+            return template(cType, name + dimension, value)
         }
-        
-        result += ";" + CommonGenerator.newLine    
-        return result
+    }
+    
+    def String template(String name, String value) {
+        '''
+        #define «name» «value»
+        '''
+    }
+    
+    def String template(String dataType, String variableName, String value) {
+        '''
+        __nv «dataType» «variableName» = «value»;
+        '''
     }
     
 }
