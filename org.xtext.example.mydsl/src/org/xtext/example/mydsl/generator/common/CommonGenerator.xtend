@@ -72,6 +72,10 @@ class CommonGenerator {
             thread1_init();
         }
         
+        void __app_reboot(){
+            // Do nothing for the moment
+        }
+        
         
         '''
     }
