@@ -18,7 +18,7 @@ CONSTANT integer bits[256] = [
 ]
 
 CONSTANT integer SEED = 4
-CONSTANT integer ITER = 10
+CONSTANT integer ITER = 3
 CONSTANT integer CHAR_BIT = 8
 CONSTANT integer plus = 13
 

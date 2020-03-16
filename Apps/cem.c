@@ -21,13 +21,13 @@
 
 
 // Define constant persistent variables that are stored in non-volatile memory.
-uint32_t NIL = 0;
-uint32_t DICT_SIZE = 512;
-uint32_t BLOCK_SIZE = 64;
-uint32_t NUM_LETTERS_IN_SAMPLE = 2;
-uint32_t LETTER_MASK = 0x00FF;
-uint32_t LETTER_SIZE_BITS = 8;
-uint32_t NUM_LETTERS = (LETTER_MASK + 1);
+#define NIL 0
+#define DICT_SIZE 512
+#define BLOCK_SIZE 64
+#define NUM_LETTERS_IN_SAMPLE 2
+#define LETTER_MASK 0x00FF
+#define LETTER_SIZE_BITS 8
+#define NUM_LETTERS (LETTER_MASK + 1)
 
 
 // Define task-shared persistent variables.
@@ -84,10 +84,10 @@ void thread1_init(){
 
 
 // Define helper functions
-int acquire_sample ( uint32_t prev_sample) {
+int acquire_sample (uint32_t prev_sample) {
     uint32_t sample = (prev_sample + 1) & 0x03;
     
-    return sample
+    return sample;
 }
 
 
@@ -104,12 +104,12 @@ ENTRY_TASK(t_init) {
 }
 
 TASK(task_init_dict) {
-    uint32_t _v_letter = __GET(v_letter);
-    v_dict_letter[ _v_letter ] = _v_letter;
-    v_dict_sibling[ _v_letter ] = NIL;
-    v_dict_child[ _v_letter ] = NIL;
-    __SET(v_letter, _v_letter + 1);
-    if(_v_letter < NUM_LETTERS) {
+    uint32_t i = __GET(v_letter);
+    __SET(v_dict_letter[ i ], i);
+    __SET(v_dict_sibling[ i ], NIL);
+    __SET(v_dict_child[ i ], NIL);
+    __SET(v_letter, __GET(v_letter) + 1);
+    if(i < NUM_LETTERS) {
         return task_init_dict;
     } else {
         __SET(v_node_count, NUM_LETTERS);
@@ -118,39 +118,39 @@ TASK(task_init_dict) {
 }
 
 TASK(task_sample) {
-    uint32_t _v_letter_idx = __GET(v_letter_idx);
-    uint32_t _next_v_letter_idx = _v_letter_idx + 1;
-    if(_next_v_letter_idx == NUM_LETTERS_IN_SAMPLE) {
-        _next_v_letter_idx = 0;
+    uint32_t letter_idx = __GET(v_letter_idx);
+    uint32_t next_v_letter_idx = letter_idx + 1;
+    if(next_v_letter_idx == NUM_LETTERS_IN_SAMPLE) {
+        next_v_letter_idx = 0;
     } 
-    if(_v_letter_idx == 0) {
-        __SET(v_letter_idx, _next_v_letter_idx);
+    if(letter_idx == 0) {
+        __SET(v_letter_idx, next_v_letter_idx);
         return task_measure_temp;
     } else {
-        __SET(v_letter_idx, _next_v_letter_idx);
+        __SET(v_letter_idx, next_v_letter_idx);
         return task_letterize;
     }
 }
 
 TASK(task_measure_temp) {
-    uint32_t _v_prev_sample = __GET(v_prev_sample);
-    uint32_t sample = acquire_sample(_v_prev_sample);
-    _v_prev_sample = sample;
-    __SET(v_prev_sample, _v_prev_sample);
+    uint32_t prev_sample = __GET(v_prev_sample);
+    uint32_t sample = acquire_sample(prev_sample);
+    prev_sample = sample;
+    __SET(v_prev_sample, prev_sample);
     __SET(v_sample, sample);
     return task_letterize;
 }
 
 TASK(task_letterize) {
-    uint32_t _v_letter_idx = __GET(v_letter_idx);
+    uint32_t letter_idx = __GET(v_letter_idx);
     uint32_t letter_shift;
     uint32_t letter;
-    if(_v_letter_idx == 0) {
-        _v_letter_idx = NUM_LETTERS_IN_SAMPLE;
+    if(letter_idx == 0) {
+        letter_idx = NUM_LETTERS_IN_SAMPLE;
     } else {
-        _v_letter_idx = _v_letter_idx - 1;
+        letter_idx = letter_idx - 1;
     }
-    letter_shift = LETTER_SIZE_BITS * _v_letter_idx;
+    letter_shift = LETTER_SIZE_BITS * letter_idx;
     letter = (__GET(v_sample) & (LETTER_MASK << letter_shift)) >> letter_shift;
     __SET(v_letter, letter);
     return task_compress;
@@ -159,15 +159,17 @@ TASK(task_letterize) {
 TASK(task_compress) {
     uint32_t parent = __GET(v_parent_next);
     uint32_t __cry;
-    __cry = __GET(v_dict_child)[ parent ];
+    __cry = __GET(v_dict_child[ parent ]);
     __SET(v_sibling, __cry);
-    __SET(v_parent_node_child, __cry);
-    __SET(v_child, __cry);
-    __cry = __GET(v_dict_letter)[ parent ];
+    __cry = __GET(v_dict_letter[ parent ]);
     __SET(v_parent_node_letter, __cry);
-    __cry = __GET(v_dict_sibling)[ parent ];
+    __cry = __GET(v_dict_sibling[ parent ]);
     __SET(v_parent_node_sibling, __cry);
+    __cry = __GET(v_dict_child[ parent ]);
+    __SET(v_parent_node_child, __cry);
     __SET(v_parent, parent);
+    __cry = __GET(v_dict_child[ parent ]);
+    __SET(v_child, __cry);
     __SET(v_sample_count, __GET(v_sample_count) + 1);
     return task_find_sibling;
 }
@@ -178,12 +180,12 @@ TASK(task_find_sibling) {
     uint32_t starting_node_idx;
     if(i != NIL) {
         __cry = __GET(v_letter);
-        if(__GET(v_dict_letter)[ i ] != __cry) {
+        if(__GET(v_dict_letter[ i ]) == __cry) {
             __cry = __GET(v_sibling);
             __SET(v_parent_next, __cry);
             return task_letterize;
-        } else if (__GET(v_dict_sibling)[ i ] != 0) {
-            __cry = __GET(v_dict_sibling)[ i ];
+        } else if (__GET(v_dict_sibling[ i ]) != 0) {
+            __cry = __GET(v_dict_sibling[ i ]);
             __SET(v_sibling, __cry);
             return task_find_sibling;
         } else {
@@ -210,16 +212,16 @@ TASK(task_add_node) {
     uint32_t i = __GET(v_sibling);
     uint32_t next_sibling;
     uint32_t __cry;
-    if(__GET(v_dict_sibling)[ i ] != NIL) {
-        next_sibling = __GET(v_dict_sibling)[ i ];
+    if(__GET(v_dict_sibling[ i ]) != NIL) {
+        next_sibling = __GET(v_dict_sibling[ i ]);
         __SET(v_sibling, next_sibling);
         return task_add_node;
     } else {
-        __cry = __GET(v_dict_letter)[ i ];
+        __cry = __GET(v_dict_letter[ i ]);
         __SET(v_sibling_node_letter, __cry);
-        __cry = __GET(v_dict_sibling)[ i ];
+        __cry = __GET(v_dict_sibling[ i ]);
         __SET(v_sibling_node_sibling, __cry);
-        __cry = __GET(v_dict_child)[ i ];
+        __cry = __GET(v_dict_child[ i ]);
         __SET(v_sibling_node_child, __cry);
         return task_add_insert;
     }
@@ -240,25 +242,25 @@ TASK(task_add_insert) {
         __SET(v_parent_node_child, child);
         i = __GET(v_parent);
         __cry = __GET(v_parent_node_letter);
-        v_dict_letter[ i ] = __cry;
+        __SET(v_dict_letter[ i ], __cry);
         __cry = __GET(v_parent_node_sibling);
-        v_dict_sibling[ i ] = __cry;
+        __SET(v_dict_sibling[ i ], __cry);
         __cry = __GET(v_parent_node_child);
-        v_dict_child[ i ] = __cry;
+        __SET(v_dict_child[ i ], __cry);
     } else {
         last_sibling = __GET(v_sibling);
         __SET(v_sibling_node_sibling, child);
         __cry = __GET(v_sibling_node_letter);
-        v_dict_letter[ last_sibling ] = __cry;
+        __SET(v_dict_letter[ last_sibling ], __cry);
         __cry = __GET(v_sibling_node_sibling);
-        v_dict_sibling[ last_sibling ] = __cry;
+        __SET(v_dict_sibling[ last_sibling ], __cry);
         __cry = __GET(v_sibling_node_child);
-        v_dict_child[ last_sibling ] = __cry;
+        __SET(v_dict_child[ last_sibling ], __cry);
     }
     __cry = __GET(v_letter);
-    v_dict_letter[ child ] = __cry;
-    v_dict_sibling[ child ] = NIL;
-    v_dict_child[ child ] = NIL;
+    __SET(v_dict_letter[ child ], __cry);
+    __SET(v_dict_sibling[ child ], NIL);
+    __SET(v_dict_child[ child ], NIL);
     __cry = __GET(v_parent);
     __SET(v_symbol, __cry);
     __SET(v_node_count, __GET(v_node_count) + 1);
@@ -268,7 +270,7 @@ TASK(task_add_insert) {
 TASK(task_append_compressed) {
     uint32_t __cry = __GET(v_symbol);
     uint32_t i = __GET(v_out_len);
-    v_compressed_data_letter[ i ] = __cry;
+    __SET(v_compressed_data_letter[ i ], __cry);
     __SET(v_out_len, __GET(v_out_len) + 1);
     if(__GET(v_out_len) == BLOCK_SIZE) {
         return task_print;
@@ -282,7 +284,7 @@ TASK(task_print) {
     uint32_t index;
     
     for (i = 0; i < BLOCK_SIZE; i = i + 1) {
-        index = __GET(v_compressed_data_letter)[ i ];
+        index = __GET(v_compressed_data_letter[ i ]);
     }
     return task_done;
 }

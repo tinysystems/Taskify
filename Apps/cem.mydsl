@@ -52,16 +52,15 @@ entry task t_init {
 }
 
 task task_init_dict {
-    integer _v_letter = v_letter
-    
-    v_dict_letter[_v_letter] = _v_letter
-    v_dict_sibling[_v_letter] = NIL
-    v_dict_child[_v_letter] = NIL
+    integer i = v_letter
+    v_dict_letter[i] = i
+    v_dict_sibling[i] = NIL
+    v_dict_child[i] = NIL
     
     // Set task shared variable
-    v_letter = _v_letter + 1
-    
-    if (_v_letter < NUM_LETTERS) {
+    v_letter = v_letter + 1
+
+    if (i < NUM_LETTERS) {
         next task_init_dict
     } else {
         v_node_count = NUM_LETTERS
@@ -70,47 +69,47 @@ task task_init_dict {
 }
 
 task task_sample {
-    integer _v_letter_idx = v_letter_idx
-    integer _next_v_letter_idx = _v_letter_idx + 1
+    integer letter_idx = v_letter_idx
+    integer next_v_letter_idx = letter_idx + 1
     
-    if (_next_v_letter_idx == NUM_LETTERS_IN_SAMPLE) {
-        _next_v_letter_idx = 0
+    if (next_v_letter_idx == NUM_LETTERS_IN_SAMPLE) {
+        next_v_letter_idx = 0
     }
     
-    if (_v_letter_idx == 0) {
-        v_letter_idx = _next_v_letter_idx
+    if (letter_idx == 0) {
+        v_letter_idx = next_v_letter_idx
         next task_measure_temp
     } else {
-        v_letter_idx = _next_v_letter_idx
+        v_letter_idx = next_v_letter_idx
         next task_letterize    
     }
 }
 
 task task_measure_temp {
-    integer _v_prev_sample = v_prev_sample
-    integer sample = acquire_sample(_v_prev_sample)
+    integer prev_sample = v_prev_sample
+    integer sample = acquire_sample(prev_sample)
     
-    _v_prev_sample = sample
+    prev_sample = sample
     
     // Set task shared variables
-    v_prev_sample = _v_prev_sample
+    v_prev_sample = prev_sample
     v_sample = sample
     
     next task_letterize
 }
 
 task task_letterize {
-    integer _v_letter_idx = v_letter_idx
+    integer letter_idx = v_letter_idx
     integer letter_shift
     integer letter
     
-    if (_v_letter_idx == 0) {
-        _v_letter_idx = NUM_LETTERS_IN_SAMPLE
+    if (letter_idx == 0) {
+        letter_idx = NUM_LETTERS_IN_SAMPLE
     } else {
-        _v_letter_idx = _v_letter_idx - 1
+        letter_idx = letter_idx - 1
     }
     
-    letter_shift = LETTER_SIZE_BITS * _v_letter_idx
+    letter_shift = LETTER_SIZE_BITS * letter_idx
     
     letter = (v_sample AND_BITWISE (LETTER_MASK SHIFT_LEFT letter_shift)) SHIFT_RIGHT letter_shift
     
@@ -125,16 +124,20 @@ task task_compress {
     
     __cry = v_dict_child[parent]
     v_sibling = __cry
-    v_parent_node_child = __cry
-    v_child = __cry
     
     __cry = v_dict_letter[parent]
     v_parent_node_letter = __cry
     
-    __cry = v_dict_sibling[parent]
+     __cry = v_dict_sibling[parent]
     v_parent_node_sibling = __cry
     
+    __cry = v_dict_child[parent]
+    v_parent_node_child = __cry
+    
     v_parent = parent
+    
+    __cry = v_dict_child[parent]
+    v_child = __cry    
     
     v_sample_count = v_sample_count + 1
     next task_find_sibling
@@ -148,17 +151,15 @@ task task_find_sibling {
     if (i != NIL) {
         __cry = v_letter
         
-        if (v_dict_letter[i] != __cry) {
+        if (v_dict_letter[i] == __cry) {
             // found
             __cry = v_sibling
             v_parent_next = __cry
-            
             next task_letterize
         } else if (v_dict_sibling[i] != 0) {
             // continue traversing the siblings
             __cry = v_dict_sibling[i]
             v_sibling = __cry
-            
             next task_find_sibling
         } else {
             starting_node_idx = v_letter
@@ -186,7 +187,7 @@ task task_add_node {
     integer i = v_sibling
     integer next_sibling
     integer __cry
-    
+
     if (v_dict_sibling[i] != NIL) {
         next_sibling = v_dict_sibling[i]
         v_sibling = next_sibling
@@ -279,7 +280,7 @@ task task_print {
     
     for (i = 0; i < BLOCK_SIZE; i = i + 1) {
         index = v_compressed_data_letter[i]
-        print("task_print index: ", index)
+        print("v_compressed_data_letter[", i, "]: ", index)
     }
     next task_done
 }
