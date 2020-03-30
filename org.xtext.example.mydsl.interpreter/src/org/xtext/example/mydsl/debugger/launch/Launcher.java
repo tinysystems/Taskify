@@ -10,6 +10,7 @@ import org.xtext.example.mydsl.myDsl.EntryTask;
 import org.xtext.example.mydsl.myDsl.Expression;
 import org.xtext.example.mydsl.myDsl.InkApp;
 import org.xtext.example.mydsl.myDsl.SharedVariableExpression;
+import org.xtext.example.mydsl.myDsl.SharedVariablesBlock;
 import org.xtext.example.mydsl.myDsl.TaskBody;
 
 public class Launcher extends ExpressionSwitcher {
@@ -27,8 +28,9 @@ public class Launcher extends ExpressionSwitcher {
             this.execute((EList<Expression>)(EList<?>) constantVariables, "constant");
         }
         
-        EList<SharedVariableExpression> sharedVariables = app.getShareds();
-        if (sharedVariables.size() > 0) {
+        SharedVariablesBlock sharedBlock = app.getSharedBlock();
+        if (sharedBlock != null) {
+            EList<SharedVariableExpression> sharedVariables = sharedBlock.getVariables();
             this.execute((EList<Expression>)(EList<?>) sharedVariables, "shared");
         }
         

@@ -2,12 +2,16 @@ package org.xtext.example.mydsl.ui.wizard.templates
 
 class AppTemplates {
     def static String emptyTemplate() {
-        '''
-        // Define task shared variables
-        // SHARED integer shared1
-        
+        '''        
         // Define persistent variables
         // CONSTANT integer constant1 = 5
+        
+        // Define task shared variables
+        /*
+        SHARED { 
+            integer shared1
+        }
+        */
         
         entry task first {
             print("Hello World")
@@ -16,6 +20,8 @@ class AppTemplates {
         }
         
         task second {
+            // Define local variables
+            integer local_val = 5
             
             end
         }
@@ -24,6 +30,16 @@ class AppTemplates {
     
     def static String helloWorldTemplate() {
         '''
+        // Define persistent variables
+        // CONSTANT integer constant1 = 5
+        
+        // Define task shared variables
+        /*
+        SHARED { 
+            integer shared1
+        }
+        */
+                
         entry task t_init {
             print("Hello World")
             
@@ -34,11 +50,13 @@ class AppTemplates {
     
     def static String addTwoIntegers() {
         '''
-        // Define task shared variables
-        SHARED integer result
-        
         // Define persistent variables
         CONSTANT integer op1 = 5
+                
+        // Define task shared variables
+        SHARED {
+            integer result
+        }
         
         entry task t_init {
             integer op2 = 5 * 2
@@ -61,13 +79,15 @@ class AppTemplates {
     }
     
     def static String functionCallTemplate() {
-        '''
-        // Define task shared variables
-        SHARED integer result
-        
+        '''        
         // Define persistent variables
         CONSTANT integer op1 = 5
         CONSTANT integer op2 = 5
+        
+        // Define task shared variables
+        SHARED {
+            integer result
+        }
         
         // Define function definitions
         integer add (integer val1, integer val2){

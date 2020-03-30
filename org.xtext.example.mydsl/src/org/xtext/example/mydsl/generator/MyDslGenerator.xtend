@@ -78,11 +78,13 @@ class MyDslGenerator extends AbstractGenerator {
                 constantContent += generator.generate(constant)
             }
             
-            sharedContent = "__shared(" + CommonGenerator.newLine
-            for (SharedVariableExpression shared: model.shareds) {                
-                sharedContent += CommonGenerator.tab + generator.generate(shared)
+            if (model.sharedBlock !== null) {
+                sharedContent = "__shared(" + CommonGenerator.newLine
+                for (SharedVariableExpression shared: model.sharedBlock.variables) {                
+                    sharedContent += CommonGenerator.tab + generator.generate(shared)
+                }
+                sharedContent += ")" + CommonGenerator.newLine      
             }
-            sharedContent += ")" + CommonGenerator.newLine      
             
             for (FunctionDefinitionExpression function: model.functions) {
                 functionDefinitionContent += generator.generate(function)

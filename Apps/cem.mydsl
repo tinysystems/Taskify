@@ -9,31 +9,33 @@ CONSTANT integer LETTER_SIZE_BITS = 8
 CONSTANT integer NUM_LETTERS = (LETTER_MASK + 1)
 
 // Define task shared variables
-SHARED integer pinCont
-SHARED integer v_letter_idx
-SHARED integer v_letter
-SHARED integer v_prev_sample
-SHARED integer v_out_len
-SHARED integer v_node_count
-SHARED integer v_sample
-SHARED integer v_sample_count
-SHARED integer v_sibling
-SHARED integer v_child
-SHARED integer v_parent
-SHARED integer v_parent_next
-SHARED integer v_parent_node_letter
-SHARED integer v_parent_node_sibling
-SHARED integer v_parent_node_child
-SHARED integer v_sibling_node_letter
-SHARED integer v_sibling_node_sibling
-SHARED integer v_sibling_node_child
-SHARED integer v_symbol
-SHARED integer v_compressed_data_letter[BLOCK_SIZE]
-SHARED integer v_compressed_data_sibling[BLOCK_SIZE]
-SHARED integer v_compressed_data_child[BLOCK_SIZE]
-SHARED integer v_dict_letter[DICT_SIZE]
-SHARED integer v_dict_sibling[DICT_SIZE]
-SHARED integer v_dict_child[DICT_SIZE]
+SHARED {
+    integer pinCont
+    integer v_letter_idx
+    integer v_letter
+    integer v_prev_sample
+    integer v_out_len
+    integer v_node_count
+    integer v_sample
+    integer v_sample_count
+    integer v_sibling
+    integer v_child
+    integer v_parent
+    integer v_parent_next
+    integer v_parent_node_letter
+    integer v_parent_node_sibling
+    integer v_parent_node_child
+    integer v_sibling_node_letter
+    integer v_sibling_node_sibling
+    integer v_sibling_node_child
+    integer v_symbol
+    integer v_compressed_data_letter[BLOCK_SIZE]
+    integer v_compressed_data_sibling[BLOCK_SIZE]
+    integer v_compressed_data_child[BLOCK_SIZE]
+    integer v_dict_letter[DICT_SIZE]
+    integer v_dict_sibling[DICT_SIZE]
+    integer v_dict_child[DICT_SIZE]
+}
 
 integer acquire_sample(integer prev_sample) {
     integer sample = (prev_sample + 1) AND_BITWISE 0x03

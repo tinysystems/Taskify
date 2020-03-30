@@ -22,17 +22,19 @@ CONSTANT integer ITER = 3
 CONSTANT integer CHAR_BIT = 8
 CONSTANT integer plus = 13
 
-SHARED integer pinCont
-SHARED integer n_0
-SHARED integer n_1
-SHARED integer n_2
-SHARED integer n_3
-SHARED integer n_4
-SHARED integer n_5
-SHARED integer n_6
-SHARED integer function
-SHARED integer iteration
-SHARED integer seed
+SHARED {
+    integer pinCont
+    integer n_0
+    integer n_1
+    integer n_2
+    integer n_3
+    integer n_4
+    integer n_5
+    integer n_6
+    integer function
+    integer iteration
+    integer seed
+}
 
 integer recursive_cnt(integer x) {
     integer index = x AND_BITWISE 15

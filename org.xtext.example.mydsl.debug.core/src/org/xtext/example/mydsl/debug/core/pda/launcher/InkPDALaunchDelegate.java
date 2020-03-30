@@ -75,8 +75,8 @@ public class InkPDALaunchDelegate extends LaunchConfigurationDelegate{
         
         // TODO remove below in the future
         interpreterExecutableAbsolutePath = "/home/ink/Desktop/interpreter.jar";
-        command.add("-Xdebug");
-        command.add("-Xrunjdwp:transport=dt_socket,address=8000,server=y");
+        // command.add("-Xdebug");
+        // command.add("-Xrunjdwp:transport=dt_socket,address=8000,server=y");
         // TODO remove above in the future
         
         command.add("-jar");

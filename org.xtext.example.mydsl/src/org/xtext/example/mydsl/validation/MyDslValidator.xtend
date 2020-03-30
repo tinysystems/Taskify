@@ -31,14 +31,16 @@ class MyDslValidator extends AbstractMyDslValidator {
     }
     
     @Check
-    def addGlobalsToSymbolTable(InkApp inkApp) {
-        val EList<SharedVariableExpression> shareds = inkApp.shareds
-        
+    def addSharedsToSymbolTable(InkApp inkApp) {
         SymbolTable.resetTable()
         
-        for (SharedVariableExpression shared: shareds) {
-            val String name = shared.name
-            SymbolTable.addName(name)
+        if (inkApp.sharedBlock !== null) {
+            val EList<SharedVariableExpression> shareds = inkApp.sharedBlock.variables
+            
+            for (SharedVariableExpression shared: shareds) {
+                val String name = shared.name
+                SymbolTable.addName(name)
+            }
         }
     }
     
