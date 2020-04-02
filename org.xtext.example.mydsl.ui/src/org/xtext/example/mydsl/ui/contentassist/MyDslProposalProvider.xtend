@@ -3,10 +3,137 @@
  */
 package org.xtext.example.mydsl.ui.contentassist
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
+import java.util.ArrayList
+import java.util.List
+import org.xtext.example.mydsl.generator.expression.OperationExpressionGenerator
+import org.eclipse.jface.viewers.StyledString
 
 /**
  * See https://www.eclipse.org/Xtext/documentation/304_ide_concepts.html#content-assist
  * on how to customize the content assistant.
  */
 class MyDslProposalProvider extends AbstractMyDslProposalProvider {
+    
+    override void completeInkApp_SharedBlock(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        val String displayText = "SHARED Block"
+        val String proposal = '''
+        SHARED { 
+            
+        }
+        '''
+        acceptor.accept(createCompletionProposal(proposal, displayText, null, context));
+    }
+    
+    override void completeInkApp_Entry(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        val String displayText = "Entry task block"
+        val String proposal = '''
+        entry task t_init { 
+            
+            // next next_task
+            // end
+        }
+        '''
+        acceptor.accept(createCompletionProposal(proposal, displayText, null, context));
+    }
+    
+    override void completeInkApp_Tasks(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        val String displayText = "Task block"
+        val String proposal = '''
+        task task_1 { 
+            
+            // next next_task
+            // end
+        }
+        '''
+        acceptor.accept(createCompletionProposal(proposal, displayText, null, context));
+    }
+    
+    override void completeBuiltinPrintFunction_Parameters(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        val String proposal = "print()"
+        acceptor.accept(createCompletionProposal(proposal, context));
+    }
+    
+    /*
+    override completeCustomFunctionCallExpression_Function(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        val String displayText = "Task block"
+        val String proposal = '''
+        task task_1 { 
+            
+            // next next_task
+            // end
+        }
+        '''
+        acceptor.accept(createCompletionProposal(proposal, displayText, null, context));
+    } */
+
+    /* 
+     * Operators for operation expression proposal provider
+     */
+    override void completeOperation_Operator(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        val List<String> operators = new ArrayList<String>()
+        operators.addAll(OperationExpressionGenerator.logicalOperators.keySet)
+        operators.addAll(OperationExpressionGenerator.bitwiseOperators.keySet)
+        operators.addAll(OperationExpressionGenerator.arithmeticOperators.keySet)
+        val String proposalPrefix = "Operator: "
+        
+        for (String type: operators) {
+            if (type.startsWith(context.prefix)) {
+                val String proposal = type
+                val StyledString displayText = new StyledString(proposalPrefix, StyledString.COUNTER_STYLER)
+                displayText.append(type)
+                acceptor.accept(createCompletionProposal(proposal, displayText, null, context)); 
+            }
+        }
+    }
+    
+    override void completeComparisionExpression_Operator(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        val List<String> operators = new ArrayList<String>()
+        operators.addAll(OperationExpressionGenerator.comparisionOperators.keySet)
+        val String proposalPrefix = "Comparison Operator: "
+        
+        for (String type: operators) {
+            if (type.startsWith(context.prefix)) {
+                val String proposal = type
+                val StyledString displayText = new StyledString(proposalPrefix, StyledString.COUNTER_STYLER)
+                displayText.append(type)
+                acceptor.accept(createCompletionProposal(proposal, displayText, null, context)); 
+            }
+        }
+    }
+    
+    /* 
+     * Data type proposal provider
+     */
+    def void __completeVariableType(ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        val List<String> types = new ArrayList<String>()
+        types.add("integer")
+        types.add("float")
+        types.add("boolean")
+        types.add("string")
+        
+        for (String type: types) {
+            if (type.startsWith(context.prefix)) {
+                val String proposal = type
+                acceptor.accept(createCompletionProposal(proposal, context)); 
+            }
+        }
+    }
+    
+    override void completeSharedVariableExpression_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        __completeVariableType(context, acceptor)
+    }
+    
+    override void completeConstantVariableExpression_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        __completeVariableType(context, acceptor)
+    }
+    
+    override void completeVariableDeclerationExpression_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+        __completeVariableType(context, acceptor)
+    }
+    
+    
 }

@@ -27,15 +27,16 @@ class MyDslProjectTemplateProvider implements IProjectTemplateProvider {
     }
 }
 
-@ProjectTemplate(label="Empty Project", icon="project_template.png", description="<p><b>Empty Project</b></p>
-<p>Just creates an empty project structure.</p>")
+@ProjectTemplate(label="Empty Project", icon="project_template.png",
+    description="<p><b>Empty Project</b></p>
+                <p>Just creates an empty project structure.</p>")
 final class EmptyProject {
     override generateProjects(IProjectGenerator generator) {
         generator.generate(new PluginProjectFactory => [
             projectName = projectInfo.projectName
             location = projectInfo.locationPath
-            projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
-            builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
+            projectNatures += #[XtextProjectHelper.NATURE_ID]
+            builderIds += #[XtextProjectHelper.BUILDER_ID]
             folders += "src"
             
             addFile('''src/«projectInfo.projectName».mydsl''', AppTemplates.emptyTemplate)
@@ -43,16 +44,17 @@ final class EmptyProject {
     }
 }
 
-@ProjectTemplate(label="Hello World", icon="project_template.png", description="<p><b>Hello World Sample</b></p>
-<p>This is a parameterized hello world for MyDsl. You can set a parameter to modify the content in the generated file
-and a parameter to set the package the file is created in.</p>")
+@ProjectTemplate(label="Hello World", icon="project_template.png", 
+    description="<p><b>Hello World Sample</b></p>
+                <p>This is a parameterized hello world for MyDsl. You can set a parameter to modify the content in file.</p>")
 final class HelloWorldProject {
     override generateProjects(IProjectGenerator generator) {
         generator.generate(new PluginProjectFactory => [
             projectName = projectInfo.projectName
             location = projectInfo.locationPath
-            projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
-            builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
+            projectNatures += #[XtextProjectHelper.NATURE_ID]
+            builderIds += #[XtextProjectHelper.BUILDER_ID]
+            
             folders += "src"
             
             addFile('''src/HelloWorld.mydsl''', AppTemplates.helloWorldTemplate)
@@ -60,15 +62,16 @@ final class HelloWorldProject {
     }
 }
 
-@ProjectTemplate(label="Add Two Integers", icon="project_template.png", description="<p><b>Add Two Integers Sample</b></p>
-<p>Implements operand summary operation in one task</p>")
+@ProjectTemplate(label="Add Two Integers", icon="project_template.png", 
+    description="<p><b>Add Two Integers Sample</b></p>
+                <p>Implements operand summary operation in one task</p>")
 final class AddTwoIntegersProject {
     override generateProjects(IProjectGenerator generator) {
         generator.generate(new PluginProjectFactory => [
             projectName = projectInfo.projectName
             location = projectInfo.locationPath
-            projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
-            builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
+            projectNatures += #[XtextProjectHelper.NATURE_ID]
+            builderIds += #[XtextProjectHelper.BUILDER_ID]
             folders += "src"
             
             addFile('''src/AddTwoIntegers.mydsl''', AppTemplates.addTwoIntegers)
@@ -76,15 +79,16 @@ final class AddTwoIntegersProject {
     }
 }
 
-@ProjectTemplate(label="Function Call", icon="project_template.png", description="<p><b>Function Call Sample</b></p>
-<p>Implements different function calls from different tasks</p>")
+@ProjectTemplate(label="Function Call", icon="project_template.png", 
+    description="<p><b>Function Call Sample</b></p>
+                <p>Implements different function calls from different tasks</p>")
 final class FunctionCallProject {
     override generateProjects(IProjectGenerator generator) {
         generator.generate(new PluginProjectFactory => [
             projectName = projectInfo.projectName
             location = projectInfo.locationPath
-            projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
-            builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
+            projectNatures += #[XtextProjectHelper.NATURE_ID]
+            builderIds += #[XtextProjectHelper.BUILDER_ID]
             folders += "src"
             
             addFile('''src/FunctionCall.mydsl''', AppTemplates.functionCallTemplate)

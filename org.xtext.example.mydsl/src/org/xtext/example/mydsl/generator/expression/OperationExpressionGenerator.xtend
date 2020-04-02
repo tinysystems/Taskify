@@ -14,19 +14,19 @@ import com.google.common.collect.ImmutableMap
 class OperationExpressionGenerator implements IExpressionGenerator {
     OperationExpression expression;
     
-    static Map<String, String> logicalOperators = ImmutableMap.builder.
+    public static val Map<String, String> logicalOperators = ImmutableMap.builder.
         put("AND", "&&").
         put("OR", "||").
         build
 
-    static Map<String, String> bitwiseOperators = ImmutableMap.builder.
+    public static val Map<String, String> bitwiseOperators = ImmutableMap.builder.
         put("AND_BITWISE", "&").
         put("OR_BITWISE", "|").
         put("SHIFT_LEFT", "<<").
         put("SHIFT_RIGHT", ">>").
         build
       
-    static Map<String, String> comparisionOperators = ImmutableMap.builder.
+    public static val Map<String, String> comparisionOperators = ImmutableMap.builder.
         put(">=", ">=").
         put("<=", "<=").
         put("==", "==").
@@ -35,7 +35,7 @@ class OperationExpressionGenerator implements IExpressionGenerator {
         put(">", ">").
         build
     
-    static Map<String, String> arithmeticOperators = ImmutableMap.builder.
+    public static val Map<String, String> arithmeticOperators = ImmutableMap.builder.
         put("+", "+").
         put("-", "-").
         put("*", "*").
