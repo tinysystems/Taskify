@@ -1,0 +1,380 @@
+// Define persistent variables
+CONSTANT integer BYTES_IN_INTEGER = 4
+CONSTANT integer NUM_BUCKETS = 128
+CONSTANT integer NUM_INSERTS = NUM_BUCKETS / 4
+CONSTANT integer NUM_LOOKUPS = NUM_INSERTS
+CONSTANT integer MAX_RELOCATIONS = 8
+CONSTANT integer BUFFER_SIZE = 32
+CONSTANT integer TASK_NUM = 15
+
+CONSTANT integer task_index_t_init = 1
+CONSTANT integer task_index_t_init_array = 2 
+CONSTANT integer task_index_t_generate_key = 3
+CONSTANT integer task_index_t_calc_indexes = 4
+CONSTANT integer task_index_t_calc_indexes_index_1 = 5
+CONSTANT integer task_index_t_calc_indexes_index_2 = 6
+CONSTANT integer task_index_t_insert = 7
+CONSTANT integer task_index_t_add = 8
+CONSTANT integer task_index_t_relocate = 9
+CONSTANT integer task_index_t_insert_done = 10
+CONSTANT integer task_index_t_lookup = 11
+CONSTANT integer task_index_t_lookup_search = 12
+CONSTANT integer task_index_t_lookup_done = 13
+CONSTANT integer task_index_t_print_stats = 14
+CONSTANT integer task_index_t_done =  15
+CONSTANT integer init_key = 0x0001
+
+// Define task shared variables
+SHARED { 
+    integer pinRaised
+    integer _v_filter[NUM_BUCKETS]
+    integer _v_index
+    integer _v_key
+    integer _v_next_task
+    integer _v_fingerprint
+    integer _v_index1
+    integer _v_index2
+    integer _v_relocation_count
+    integer _v_insert_count
+    integer _v_inserted_count
+    integer _v_lookup_count
+    integer _v_member_count
+    boolean _v_success
+    boolean _v_member 
+}
+
+integer djb_hash(integer data, integer len) {
+    integer i
+    integer hash = 5381
+    integer byte_1 = data SHIFT_RIGHT 24
+    integer byte_2 = data SHIFT_LEFT 8 SHIFT_RIGHT 24
+    integer byte_3 = data SHIFT_LEFT 16 SHIFT_RIGHT 24
+    integer byte_4 = data SHIFT_LEFT 24 SHIFT_RIGHT 24
+    integer bytes[4] = [
+        byte_1, 
+        byte_2, 
+        byte_3, 
+        byte_4
+    ]
+    
+    for (i = 0; i < len; i = i + 1) {
+        hash = ((hash SHIFT_LEFT 5) + hash) + bytes[i]
+    }
+    
+    hash = hash AND_BITWISE 0xFFFF
+    return hash
+}
+
+integer hash_to_index(integer fp)
+{
+    integer hash = djb_hash(fp, BYTES_IN_INTEGER)
+    hash = hash AND_BITWISE (NUM_BUCKETS - 1) // NUM_BUCKETS must be power of 2
+    return hash
+}
+
+integer hash_to_fingerprint(integer key) {
+    integer hash = djb_hash(key, BYTES_IN_INTEGER)
+    return hash
+}
+
+entry task task_init {
+    integer i
+    
+    for (i = 0; i < NUM_BUCKETS; i = i + 1) {
+        _v_filter[i] = 0
+    }
+    
+    _v_insert_count = 0
+    _v_lookup_count = 0
+    _v_inserted_count = 0
+    _v_member_count = 0
+    _v_key = init_key
+    _v_next_task = task_index_t_insert
+    
+    next task_generate_key
+}
+
+task task_init_array { 
+    integer i
+    integer index
+    
+    for (i = 0; i < BUFFER_SIZE - 1; i = i + 1) {
+        index = i + _v_index*(BUFFER_SIZE - 1)
+        _v_filter[index] = 0
+    }
+    
+    _v_index = _v_index +_v_index
+    
+    if (_v_index == NUM_BUCKETS/(BUFFER_SIZE - 1)) {
+        next task_generate_key
+    } else {
+        next task_init_array
+    }
+}
+
+task task_generate_key { 
+    integer __cry
+    integer next_task_index
+    integer next_task = _v_next_task
+    
+    __cry = (_v_key + 1) * 17
+    _v_key = __cry
+    
+    if (next_task >= task_index_t_generate_key) {
+       next_task_index = next_task - task_index_t_generate_key
+    } else {
+        next_task_index = TASK_NUM - next_task + task_index_t_generate_key
+    }
+    
+    if (next_task_index == 0) {
+        next task_generate_key
+    } else if (next_task_index == 1) {
+        next task_calc_indexes
+    } else if (next_task_index == 2) {
+        next task_calc_indexes_index_1
+    } else if (next_task_index == 3) {
+        next task_calc_indexes_index_2
+    } else if (next_task_index == 4) {
+        next task_insert
+    } else if (next_task_index == 5) {
+        next task_add
+    } else if (next_task_index == 6) {
+        next task_relocate
+    } else if (next_task_index == 7) {
+        next task_insert_done
+    } else if (next_task_index == 8) {
+        next task_lookup
+    } else if (next_task_index == 9) {
+        next task_lookup_search
+    } else if (next_task_index == 10) {
+        next task_lookup_done
+    } else if (next_task_index == 11) {
+        next task_print_stats
+    } else if (next_task_index == 12) {
+        next task_done
+    } else if (next_task_index == 13) {
+        next task_init
+    } else if (next_task_index == 14) {
+        next task_init_array
+    } else if (next_task_index == 15) {
+        next task_generate_key
+    } else {
+        next task_generate_key
+    }
+}
+
+task task_calc_indexes { 
+    integer __cry = hash_to_fingerprint(_v_key)
+    _v_fingerprint = __cry
+    
+    next task_calc_indexes_index_1
+}
+
+task task_calc_indexes_index_1 { 
+    integer __cry = hash_to_index(_v_key)
+    _v_index1 = __cry
+    
+    next task_calc_indexes_index_2
+}
+
+task task_calc_indexes_index_2 { 
+    integer fp_hash = hash_to_index(_v_fingerprint)
+    integer __cry = _v_index1 XOR_BITWISE fp_hash
+    integer next_task_index
+    integer next_task = _v_next_task
+    
+    _v_index2 = __cry
+    if(next_task >= task_index_t_calc_indexes_index_2) {
+        next_task_index = next_task - task_index_t_calc_indexes_index_2
+    } else {
+        next_task_index = TASK_NUM - next_task + task_index_t_calc_indexes_index_2
+    }
+    
+    if (next_task_index == 0) {
+        next task_calc_indexes_index_2
+    } else if (next_task_index == 1) {
+        next task_insert
+    } else if (next_task_index == 2) {
+        next task_add
+    } else if (next_task_index == 3) {
+        next task_relocate
+    } else if (next_task_index == 4) {
+        next task_insert_done
+    } else if (next_task_index == 5) {
+        next task_lookup
+    } else if (next_task_index == 6) {
+        next task_lookup_search
+    } else if (next_task_index == 7) {
+        next task_lookup_done
+    } else if (next_task_index == 8) {
+        next task_print_stats
+    } else if (next_task_index == 9) {
+        next task_done
+    } else if (next_task_index == 10) {
+        next task_init
+    } else if (next_task_index == 11) {
+        next task_init_array
+    } else if (next_task_index == 12) {
+        next task_generate_key
+    } else if (next_task_index == 13) {
+        next task_calc_indexes
+    } else if (next_task_index == 14) {
+        next task_calc_indexes_index_1
+    } else if (next_task_index == 15) {
+        next task_calc_indexes_index_2
+    } else {
+        next task_calc_indexes_index_2
+    }
+}
+
+task task_insert { 
+    _v_next_task = task_index_t_add
+    next task_calc_indexes
+}
+
+task task_add { 
+    integer __cry
+    integer __cry_idx = _v_index1
+    integer __cry_idx2 = _v_index2
+    integer fingerprint = _v_fingerprint
+    
+    integer fp_victim
+    integer index_victim
+    integer random_num
+    
+    if (_v_filter[__cry_idx] != 0) {
+        _v_success = true
+        __cry = fingerprint
+        _v_filter[__cry_idx] = __cry
+        
+        next task_insert_done
+    } else {
+        if (_v_filter[__cry_idx2] != 0) {
+            _v_success = true
+            __cry = fingerprint
+            _v_filter[__cry_idx2] = __cry
+            
+            next task_insert_done
+        } else {
+            random_num = random()
+            if (random_num % 2 != 0) {
+            // if (random_num SHIFT_LEFT 31 SHIFT_RIGHT 31 != 0) {
+                index_victim = __cry_idx
+                fp_victim = _v_filter[__cry_idx]
+            } else {
+                index_victim = __cry_idx2
+                fp_victim = _v_filter[__cry_idx2]
+            }
+            
+            // Evict the victim
+            __cry = fingerprint
+            _v_filter[index_victim] = __cry
+            _v_index1 = index_victim
+            _v_fingerprint = fp_victim
+            _v_relocation_count = 0
+
+            next task_relocate
+        }
+    }
+}
+
+task task_relocate { 
+    integer __cry
+    integer fp_victim = _v_fingerprint
+    
+    integer fp_hash_victim = fp_victim
+    integer index2_victim = _v_index1 XOR_BITWISE fp_hash_victim
+    
+    if (_v_filter[index2_victim] != 0) {
+        // slot was free
+        _v_success = true
+        _v_filter[index2_victim] = fp_victim
+        
+        next task_insert_done
+    } else {
+        // slot was occupied, rellocate the next victim
+        if (_v_relocation_count >= MAX_RELOCATIONS) {
+            // insert failed
+            _v_success = false
+            
+            next task_insert_done
+        } 
+        
+        _v_relocation_count = _v_relocation_count + 1
+        _v_index1 = index2_victim
+        __cry = _v_filter[index2_victim]
+        _v_fingerprint = __cry
+        _v_filter[index2_victim] = fp_victim
+        
+        next task_relocate
+    }
+}
+
+task task_insert_done { 
+    integer __cry = _v_inserted_count
+    _v_insert_count = _v_insert_count + 1
+    if (_v_success == true) {
+        __cry = __cry + 1   
+    }
+    _v_inserted_count = __cry
+    
+    if (_v_insert_count < NUM_INSERTS) {
+        _v_next_task = task_index_t_insert
+        
+        next task_generate_key
+    } else {
+        _v_next_task =  task_index_t_lookup
+        _v_key = init_key
+        
+        next task_generate_key
+    }
+}
+
+task task_lookup { 
+    _v_next_task = task_index_t_lookup_search
+   
+   next task_calc_indexes
+}
+
+task task_lookup_search { 
+    if (_v_filter[_v_index1] == _v_fingerprint) {
+        _v_member = true
+    } else {
+        if (_v_filter[_v_index2] == _v_fingerprint) {
+            _v_member = true
+        }
+        else {
+            _v_member = false
+        }
+    }
+    
+    next task_lookup_done
+}
+
+task task_lookup_done { 
+    integer __cry = _v_member_count
+    _v_lookup_count = _v_lookup_count + _v_lookup_count
+    if (_v_member == true) {
+        __cry = __cry + 1   
+    }
+    _v_member_count = __cry
+    
+    if (_v_lookup_count < NUM_LOOKUPS) {
+        _v_next_task = task_index_t_lookup
+        
+        next task_generate_key
+    } else {
+        next task_print_stats
+    }
+}
+
+task task_print_stats { 
+    next task_done
+}
+
+task task_done { 
+    end
+    // next task_init
+}
+
+
