@@ -8,7 +8,7 @@ public class Calculator {
     final public static String MINUS = "-";
     final public static String MULT = "*";
     final public static String DIV = "/";
-    final public static String SQUARE = "^";
+    final public static String MOD = "%";
     final public static String AND = "AND";
     final public static String OR = "OR";
     final public static String EQUAL = "==";
@@ -19,14 +19,18 @@ public class Calculator {
     final public static String GREATER_EQUAL = ">=";
     final public static String BITWISE_AND = "AND_BITWISE";
     final public static String BITWISE_OR = "OR_BITWISE";
+    final public static String BITWISE_XOR = "XOR_BITWISE";
     final public static String SHIFT_LEFT = "SHIFT_LEFT";
     final public static String SHIFT_RIGHT = "SHIFT_RIGHT";
     final public static String OPEN_BRACKET = "(";
     final public static String CLOSE_BRACKET = ")";
-    final private static String[] arithmeticOperators = new String[] { PLUS, MINUS, MULT, DIV };
-    final private static String[] logicalOperators = new String[] { AND, OR, EQUAL, NOT_EQUAL, LOWER, LOWER_EQUAL,
-            GREATER, GREATER_EQUAL };
-    final private static String[] bitwiseOperators = new String[] { BITWISE_AND, BITWISE_OR, SHIFT_LEFT, SHIFT_RIGHT };
+    final private static String[] arithmeticOperators = new String[] { PLUS, MINUS, MULT, DIV , MOD };
+    final private static String[] logicalOperators = new String[] { 
+            AND, OR, EQUAL, NOT_EQUAL, LOWER, LOWER_EQUAL, GREATER, GREATER_EQUAL 
+    };
+    final private static String[] bitwiseOperators = new String[] { 
+            BITWISE_AND, BITWISE_OR, BITWISE_XOR, SHIFT_LEFT, SHIFT_RIGHT 
+    };
 
     public static final boolean isArithmetic(String operator) {
         final List<String> list = Arrays.asList(Calculator.arithmeticOperators);
@@ -59,6 +63,9 @@ public class Calculator {
         case DIV:
             result = leftValue / rightValue;
             break;
+        case MOD:
+            result = leftValue % rightValue;
+            break;
         }
         return result;
     }
@@ -78,6 +85,9 @@ public class Calculator {
                 break;
             case DIV:
                 result = leftValue / rightValue;
+                break;
+            case MOD:
+                result = leftValue % rightValue;
                 break;
         }
         return result;
@@ -183,6 +193,9 @@ public class Calculator {
         case BITWISE_OR:
             result = (leftValue | rightValue);
             break;
+        case BITWISE_XOR:
+            result = (leftValue ^ rightValue);
+            break;
         case SHIFT_LEFT:
             result = ((int) leftValue << rightValue);
             break;
@@ -237,7 +250,7 @@ public class Calculator {
         if (isArithmetic(operator)) {
             switch (type) {
             case "integer":
-                result = arithmeticCalculate(Integer.valueOf(leftValue.toString()), operator, Integer.valueOf(rightValue.toString()));
+                result = arithmeticCalculate(Long.valueOf(leftValue.toString()), operator, Long.valueOf(rightValue.toString()));
                 break;
             case "float":
                 result = arithmeticCalculate(Float.valueOf(leftValue.toString()), operator,

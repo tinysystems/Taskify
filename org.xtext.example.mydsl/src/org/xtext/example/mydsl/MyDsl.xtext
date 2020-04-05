@@ -38,7 +38,7 @@ LogicalOperator:
 ;
 
 BitwiseOperator:
-    "AND_BITWISE" | "OR_BITWISE" | "SHIFT_LEFT" | "SHIFT_RIGHT"
+    "AND_BITWISE" | "OR_BITWISE" | "XOR_BITWISE" | "SHIFT_LEFT" | "SHIFT_RIGHT"
 ;
 
 ComparisionOperator:
@@ -50,7 +50,7 @@ AssignmentOperator:
 ;
 
 ArithmeticOperator:
-    '-' | '+' | '/' | '*'
+    '-' | '+' | '/' | '*'| '%'
 ;
 
 Operator:

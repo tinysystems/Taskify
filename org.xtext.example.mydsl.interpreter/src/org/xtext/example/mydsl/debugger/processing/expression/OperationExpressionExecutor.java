@@ -21,23 +21,36 @@ public class OperationExpressionExecutor extends AbstractStackHelper {
     public final static int MULT_DIV_P = 4;
     public final static int SUM_SUB_P = 3;
     public final static int LOGICAL_P = 3;
-    public final static int CLOSE_BRACKETS_P = 2;
-    public final static int OPEN_BRACKETS_P = 1;
+    public final static int CLOSE_BRACKETS_P = 200;
+    public final static int OPEN_BRACKETS_P = 100;
     public final static int INVALID_P = -1;
-
+    
+    public final static int MULT_DIV_MOD_P = 3;
+    public final static int ADD_SUB_P = 4;
+    public final static int SHIFT_P = 5;
+    public final static int BITWISE_AND_P = 8;
+    public final static int BITWISE_XOR_P = 9;
+    public final static int BITWISE_OR_P = 10;
+    public final static int LOGICAL_AND_P = 11;
+    public final static int LOGICAL_OR_P = 12;
+    
     public static int getPrecedence(Object item) {
         int precedence = INVALID_P;
         if (item instanceof String) {
             String operator = (String) item;
             switch (operator) {
                 case Calculator.BITWISE_AND:
+                    precedence = BITWISE_AND_P;
+                    break;
                 case Calculator.BITWISE_OR:
+                    precedence = BITWISE_OR_P;
+                    break;
+                case Calculator.BITWISE_XOR:
+                    precedence = BITWISE_XOR_P;
+                    break;    
                 case Calculator.SHIFT_LEFT:
                 case Calculator.SHIFT_RIGHT:
-                    precedence = BINARY_P;
-                    break;
-                case Calculator.SQUARE:
-                    precedence = SQRT_P;
+                    precedence = SHIFT_P;
                     break;
                 case Calculator.OPEN_BRACKET:
                     precedence = OPEN_BRACKETS_P;
@@ -47,15 +60,18 @@ public class OperationExpressionExecutor extends AbstractStackHelper {
                     break;
                 case Calculator.MULT:
                 case Calculator.DIV:
-                    precedence = MULT_DIV_P;
+                case Calculator.MOD: 
+                    precedence = MULT_DIV_MOD_P;
                     break;
                 case Calculator.PLUS:
                 case Calculator.MINUS:
-                    precedence = SUM_SUB_P;
+                    precedence = ADD_SUB_P;
                     break;
                 case Calculator.AND:
+                    precedence = LOGICAL_AND_P;
+                    break;
                 case Calculator.OR:
-                    precedence = LOGICAL_P;
+                    precedence = LOGICAL_OR_P;
                     break;
                 default:
                     precedence = INVALID_P;
@@ -108,7 +124,11 @@ public class OperationExpressionExecutor extends AbstractStackHelper {
         if (expression != null) {
             Stack<Object> stack = new Stack<>();
             stack = infixToPostfix(expression, id);
-            result = evaluatePostfix(stack, type);
+            try {
+                result = evaluatePostfix(stack, type);
+            } catch (NumberFormatException e) {
+                stopExecution(e.getMessage() + getLineNumberText(expression));
+            }
         }
         return result;
     }
@@ -170,11 +190,14 @@ public class OperationExpressionExecutor extends AbstractStackHelper {
                 String operator = operatorStack.pop();
                 while (getPrecedence(operator) != OPEN_BRACKETS_P) {
                     stack.push(operator);
+                    /*if (operatorStack.isEmpty()) {
+                        break;
+                    }*/
                     operator = operatorStack.pop();
                 }
             } else if (precedence > INVALID_P) {
                 // item is an operator
-                while (!operatorStack.isEmpty() && getPrecedence(operatorStack.peek()) >= precedence) {
+                while (!operatorStack.isEmpty() && getPrecedence(operatorStack.peek()) <= precedence) {
                     stack.push(operatorStack.pop());
                 }
                 operatorStack.push((String) item);
@@ -190,7 +213,7 @@ public class OperationExpressionExecutor extends AbstractStackHelper {
         return stack;
     }
 
-    private static Object evaluatePostfix(Stack<Object> stack, String type) {
+    private static Object evaluatePostfix(Stack<Object> stack, String type) throws NumberFormatException {
         Object leftValue = null, rightValue = null;
         Stack<Object> results = new Stack<>();
 
@@ -201,8 +224,12 @@ public class OperationExpressionExecutor extends AbstractStackHelper {
                 String operator = (String) item;
                 rightValue = results.pop();
                 leftValue = results.pop();
-
-                results.push( Calculator.calculate(leftValue, operator, rightValue, type) );
+                
+                try {
+                    results.push( Calculator.calculate(leftValue, operator, rightValue, type) );
+                } catch (NumberFormatException e) {
+                    throw new NumberFormatException(String.format("Left %s, right %s operands are not compatible with operator %s.", leftValue.toString(), rightValue.toString(), operator));
+                }
             } else {
                 // Atomic values
                 results.push(item);

@@ -21,6 +21,7 @@ class OperationExpressionGenerator implements IExpressionGenerator {
 
     public static val Map<String, String> bitwiseOperators = ImmutableMap.builder.
         put("AND_BITWISE", "&").
+        put("XOR_BITWISE", "^").
         put("OR_BITWISE", "|").
         put("SHIFT_LEFT", "<<").
         put("SHIFT_RIGHT", ">>").
@@ -40,6 +41,7 @@ class OperationExpressionGenerator implements IExpressionGenerator {
         put("-", "-").
         put("*", "*").
         put("/", "/").
+        put("%", "%").
         build
     
     static Map<String, String> operators = ImmutableMap.builder.
