@@ -1,16 +1,16 @@
 # Taskify
 
-Taskify is an application development environment based on Eclipse. It s integrated to Eclipse Debug UI and Debug Core. Taskify allows to develop and debug intermittent applications on a PC without target deployment.
+Taskify is an application development environment based on Eclipse. It is integrated into Eclipse Debug UI and Debug Core. Taskify enables engineers to develop and debug intermittent applications on a PC without target deployment.
 
 ## Why Taskify ?
-- Taskify enables the development of intermittent software using platform independent TaskDSL domain specific language. 
-- Taskify has an interpreter which is totally integrated with TaskDSL.
-- Taskify supports debugging intermittent TaskDSL applications on PC. 
-- Taskify automicatically generates C code from TaskDSL application for InK runtime static library.
+- Taskify enables the development of intermittent software using platform-independent TaskDSL domain-specific language.
+- Taskify has an interpreter integrated into TaskDSL.
+- Taskify supports debugging intermittent TaskDSL applications on PC.
+- Taskify automatically generates C code from a TaskDSL application for the InK runtime static library.
 
 ## Features of Taskify
 ### 1. TaskDSL 
-TaskDSL is a domain specific language that is defined with Xtext. Below features are supported with TaskDSL editor.
+TaskDSL is a domain-specific language defined with Xtext. Our TaskDSl editor supports the features below.
 
     Error detection
     Syntax coloring
@@ -23,7 +23,7 @@ TaskDSL is a domain specific language that is defined with Xtext. Below features
     Go to generated code
 
 ### 2. Interpreter 
-Allows developers to run and debug TaskDSL applications on PC. Below core components are exist in interpreter.
+Our TaskDSL interpreter enables engineers to run and debug TaskDSL applications on PC. The interpreter supports the features below.
 
     Call stack
     Symbol table
@@ -31,7 +31,7 @@ Allows developers to run and debug TaskDSL applications on PC. Below core compon
     Request broker
     
 ### 3. Development Environment integreated with Eclipse Debug UI
-Communicates with interpreter through socket by request-response and event mesages.
+Taskify communicates with the interpreter through socket by request-response and event messages.
 
 ### 4. C code generator
-Automatically generates C code that will be linked to InK static library.
+Taskify automatically generates C code linked to the InK runtime static library.
