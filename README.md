@@ -35,3 +35,5 @@ Taskify communicates with the interpreter through socket by request-response and
 
 ### 4. C code generator
 Taskify automatically generates C code linked to the InK runtime static library.
+
+## Installation
